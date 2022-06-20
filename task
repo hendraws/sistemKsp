@@ -1,0 +1,19 @@
+[] buat menu menambahkan menu input pemasukan kas
+[] laporan urutan tidak sesuai dengan pembukuan harian
+[] tambah data master pilihan (lembar kerja ->kasir [operational, lain-lain])  
+[] penambahan laporan bulanan (laporan biaya umum) , total biaya akomodasi 
+-----------------------------------
+1. Menambahkan laporan pemasukan kas di laporan kas akhir bulan. Krn di sistem yg skrng berjalan blm masuk terhitung secara otomatis
+ pemasukan kas / penambhn kas yg di input, serta apabila ada penambahan kas di inputan, tidak menambh jumlah kas yg ada, atau yg sudh d setting di jumlah kas awal bulan
+
+2. Di menu gaji karyawan, urutan jabatannya acak, tdk dr yg jabatanny tertinggi ke yg terendah, dan jumlah karyawan blm sinkron dg data di laporan akhir pimpinan, tolong di urutkan dan di sinkronkan
+
+3. Di laporan tercetak, urutan resort tidak sesuai seperti yang di lembar kerja kasir, mohon diurutkan
+
+4. Membuat laporan evaluasi pengeluaran bon yg ada dan Evaluasi Kas , agar tampil otomtis di laporan tercetak, nnt saya kirim formatnya.
+
+5. Membuat data master untuk Menu BU( biaya umum/ lain2( dan BOP) yg ada di lembar kerja kasir biaya operasional dan lain2
+
+6. Di laporan kas, untuk jumlah total pengeluaran Akomodasi di masukan k dalam laporan BU dan terakumulasi otomatis
+
+Dibuat Online, dan multi User, jd semua kantor cabang nnt aksesny online untuk pengerjaanny
