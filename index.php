@@ -241,6 +241,10 @@ if($_SESSION['USERNAME'] != null){
 					$master       = "menu-open";
 					$master_kas_masuk  = "active";
 					$url        = "pages/data_kas_masuk.php";
+				}else if($menu=="data-master-pilihan"){
+					$master       = "menu-open";
+					$master_pilihan  = "active";
+					$url        = "pages/data_master_pilihan.php";
 				}else if($menu=="drop_tunda"){
 					$master       = "menu-open";
 					$master_drop_tunda   = "active";
@@ -405,6 +409,14 @@ if($_SESSION['USERNAME'] != null){
           						<i class="far fa-circle nav-icon"></i>
           						<p>
           							Data Resort                
+          						</p>
+          					</a>
+          				</li>
+          				<li class="nav-item">
+          					<a href="/data-master-pilihan" class="nav-link <?php echo $master_pilihan;?>">
+          						<i class="far fa-circle nav-icon"></i>
+          						<p>
+          							Data Master Pilihan                
           						</p>
           					</a>
           				</li>
@@ -711,6 +723,8 @@ if($_SESSION['USERNAME'] != null){
 				include "pages/gaji.php";
 			}else if($menu=="proses_gaji"){
 				include "pages/proses_gaji.php";
+			}else if($menu=="resort"){
+				include "pages/resort.php";
 			}else if($menu=="resort"){
 				include "pages/resort.php";
 			}else if($menu=="unit"){
