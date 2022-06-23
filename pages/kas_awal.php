@@ -1,6 +1,4 @@
-           
 <?php
-var_dump('asdf');  die;
 if(isset($_POST["tambah"])){
 	include  "lib/koneksi.php";
 	$kas_nominal 		= $_POST['kas_nominal'];

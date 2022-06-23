@@ -1,3 +1,4 @@
+
 <?php session_start();
 error_reporting(0); 
 include "lib/koneksi.php";
@@ -178,7 +179,7 @@ $gambar = $own['gambar'];
 				   
 				    $username   = str_replace("'","`",$_POST['username']);
 				    $pass       = md5(str_replace("'","`",$_POST['password']));
-				    var_dump($pass);
+
 				    $bulan 		=str_replace("'","`",$_POST['tahun'])."-".str_replace("'","`",$_POST['bulan']);
 				    $login_sebagai  = str_replace("'", "", $_POST['login_sebagai']);
 				   
@@ -194,6 +195,8 @@ $gambar = $own['gambar'];
                             $_SESSION['USERNAME']           = $username;
                             $_SESSION['NAMA']               = $data['user_nama'];
                             $_SESSION['LEVEL']					= $data['user_level'];
+                            $_SESSION['CABANG']					= $data['cabang'];
+                            $_SESSION['PERMISSION']					= $data['user_permission'];
                             $_SESSION['BULAN']					= $bulan;
                             $_SESSION['NAMA_OWNER']					= $nama_own;
 
@@ -201,7 +204,7 @@ $gambar = $own['gambar'];
 							$cek=mysqli_num_rows($q);
 							if($cek==0){
 							?>
-                            <meta http-equiv="refresh" content='0; url=/sistem_ksp/kas' />
+                            <meta http-equiv="refresh" content='0; url=/' />
                             <?php
 							}else{
                             ?>

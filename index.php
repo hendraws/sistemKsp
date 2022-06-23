@@ -5,6 +5,7 @@ if($_SESSION['USERNAME'] != null){
 	$USER_ID       = $_SESSION['USER_ID'];
 	$NAMA       = $_SESSION['NAMA'];
 	$LEVEL           = $_SESSION['LEVEL'];
+	$PERMISSION           = $_SESSION['PERMISSION'];
 	$bulan           = $_SESSION['BULAN'];
 	$nama_owner           = $_SESSION['NAMA_OWNER'];
 	$menu        = str_replace("/","", $_SERVER['REQUEST_URI']);
@@ -245,6 +246,14 @@ if($_SESSION['USERNAME'] != null){
 					$master       = "menu-open";
 					$master_pilihan  = "active";
 					$url        = "pages/data_master_pilihan.php";
+				}else if($menu=="data-master-cabang"){
+					$master       = "menu-open";
+					$master_cabang  = "active";
+					$url        = "pages/data_master_cabang.php";
+				}else if($menu=="data-master-user-kasir"){
+					$master       = "menu-open";
+					$master_user_kasir  = "active";
+					$url        = "pages/data_master_user_kasir.php";
 				}else if($menu=="drop_tunda"){
 					$master       = "menu-open";
 					$master_drop_tunda   = "active";
@@ -420,6 +429,15 @@ if($_SESSION['USERNAME'] != null){
           						</p>
           					</a>
           				</li>
+          				<li class="nav-item">
+          					<a href="/data-master-cabang" class="nav-link <?php echo $master_cabang;?>">
+          						<i class="far fa-circle nav-icon"></i>
+          						<p>
+          							Data Master Cabang                
+          						</p>
+          					</a>
+          				</li>
+          				
           			<?php } 
           			if($LEVEL!="3" and $LEVEL!="4"){
           				?>
@@ -474,6 +492,16 @@ if($_SESSION['USERNAME'] != null){
           						</p>
           					</a>
           				</li>
+          				<?php if($PERMISSION == 1 && $LEVEL != 1) : ?>
+          				<li class="nav-item">
+          					<a href="/data-master-user-kasir" class="nav-link <?php echo $master_user_kasir;?>">
+          						<i class="far fa-circle nav-icon"></i>
+          						<p>
+          							Data Master User Kasir                
+          						</p>
+          					</a>
+          				</li>
+          			<?php endif ?>
           			<?php } ?>
 
           		</ul>

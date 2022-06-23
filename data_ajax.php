@@ -4,6 +4,7 @@
        $USERNAME   = $_SESSION['USERNAME'];
        $USER_ID       = $_SESSION['USER_ID'];
        $NAMA       = $_SESSION['NAMA'];
+       $CABANG       = $_SESSION['CABANG'];
        $LEVEL           = $_SESSION['LEVEL'];
        $bulan           = $_SESSION['BULAN'];
 
@@ -1502,7 +1503,7 @@
                     						<select name="resort_id" class="form-control" style="width: 50%" required>
                     							<option value="">Pilih resort</option>
                     							<?php 
-                    							$qresort = mysqli_query($con,"select * from tbl_resort ");
+                    							$qresort = mysqli_query($con,"select * from tbl_resort where unit_id = '$CABANG'");
                     							while($data_resort    = mysqli_fetch_array($qresort,MYSQLI_ASSOC)){
                     								$resort_id_data     = $data_resort['resort_id'];
                     								if($resort_id_data==$resort_id){
@@ -2284,7 +2285,116 @@
                            			</table>
                            		<?php } ?>
 
-                           	</div>
-                           </div>
+                           		<!-- MASTER CABANG EDIT & DELETE -->
+                           		<?php 
+                           		if($tampil == 'master_data_cabang'){ 
+                           			$id           = $_POST['unit_id'];
+                           			$query          = mysqli_query($con,"select * from tbl_unit where unit_id = '$id'");
+                           			$cek        = mysqli_num_rows($query);
+                           			if($cek>0){
+                           				$data     = mysqli_fetch_array($query,MYSQLI_ASSOC);
+                           				$unitNama     = $data['unit_nama'];
+                           			}
+                           			?>
+                           			<form method="POST" action="pages/master_cabang.php">
+                           				<label>Cabang</label>
+                           				<input type="text" class="form-control" name="unit_nama" id="unit_nama" value="<?= $unitNama ?>" style="width: 50%">
+                           				<br>
+                           				<input type="hidden" name="unit_id" value="<?= $id ?>">
+                           				<input type="submit" class="btn btn-sm btn-primary" name="update" value="Simpan">
+                           			</form>
+                           		<?php } ?>
 
-                       </div>
+                           		<?php 
+                           		if($tampil == 'master_data_cabang_del'){ 
+                           			$id           = $_POST['unit_id'];
+                           			// $query          = mysqli_query($con,"select * from tbl_unit where unit_id = '$id'");
+                           			// $cek        = mysqli_num_rows($query);
+                           			// if($cek>0){
+                           			// 	$data     = mysqli_fetch_array($query,MYSQLI_ASSOC);
+                           			// 	$bu_nama     = $data['bu_nama'];
+                           			// 	$bu_kategori     = $data['bu_kategori'];
+                           			// }
+                           			?>
+                           			<table width="100%">
+                           				<tr valign="top">
+                           					<td align="right">
+                           						<form method="POST" action="/pages/master_cabang.php" >
+                           							<input type="hidden" name="unit_id" value="<?php echo $id;?>">
+                           							<input type="submit" name="delete" class="btn btn-sm btn-danger" value="Yakin">
+                           						</form>
+                           					</td>
+                           					<td>
+                           						<button type="button" class="btn btn-sm btn-success" data-dismiss="modal">Batal </button>
+                           					</td>
+                           				</table>
+                           			<?php } ?>
+
+                           			<!-- TUTUPMASTERCABANG -->
+
+                           			<!-- MASTER CABANG EDIT & DELETE -->
+                           			<?php 
+                           			if($tampil == 'master_data_user_kasir'){ 
+                           				$id           = $_POST['user_id'];
+                           				$query          = mysqli_query($con,"SELECT * FROM tbl_user WHERE user_id = '$id'");
+                           				$queryCabang = mysqli_query($con,"SELECT * FROM tbl_unit") or die(mysqli_error($con));
+                           				$cek        = mysqli_num_rows($query);
+                           				if($cek>0){
+                           					$data     = mysqli_fetch_array($query,MYSQLI_ASSOC);
+                           				}
+                           				?>
+                           				<form method="POST" action="/pages/master_user_kasir.php">
+                           					<label>Nama</label>
+                           					<input type="text" class="form-control" name="user_nama" required value="<?= $data['user_nama'] ?>" style="width: 50%">
+                           					<label>Username</label>
+                           					<input type="text" class="form-control formfield" name="user_name" required value="<?= $data['user_name'] ?>" style="width: 50%">
+                           					<label>Cabang</label>
+                           					<select class="form-control" style="width: 50%" name="cabang" required>
+                           						<?php while($dataCabang = mysqli_fetch_array($queryCabang)) : ?>
+                           							<option value="<?= $dataCabang['unit_id'] ?>" <?= $data['cabang'] == $dataCabang['unit_id'] ? 'selected' : '' ?>><?= $dataCabang['unit_nama'] ?></option>
+                           						<?php endwhile ?>
+                           					</select>
+                           					<input type="hidden" name="user_id" value="<?php echo $id;?>">
+                           					<br>
+                           					<input type="submit" class="btn btn-sm btn-primary" name="update" value="Simpan">
+                           				</form>
+                           				<script type="text/javascript">
+                           					$(function(){
+                           						$('.formfield').on('keypress', function(e){
+                           							if(e.which == 32)
+                           								return false;
+                           						})
+                           					})
+                           				</script>
+                           			<?php } ?>
+
+                           			<?php 
+                           			if($tampil == 'master_data_user_kasir_del'){ 
+                           				$id           = $_POST['user_id'];
+                           			// $query          = mysqli_query($con,"select * from tbl_unit where unit_id = '$id'");
+                           			// $cek        = mysqli_num_rows($query);
+                           			// if($cek>0){
+                           			// 	$data     = mysqli_fetch_array($query,MYSQLI_ASSOC);
+                           			// 	$bu_nama     = $data['bu_nama'];
+                           			// 	$bu_kategori     = $data['bu_kategori'];
+                           			// }
+                           				?>
+                           				<table width="100%">
+                           					<tr valign="top">
+                           						<td align="right">
+                           							<form method="POST" action="/pages/master_user_kasir.php" >
+                           								<input type="hidden" name="user_id" value="<?php echo $id;?>">
+                           								<input type="submit" name="delete" class="btn btn-sm btn-danger" value="Yakin">
+                           							</form>
+                           						</td>
+                           						<td>
+                           							<button type="button" class="btn btn-sm btn-success" data-dismiss="modal">Batal </button>
+                           						</td>
+                           					</table>
+                           				<?php } ?>
+
+                           				<!-- TUTUPMASTERCABANG -->
+                           			</div>
+                           		</div>
+
+                           	</div>
