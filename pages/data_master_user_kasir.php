@@ -8,7 +8,7 @@ $LEVEL           = $_SESSION['LEVEL'];
 $bulan           = $_SESSION['BULAN'];
 include   "css.php";
 include  "../lib/koneksi.php";
-$q		= mysqli_query($con,"SELECT * FROM tbl_user LEFT JOIN tbl_unit ON unit_id = cabang where user_level = 3") or die(mysqli_error($con));
+$q		= mysqli_query($con,"SELECT * FROM tbl_user LEFT JOIN tbl_unit ON unit_id = cabang where user_level = 3 ORDER BY user_id") or die(mysqli_error($con));
 
 $queryCabang = mysqli_query($con,"select * from tbl_unit") or die(mysqli_error($con));
 ?>
@@ -64,6 +64,7 @@ $queryCabang = mysqli_query($con,"select * from tbl_unit") or die(mysqli_error($
 							<th>Nama</th>
 							<th>Username</th>
 							<th>Cabang</th>
+							<th>Edit</th>
 							<th></th>
 						</tr>
 					</thead>
@@ -71,19 +72,35 @@ $queryCabang = mysqli_query($con,"select * from tbl_unit") or die(mysqli_error($
 						<?php 
 						$no=1;
 						while($data = mysqli_fetch_array($q)){   
-
 							?>
 							<tr class="small">
 								<td><?php echo $no;?></td>
 								<td><?php echo $data['user_nama'];?></td>
 								<td><?php echo $data['user_name'];?></td>
 								<td><?php echo $data['unit_nama'];?></td>
+								<td class="text-center"><?= $data['user_permission'] != 0 ? '<i class="fa fa-check"></i>' : ''  ?> </td>
 								<td>
+									<button type="button" class="btn btn-xs <?= $data['user_permission'] != 0 ? 'btn-warning' : 'btn-success'  ?>" id="permission<?php echo $data['user_id'];?>" data-value="<?= $data['user_permission'] ?>" data-name="<?= $data['user_permission'] != 0 ? 'Hapus Permission Edit' : 'Ijinkan Edit'  ?>"><?= $data['user_permission'] != 0 ? 'Hapus Permission Edit' : 'Ijinkan Edit'  ?></button>
 									<button type="button" class="btn btn-xs btn-info" id="edit<?php echo $data['user_id'];?>"><i class="fa fa-edit"></i> edit</button>
 									<button type="button" class="btn btn-danger btn-xs" id="hapus<?php echo $data['user_id'];?>"><i class="fa fa-trash"></i> hapus</button>             
 								</td>
 							</tr>
 							<script type="text/javascript">
+								$("#permission<?php echo $data['user_id'];?>").click(function(){
+									var judul = $(this).data('name');
+									var status = $(this).data('value');
+									console.log($(this).data('name'));
+									$('#modal_kecil').modal('show');
+									$.ajax({
+										type : 'post',
+										url: "data_ajax.php",
+										data: "judul="+judul+"&tampil=permission_kasir&user_id=<?php echo $data['user_id'];?>&status="+status,
+										cache: false,
+										success: function(msg){
+											$("#tampil_modal_kecil").html(msg);
+										}
+									});
+								});
 								$("#edit<?php echo $data['user_id'];?>").click(function(){
 									$('#modal_sedang').modal('show');
 									$.ajax({

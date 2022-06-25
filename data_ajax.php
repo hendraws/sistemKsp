@@ -2332,7 +2332,7 @@
 
                            			<!-- TUTUPMASTERCABANG -->
 
-                           			<!-- MASTER CABANG EDIT & DELETE -->
+                           			<!-- MASTER USER EDIT & DELETE -->
                            			<?php 
                            			if($tampil == 'master_data_user_kasir'){ 
                            				$id           = $_POST['user_id'];
@@ -2393,7 +2393,35 @@
                            					</table>
                            				<?php } ?>
 
-                           				<!-- TUTUPMASTERCABANG -->
+                           				<?php 
+                           			if($tampil == 'permission_kasir'){
+
+                           				$id           = $_POST['user_id'];
+                           				$status           = $_POST['status'];
+                           			// $query          = mysqli_query($con,"select * from tbl_unit where unit_id = '$id'");
+                           			// $cek        = mysqli_num_rows($query);
+                           			// if($cek>0){
+                           			// 	$data     = mysqli_fetch_array($query,MYSQLI_ASSOC);
+                           			// 	$bu_nama     = $data['bu_nama'];
+                           			// 	$bu_kategori     = $data['bu_kategori'];
+                           			// }
+                           				?>
+                           				<table width="100%">
+                           					<tr valign="top">
+                           						<td align="right">
+                           							<form method="POST" action="/pages/master_user_kasir.php" >
+                           								<input type="hidden" name="user_id" value="<?php echo $id;?>">
+                           								<input type="hidden" name="status" value="<?php echo $status;?>">
+                           								<input type="submit" name="permission" class="btn btn-sm btn-danger" value="Yakin">
+                           							</form>
+                           						</td>
+                           						<td>
+                           							<button type="button" class="btn btn-sm btn-success" data-dismiss="modal">Batal </button>
+                           						</td>
+                           					</table>
+                           				<?php } ?>
+
+                           				<!-- TUTUPMASTERUSER -->
                            			</div>
                            		</div>
 

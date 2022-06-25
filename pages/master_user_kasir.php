@@ -1,8 +1,8 @@
 <?php
 session_start();
+	include  "../lib/koneksi.php";
 	// var_dump($_POST);  die;
 if(isset($_POST["tambah_data"])){
-		include  "../lib/koneksi.php";
 
 	$user_nama 		= $_POST['user_nama'];
 	$user_name 		= $_POST['user_name'];
@@ -27,7 +27,6 @@ if(isset($_POST["tambah_data"])){
 }
 
 if(isset($_POST["update"])){
-	include  "../lib/koneksi.php";
 
 	$user_id     = $_POST['user_id'];
 	$user_nama 		= $_POST['user_nama'];
@@ -52,13 +51,32 @@ if(isset($_POST["update"])){
 }
 
 if(isset($_POST["delete"])){
-	include  "../lib/koneksi.php";
+
 
 	$id     = $_POST['user_id'];
 	$up=mysqli_query($con,"DELETE FROM tbl_user WHERE user_id='$id'") or die(mysqli_error($con)) ;
 
 	if($up){
 		$_SESSION['message'] = 'Hapus Data Berhasil';
+		header('Location: /data-master-user-kasir');
+		?>
+		<?php
+	}else{
+		var_dump($up);  die;
+		?>
+		<?php
+	}
+}
+
+if(isset($_POST["permission"])){
+
+	$id     = $_POST['user_id'];
+	$status = $_POST['status'] == 0 ? 2 : 0;
+
+	$up=mysqli_query($con,"UPDATE tbl_user SET user_permission = '$status' where user_id='$id'") or die(mysqli_error($con)) ;
+
+	if($up){
+		$_SESSION['message'] = 'Perubahan Data Berhasil';
 		header('Location: /data-master-user-kasir');
 		?>
 		<?php
