@@ -2823,10 +2823,11 @@ if($_SESSION['USERNAME'] != null ){
               							<td><?= $rEvaluasi['bon_prive'] ?></td>
               							<?php 
               								$pegawai_id = $rEvaluasi['pegawai_id'];
-              								$qBonPrive = mysqli_query($con, "SELECT sum(prive_nominal) as prive_nominal FROM tbl_bon_prive where pegawai_id = '$pegawai_id' and prive_tgl like '$bulan'");
+
+              								$qBonPrive = mysqli_query($con, "SELECT sum(prive_nominal) as prive_nominal FROM tbl_bon_prive where pegawai_id = '$pegawai_id' and prive_tgl like '$bulan%'");
               								$rBonPrive = mysqli_fetch_array($qBonPrive);
 
-              								$qBonPanjer = mysqli_query($con, "SELECT sum(panjer_nominal) as panjer_nominal FROM tbl_bon_panjer where pegawai_id = '$pegawai_id' and panjer_tgl like '$bulan'");
+              								$qBonPanjer = mysqli_query($con, "SELECT sum(panjer_nominal) as panjer_nominal FROM tbl_bon_panjer where pegawai_id = '$pegawai_id' and panjer_tgl like '$bulan%'");
               								$rBonPanjer = mysqli_fetch_array($qBonPanjer);
 
               							 ?>
