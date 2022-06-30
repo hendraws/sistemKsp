@@ -5,6 +5,7 @@ $USERNAME   = $_SESSION['USERNAME'];
 $USER_ID       = $_SESSION['USER_ID'];
 $NAMA       = $_SESSION['NAMA'];
 $LEVEL           = $_SESSION['LEVEL'];
+$PERMISSION           = $_SESSION['PERMISSION'];
 $bulan           = $_SESSION['BULAN'];
 $cabang = $_SESSION['CABANG'];
 
@@ -193,8 +194,10 @@ if($tab=="2"){
 															<td align="right"><?php echo str_replace(",",".",number_format($h1['kasbon_pagi']));?></td>
 															
 															<td>
+																<?php if($PERMISSION == 1 || $PERMISSION == 2 || $LEVEL == 1 ) : ?>
 																<button type="button" class="btn btn-xs btn-info" id="edit<?php echo $pembukuan_id;?>"><i class="fa fa-edit"></i> edit</button>
 																<button type="button" class="btn btn-danger btn-xs" id="hapus<?php echo $pembukuan_id;?>"><i class="fa fa-trash"></i> hapus</button>                           
+															<?php endif; ?>
 															</td>                        
 														</tr>
 														<script type="text/javascript">
@@ -328,8 +331,10 @@ if($tab=="2"){
 											
 											
 											<td>
+												<?php if($PERMISSION == 1 || $PERMISSION == 2 || $LEVEL == 1 ) : ?>
 												<button type="button" class="btn btn-xs btn-info" id="edit<?php echo $akomodasi_id;?>"><i class="fa fa-edit"></i> edit</button>
 												<button type="button" class="btn btn-danger btn-xs" id="hapus<?php echo $akomodasi_id;?>"><i class="fa fa-trash"></i> hapus</button>  
+											<?php endif; ?>
 												<button type="button" class="btn btn-xs btn-warning" id="cetak<?php echo $akomodasi_id;?>"><i class="fa fa-print"></i> Kwitansi</button>                         
 											</td>                        
 										</tr>
@@ -449,8 +454,10 @@ if($tab=="2"){
 															<td align="right"><?php echo str_replace(",", ".", number_format($h3['panjer_nominal']));?></td>
 															
 															<td>
+																<?php if($PERMISSION == 1 || $PERMISSION == 2 || $LEVEL == 1 ) : ?>
 																<button type="button" class="btn btn-xs btn-info" id="edit<?php echo $panjer_id;?>"><i class="fa fa-edit"></i> edit</button>
 																<button type="button" class="btn btn-danger btn-xs" id="hapus<?php echo $panjer_id;?>"><i class="fa fa-trash"></i> hapus</button>     
+															<?php endif; ?>
 																<button type="button" class="btn btn-xs btn-warning" id="cetak<?php echo $panjer_id;?>"><i class="fa fa-print"></i> Kwitansi</button>                       
 															</td>                        
 														</tr>
@@ -604,8 +611,10 @@ if($tab=="2"){
 															
 															
 															<td>
+																<?php if($PERMISSION == 1 || $PERMISSION == 2 || $LEVEL == 1 ) : ?>
 																<button type="button" class="btn btn-xs btn-info" id="edit<?php echo $prive_id;?>"><i class="fa fa-edit"></i> edit</button>
 																<button type="button" class="btn btn-danger btn-xs" id="hapus<?php echo $prive_id;?>"><i class="fa fa-trash"></i> hapus</button>     
+															<?php endif; ?>
 																<button type="button" class="btn btn-xs btn-warning" id="cetak<?php echo $prive_id;?>"><i class="fa fa-print"></i> Kwitansi</button>                       
 															</td>                        
 														</tr>
@@ -760,8 +769,10 @@ if($tab=="2"){
 														
 														
 														<td>
+															<?php if($PERMISSION == 1 || $PERMISSION == 2 || $LEVEL == 1 ) : ?>
 															<button type="button" class="btn btn-xs btn-info" id="edit<?php echo $operasional_id;?>"><i class="fa fa-edit"></i> edit </button>
 															<button type="button" class="btn btn-danger btn-xs" id="hapus<?php echo $operasional_id;?>"><i class="fa fa-trash"></i> hapus</button>          
+														<?php endif; ?>
 															<button type="button" class="btn btn-xs btn-warning" id="cetak<?php echo $operasional_id;?>"><i class="fa fa-print"></i> Kwitansi</button>                  
 														</td>                        
 													</tr>
@@ -931,8 +942,10 @@ if($tab=="2"){
 													
 													
 													<td>
+														<?php if($PERMISSION == 1 || $PERMISSION == 2 || $LEVEL == 1 ) : ?>
 														<button type="button" class="btn btn-xs btn-info" id="edit<?php echo $operasional_id;?>"><i class="fa fa-edit"></i> edit</button>
 														<button type="button" class="btn btn-danger btn-xs" id="hapus<?php echo $operasional_id;?>"><i class="fa fa-trash"></i> hapus</button> 
+													<?php endif ?>
 														<button type="button" class="btn btn-xs btn-warning" id="cetak<?php echo $operasional_id;?>"><i class="fa fa-print"></i> Kwitansi</button>                          
 													</td>                        
 												</tr>
@@ -1252,7 +1265,7 @@ if($tab=="2"){
                           }
                           mysqli_query($con,"insert into tbl_rekapitulasi(resort_id,L,B,K,kini,kasbon_pakai,storting,adm,simp,debet,`drop`,psp,kredit,tunai,bulan,minggu,tgl) 
                           	values('$resort_id_rekap','$jum_anggota_lama','$jum_anggota_baru','$jum_anggota_keluar','$jum_anggota_kini','$kasbon_pakai','$storting','$adm5persen','$simp4persen','$debet','$drop','$psp','$kredit','$tunai','$bulan','$minggu','$pembukuan_tgl_loop')");
-
+                          
                           
                           } ?>
                       </tbody>
@@ -1289,7 +1302,6 @@ if($tab=="2"){
                       			<?php 
                       			$kasbon_pakai_expedisi_arr[]=array_sum($kasbon_pakai_arr);
                       			$tunai_expedisi_arr[] = array_sum($tunai_arr);
-                      			
                       			?>
                       			<?php echo str_replace(",", ".", number_format(array_sum($kasbon_pakai_arr)));?>
                       		</td>

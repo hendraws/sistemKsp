@@ -1503,7 +1503,12 @@
                     						<select name="resort_id" class="form-control" style="width: 50%" required>
                     							<option value="">Pilih resort</option>
                     							<?php 
-                    							$qresort = mysqli_query($con,"select * from tbl_resort where unit_id = '$CABANG'");
+
+                    							if($LEVEL == 1){
+	                    							$qresort = mysqli_query($con,"select * from tbl_resort");
+                    							}else{
+	                    							$qresort = mysqli_query($con,"select * from tbl_resort where unit_id = '$CABANG'");
+                    							}
                     							while($data_resort    = mysqli_fetch_array($qresort,MYSQLI_ASSOC)){
                     								$resort_id_data     = $data_resort['resort_id'];
                     								if($resort_id_data==$resort_id){

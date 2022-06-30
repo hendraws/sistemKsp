@@ -21,6 +21,12 @@ if($_SESSION['USERNAME'] != null ){
 	$mpdf  = new mPDF('utf-8',array(290,210),11,'calibri',15, 15, 5, 15, 8, 8);
 	$mpdf->AddPage('P');
 	?>
+	<style type="text/css">
+		.table-border{
+			border: 1px solid;
+			border-collapse: collapse;
+		}
+	</style>
 	<br>
 	<br>
 	<table width="100%" cellpadding="10">
@@ -696,14 +702,14 @@ if($_SESSION['USERNAME'] != null ){
 								<td></td>
 								<td align="right" width="200">
 									<?php 
-										$qAkomodasi = mysqli_query($con,"SELECT sum(uang_makan+uang_transport) as akomodasi from tbl_akomodasi where akomodasi_tgl like '$bulan%'");
-										$hAkomodasi=mysqli_fetch_array($qAkomodasi);
+									$qAkomodasi = mysqli_query($con,"SELECT sum(uang_makan+uang_transport) as akomodasi from tbl_akomodasi where akomodasi_tgl like '$bulan%'");
+									$hAkomodasi=mysqli_fetch_array($qAkomodasi);
 
-										$biayaAkomodasi = $hAkomodasi['akomodasi'];
+									$biayaAkomodasi = $hAkomodasi['akomodasi'];
 
-										echo str_replace(",", ".", number_format($biayaAkomodasi));
+									echo str_replace(",", ".", number_format($biayaAkomodasi));
 
-									 ?>
+									?>
 								</td>
 							</tr>
 							<tr bgcolor="gray">
@@ -2617,6 +2623,228 @@ if($_SESSION['USERNAME'] != null ){
               					</td>
               				</tr>
               			</table>
+              			<pagebreak>
+              				<table width="100%" cellpadding="10">
+              					<tr>
+              						<td align="center"><b>EVALUASI KAS KSP SATRIA MULIA ARTHOMORO BANYUMAS</b></td>
+              					</tr>
+              				</table>
+              				<br>
+              				<br>
+              				<br>
+              				<?php 
+              				$q_eval_kas = mysqli_query($con, "SELECT sum(pembukuan_drop) as jumlah_drop, sum(storting) as jumlah_storting, sum(psp) as jumlah_psp FROM tbl_pembukuan_harian where pembukuan_tgl LIKE '$bulan%'") or die(mysqli_error($con));
+              				$data_eval_kas  = mysqli_fetch_array($q_eval_kas,MYSQLI_ASSOC);
+              				$data_bu = array_sum($nominal_arr) + $biayaAkomodasi;
+              				 ?>
+              				<table width="80%">
+              					<!-- <tr class=" bg-gray-dark" bgcolor="gray"> -->
+              					<tr>
+              						<td>DROP</td>
+              						<td width="2%" >:</td>
+              						<td colspan="5"><?= str_replace(",", ".", number_format($data_eval_kas['jumlah_drop']))  ?></td>
+              					</tr>
+              					<tr>
+              						<td>STORTING</td>
+              						<td>:</td>
+              						<td colspan="5"><?= str_replace(",", ".", number_format($data_eval_kas['jumlah_storting'])) ?></td>
+              					</tr>
+              					<tr>
+              						<td>IP STORTING</td>
+              						<td>:</td>
+              						<td colspan="5">0</td>
+              					</tr>
+              					<tr>
+              						<td>PSP</td>
+              						<td>:</td>
+              						<td colspan="5"><?= str_replace(",", ".", number_format($data_eval_kas['jumlah_psp'])) ?></td>
+              					</tr>
+              					<tr>
+              						<td>TUNAI KAS</td>
+              						<td>:</td>
+              						<td colspan="5">0</td>
+              					</tr>
+              					<tr>
+              						<td>KASBON PAKAI</td>
+              						<td>:</td>
+              						<td colspan="5">0</td>
+              					</tr>
+              					<tr>
+              						<td>GAJI</td>
+              						<td>:</td>
+              						<td colspan="5">0</td>
+              					</tr>
+              					<tr>
+              						<td>BU</td>
+              						<td>:</td>
+              						<td colspan="5"><?= str_replace(",", ".", number_format($data_bu)); ?></td>
+              					</tr>
+              					<tr>
+              						<td>SETOR</td>
+              						<td>:</td>
+              						<td colspan="5">0</td>
+              					</tr>              					
+              					<tr>
+              						<td colspan="7"></td>
+              					</tr>
+              					<tr>
+              						<td>PENDAPATAN</td>
+              						<td>=</td>
+              						<td>TUNAI KAS</td>
+              						<td>-</td>
+              						<td>KASBON PAKAI</td>
+              						<td colspan="2"></td>
+              					</tr>
+              					<tr>
+              						<td></td>
+              						<td>=</td>
+              						<td>0</td>
+              						<td>-</td>
+              						<td>0</td>
+              						<td colspan="2"></td>
+              					</tr>
+              					<tr>
+              						<td></td>
+              						<td>=</td>
+              						<td>0</td>
+              						<td colspan="4">
+              					</tr>
+              					<tr>
+              						<td>PENGELUARAN</td>
+              						<td>=</td>
+              						<td>GAJI</td>
+              						<td>+</td>
+              						<td>BIAYA UMUM</td>
+              						<td>+</td>
+              						<td>SETOR</td>
+              					</tr>
+              					<tr>
+              						<td></td>
+              						<td>=</td>
+              						<td>0</td>
+              						<td>+</td>
+              						<td><?= str_replace(",", ".", number_format($data_bu)); ?></td>
+              						<td>+</td>
+              						<td>0</td>
+              					</tr>
+              					<tr>
+              						<td></td>
+              						<td>=</td>
+              						<td>0</td>
+              						<td colspan="4"></td>
+              					</tr>
+              					<tr>
+              						<td>KAS -/+</td>
+              						<td>=</td>
+              						<td>PENDAPATAN</td>
+              						<td>-</td>
+              						<td>PENGELUARAN</td>
+              						<td colspan="2"></td>
+              					</tr>
+              					<tr>
+              						<td></td>
+              						<td>=</td>
+              						<td>0</td>
+              						<td>+</td>
+              						<td>0</td>
+          							<td colspan="2"></td>
+              					</tr>
+              					<tr>
+              						<td></td>
+              						<td>=</td>
+              						<td>0</td>
+              						<td colspan="4"></td>
+              					</tr>
+              				</table>
+              				<br>
+              				<table width="100%">
+              				<tr>
+              					<td width="50%" align="center">
+              						<br>PIMPINAN<br>
+              						<br><br><br>
+              						(<?php echo $TTD_PIMPINAN;?>)
+              					</td>
+              					<td>
+              						<?php echo $data_unit['unit_nama'];?>, <?php echo tanggal(date("Y-m-d"));?><br>
+              						KASIR<br>
+              						<br><br><br>
+              						(<?php echo $TTD_KASIR;?>)
+              					</td>
+              				</tr>
+              			</table>
+              			</pagebreak>
+
+              			<pagebreak>
+              				<table width="100%" cellpadding="10">
+              					<tr>
+              						<td align="center"><b>EVALUASI PENGELUARAN BON KARYAWAN</b></td>
+              					</tr>              					
+              					<tr>
+              						<td align="center"><b>KSP SATRIA MULIA ARTHOMORO</b></td>
+              					</tr>			
+              					<tr>
+              						<td align="center"><b>BULAN <?php echo tanggal($bulan);?></b></td>
+              					</tr>              					
+              				</table>
+              				<br>
+              				<br>
+              				<br>
+              				<table width="100%" cellpadding="4" class="table-border">
+              					<thead>
+	              					<tr class="table-border">
+	              						<th rowspan="2" class="table-border">No.</th>
+	              						<th rowspan="2" class="table-border">Nama</th>
+	              						<th rowspan="2" class="table-border">Jabatan</th>
+	              						<th colspan="3" class="table-border">BON PRIVE</th>
+	              						<th colspan="5" class="table-border">BON PANJER</th>
+	              						<th rowspan="2" class="table-border">PARAF</th>
+	              					</tr>
+	              					<tr>
+	              						<th class="table-border">Kuota Bon</th>
+	              						<th class="table-border">Bon Keluar</th>
+	              						<th class="table-border">Status</th>
+	              						<th class="table-border">Kuota Bon</th>
+	              						<th class="table-border">Bon Keluar</th>
+	              						<th class="table-border">Status</th>
+	              						<th class="table-border">Angsuran</th>
+	              						<th class="table-border">Sisa Bon</th>
+	              					</tr>
+              					</thead>
+              					<tbody>
+              						<?php 
+              						$no = 1;
+              						$qEvaluasi = mysqli_query($con, "SELECT * FROM tbl_pegawai LEFT JOIN tbl_jabatan ON tbl_jabatan.jabatan_id = tbl_pegawai.jabatan_id ORDER BY gaji_pokok DESC");
+              						while($rEvaluasi    = mysqli_fetch_array($qEvaluasi,MYSQLI_ASSOC)) : 
+              						 ?>
+              						<tr>
+              							<td><?= $no ?></td>
+              							<td><?= $rEvaluasi['pegawai_nama'] ?></td>
+              							<td><?= $rEvaluasi['jabatan_nama'] ?></td>
+              							<td><?= $rEvaluasi['bon_prive'] ?></td>
+              							<?php 
+              								$pegawai_id = $rEvaluasi['pegawai_id'];
+              								$qBonPrive = mysqli_query($con, "SELECT sum(prive_nominal) as prive_nominal FROM tbl_bon_prive where pegawai_id = '$pegawai_id' and prive_tgl like '$bulan'");
+              								$rBonPrive = mysqli_fetch_array($qBonPrive);
+
+              								$qBonPanjer = mysqli_query($con, "SELECT sum(panjer_nominal) as panjer_nominal FROM tbl_bon_panjer where pegawai_id = '$pegawai_id' and panjer_tgl like '$bulan'");
+              								$rBonPanjer = mysqli_fetch_array($qBonPanjer);
+
+              							 ?>
+              							 <td><?= !empty($rBonPrive['prive_nominal']) ? $rBonPrive['prive_nominal'] : 0 ?></td>
+              							 <td>SESUAI</td>
+              							 <td><?= $rEvaluasi['bon_panjer'] ?></td>
+              							 <td><?= !empty($rBonPanjer['panjer_nominal']) ? $rBonPanjer['panjer_nominal'] : 0 ?></td>
+              							 <td>SESUAI</td>
+              							 <td>0</td>
+              							 <td>0</td>
+              							 <td><?= $no ?>.</td>
+              						</tr>
+              						<?php $no++;  endwhile; ?>
+              					</tbody>
+              				</table>
+
+              			</pagebreak>
+
               			<?php
               			$tahun=date("Y");
               			$mpdf->SetDisplayMode(100);
