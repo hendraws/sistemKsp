@@ -2717,7 +2717,7 @@ if($_SESSION['USERNAME'] != null ){
               					<tr>
               						<td></td>
               						<td>=</td>
-              						<td align="right"><?= str_replace(",", ".", number_format($data_rekapitulasi['kasbon_pakai'] + $data_rekapitulasi['tunai'])) ?></td>
+              						<td align="right"><?= str_replace(",", ".", number_format($data_rekapitulasi['tunai'] - $data_rekapitulasi['kasbon_pakai'])) ?></td>
               						<td colspan="4">
               					</tr>
               					<tr>
@@ -2755,15 +2755,15 @@ if($_SESSION['USERNAME'] != null ){
               					<tr>
               						<td></td>
               						<td>=</td>
-              						<td align="right"><?= str_replace(",", ".", number_format($data_rekapitulasi['kasbon_pakai'] + $data_rekapitulasi['tunai'])) ?></td>
-              						<td>+</td>
+              						<td align="right"><?= str_replace(",", ".", number_format($data_rekapitulasi['tunai'] - $data_rekapitulasi['kasbon_pakai'])) ?></td>
+              						<td>-</td>
               						<td align="right"><?= str_replace(",", ".", number_format($data_bu + $gaji_karyawan)); ?></td>
           							<td colspan="2"></td>
               					</tr>
               					<tr>
               						<td></td>
               						<td>=</td>
-              						<td align="right"><?= str_replace(",", ".", number_format(($data_rekapitulasi['kasbon_pakai'] + $data_rekapitulasi['tunai'])-($data_bu + $gaji_karyawan))) ?></td>
+              						<td align="right"><?= str_replace(",", ".", number_format(($data_rekapitulasi['tunai'] - $data_rekapitulasi['kasbon_pakai'])-($data_bu + $gaji_karyawan))) ?></td>
               						<td colspan="4"></td>
               					</tr>
               				</table>
