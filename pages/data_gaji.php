@@ -11,7 +11,7 @@ $bulan           = $_SESSION['BULAN'];
 include   "css.php";
 include 	"../lib/koneksi.php";
 	//total inven
-$q		= mysqli_query($con,"select * from tbl_jabatan order by gaji_pokok desc");
+$q		= mysqli_query($con,"select * from tbl_jabatan order by urutan asc");
 $total 	= mysqli_num_rows($q);
 
 ?>
