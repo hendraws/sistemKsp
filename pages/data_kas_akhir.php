@@ -130,8 +130,24 @@ include   "../lib/koneksi.php";
                  ?>
                             </td>
                           </tr>
+                          <tr class="" bgcolor="#F5F5F5">
+									<td>6</td>
+									<td>Kas Masuk</td>
+									<td align="right">
+										<?php 
+
+										$qKasMasuk =mysqli_query($con,"select sum(nominal) as kas_masuk from tbl_kas_masuk  where tanggal like '$bulan%'");
+										$hKasMasuk = mysqli_fetch_array($qKasMasuk);
+										$dataKasMasuk = $hKasMasuk['kas_masuk'];
+                // echo str_replace(",", ".", number_format($bon));
+                // echo str_replace(",", ".", number_format($pengembalian_bon));
+										echo str_replace(",", ".", number_format($dataKasMasuk));
+
+										?>
+									</td>
+								</tr>
                           <?php
-                          $n=6;
+                          $n=7;
                           unset($pemasukan_nominal_arr);
                           $qpemasukan = mysqli_query($con,"select pemasukan,nominal from tbl_pemasukan where bulan='$bulan'");
                           while($hpemasukan= mysqli_fetch_array($qpemasukan)){
@@ -164,7 +180,7 @@ include   "../lib/koneksi.php";
                             
                             <td align="right">
                               <?php
-                            $total_pemasukan = $kas_awal+$tunai_kas+$pengembalian_tunda+$pengembalian_prive+($bon-$pengembalian_bon)+array_sum($pemasukan_nominal_arr);
+                            $total_pemasukan = $kas_awal+$tunai_kas+$pengembalian_tunda+$pengembalian_prive+($bon-$pengembalian_bon)+array_sum($pemasukan_nominal_arr)+$dataKasMasuk;
                               echo str_replace(",", ".", number_format($total_pemasukan));
                               ?>
                             </td>
