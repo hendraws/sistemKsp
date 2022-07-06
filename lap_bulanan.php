@@ -2636,53 +2636,64 @@ if($_SESSION['USERNAME'] != null ){
               				$q_eval_kas = mysqli_query($con, "SELECT sum(pembukuan_drop) as jumlah_drop, sum(storting) as jumlah_storting, sum(psp) as jumlah_psp FROM tbl_pembukuan_harian where pembukuan_tgl LIKE '$bulan%'") or die(mysqli_error($con));
               				$data_eval_kas  = mysqli_fetch_array($q_eval_kas,MYSQLI_ASSOC);
               				$data_bu = array_sum($nominal_arr) + $biayaAkomodasi;
+              				$q_rekapitulasi = mysqli_query($con, "SELECT sum(tunai) as tunai, sum(kasbon_pakai) as kasbon_pakai FROM tbl_rekapitulasi where bulan = '$bulan'");
+          					$data_rekapitulasi  = mysqli_fetch_array($q_rekapitulasi,MYSQLI_ASSOC);
               				 ?>
               				<table width="80%">
               					<!-- <tr class=" bg-gray-dark" bgcolor="gray"> -->
               					<tr>
               						<td>DROP</td>
-              						<td width="2%" >:</td>
-              						<td colspan="5"><?= str_replace(",", ".", number_format($data_eval_kas['jumlah_drop']))  ?></td>
+              						<td width="2%" align="center">:</td>
+              						<td align="right"><?= str_replace(",", ".", number_format($data_eval_kas['jumlah_drop']))  ?></td>
+              						
               					</tr>
               					<tr>
               						<td>STORTING</td>
-              						<td>:</td>
-              						<td colspan="5"><?= str_replace(",", ".", number_format($data_eval_kas['jumlah_storting'])) ?></td>
+              						<td align="center">:</td>
+              						<td align="right"><?= str_replace(",", ".", number_format($data_eval_kas['jumlah_storting'])) ?></td>
+              						<td colspan="4"></td>
               					</tr>
               					<tr>
               						<td>IP STORTING</td>
-              						<td>:</td>
-              						<td colspan="5">0</td>
+              						<td align="center">:</td>
+              						<td align="right">0</td>
+              						<td colspan="4"></td>
               					</tr>
               					<tr>
               						<td>PSP</td>
-              						<td>:</td>
-              						<td colspan="5"><?= str_replace(",", ".", number_format($data_eval_kas['jumlah_psp'])) ?></td>
+              						<td align="center">:</td>
+              						<td align="right"><?= str_replace(",", ".", number_format($data_eval_kas['jumlah_psp'])) ?></td>
+              						<td colspan="4"></td>
               					</tr>
               					<tr>
               						<td>TUNAI KAS</td>
-              						<td>:</td>
-              						<td colspan="5">0</td>
+              						<td align="center">:</td>
+              						<td align="right"><?= str_replace(",", ".", number_format($data_rekapitulasi['tunai'])) ?></td>
+              						<td colspan="4"></td>
               					</tr>
               					<tr>
               						<td>KASBON PAKAI</td>
-              						<td>:</td>
-              						<td colspan="5">0</td>
+              						<td align="center">:</td>
+              						<td align="right"><?= str_replace(",", ".", number_format($data_rekapitulasi['kasbon_pakai'])) ?></td>
+              						<td colspan="4"></td>
               					</tr>
               					<tr>
               						<td>GAJI</td>
-              						<td>:</td>
-              						<td colspan="5">0</td>
+              						<td align="center">:</td>
+              						<td align="right"><?= str_replace(",", ".", number_format($gaji_karyawan)) ?></td>
+              						<td colspan="4"></td>
               					</tr>
               					<tr>
               						<td>BU</td>
-              						<td>:</td>
-              						<td colspan="5"><?= str_replace(",", ".", number_format($data_bu)); ?></td>
+              						<td align="center">:</td>
+              						<td align="right"><?= str_replace(",", ".", number_format($data_bu)); ?></td>
+              						<td colspan="4"></td>
               					</tr>
               					<tr>
               						<td>SETOR</td>
-              						<td>:</td>
-              						<td colspan="5">0</td>
+              						<td align="center">:</td>
+              						<td align="right">0</td>
+              						<td colspan="4"></td>
               					</tr>              					
               					<tr>
               						<td colspan="7"></td>
@@ -2698,15 +2709,15 @@ if($_SESSION['USERNAME'] != null ){
               					<tr>
               						<td></td>
               						<td>=</td>
-              						<td>0</td>
+              						<td align="right"><?= str_replace(",", ".", number_format($data_rekapitulasi['tunai'])) ?></td>
               						<td>-</td>
-              						<td>0</td>
+              						<td align="right"><?= str_replace(",", ".", number_format($data_rekapitulasi['kasbon_pakai'])) ?></td>
               						<td colspan="2"></td>
               					</tr>
               					<tr>
               						<td></td>
               						<td>=</td>
-              						<td>0</td>
+              						<td align="right"><?= str_replace(",", ".", number_format($data_rekapitulasi['kasbon_pakai'] + $data_rekapitulasi['tunai'])) ?></td>
               						<td colspan="4">
               					</tr>
               					<tr>
@@ -2721,16 +2732,16 @@ if($_SESSION['USERNAME'] != null ){
               					<tr>
               						<td></td>
               						<td>=</td>
-              						<td>0</td>
+          							<td align="right"><?= str_replace(",", ".", number_format($gaji_karyawan)) ?></td>
               						<td>+</td>
-              						<td><?= str_replace(",", ".", number_format($data_bu)); ?></td>
+              						<td align="right"><?= str_replace(",", ".", number_format($data_bu)); ?></td>
               						<td>+</td>
               						<td>0</td>
               					</tr>
               					<tr>
               						<td></td>
               						<td>=</td>
-              						<td>0</td>
+              						<td align="right"><?= str_replace(",", ".", number_format($data_bu + $gaji_karyawan)); ?></td>
               						<td colspan="4"></td>
               					</tr>
               					<tr>
@@ -2744,15 +2755,15 @@ if($_SESSION['USERNAME'] != null ){
               					<tr>
               						<td></td>
               						<td>=</td>
-              						<td>0</td>
+              						<td align="right"><?= str_replace(",", ".", number_format($data_rekapitulasi['kasbon_pakai'] + $data_rekapitulasi['tunai'])) ?></td>
               						<td>+</td>
-              						<td>0</td>
+              						<td align="right"><?= str_replace(",", ".", number_format($data_bu + $gaji_karyawan)); ?></td>
           							<td colspan="2"></td>
               					</tr>
               					<tr>
               						<td></td>
               						<td>=</td>
-              						<td>0</td>
+              						<td align="right"><?= str_replace(",", ".", number_format(($data_rekapitulasi['kasbon_pakai'] + $data_rekapitulasi['tunai'])-($data_bu + $gaji_karyawan))) ?></td>
               						<td colspan="4"></td>
               					</tr>
               				</table>
