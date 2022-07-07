@@ -304,7 +304,7 @@ if($_SESSION['USERNAME'] != null ){
 								</tr>
 							</table>
 						</td>
-						<td>
+						<td valign="top">
 							<h4>Pengeluaran</h4><br>
 							<table class="table" width="100%" cellpadding="10">
 								<tr class=" bg-gray-dark" bgcolor="gray">
@@ -340,53 +340,30 @@ if($_SESSION['USERNAME'] != null ){
 								</tr>
 								<tr class="">
 									<td>3</td>
-									<td>Biaya Umum / Operasional </td>
+									<td>Biaya Umum </td>
 									<td align="right">
 										<?php
 										$qgaji1 = mysqli_query($con,"select sum(a.nominal) as operasional from tbl_operasional a left join tbl_biayaumum b on a.bu_id=b.bu_id where a.operasional_tgl like  '$bulan%' and b.bu_kategori='0' order by a.operasional_tgl asc");
 										$hgaji1=mysqli_fetch_array($qgaji1);
-
 										$operasional = $hgaji1['operasional'];
 
-										echo str_replace(",", ".", number_format($operasional));
-										?>
-									</td>
-								</tr>
-								<tr class="">
-									<td>4</td>
-									<td>Biaya lain - lain </td>
-									<td align="right">
-										<?php
 										$qgaji11 = mysqli_query($con,"  select a.*,b.bu_nama from tbl_operasional a left join tbl_biayaumum b on a.bu_id=b.bu_id where a.operasional_tgl like  '$bulan%' and b.bu_kategori='1' order by a.operasional_tgl asc");
 										while($hgaji11=mysqli_fetch_array($qgaji11)){
 											$lain_lain_arr[] =$hgaji11['nominal'];
 										}
-
 										$lain_lain = array_sum($lain_lain_arr);
 
-										echo str_replace(",", ".", number_format($lain_lain));
-										?>
-									</td>
-								</tr>
-
-
-
-								<tr class="" bgcolor="#F5F5F5">
-									<td>5</td>
-									<td>Transport dan Uang Makan</td>
-									<td align="right">
-										<?php
 										$qgaji2 = mysqli_query($con,"SELECT sum(uang_makan+uang_transport) as akomodasi from tbl_akomodasi where akomodasi_tgl like '$bulan%'");
 										$hgaji2=mysqli_fetch_array($qgaji2);
 
 										$akomodasi = $hgaji2['akomodasi'];
 
-										echo str_replace(",", ".", number_format($akomodasi));
+										echo str_replace(",", ".", number_format($operasional + $lain_lain + $akomodasi));
 										?>
 									</td>
 								</tr>
 								<tr class="">
-									<td>6</td>
+									<td>4</td>
 									<td>BON</td>
 									<td align="right">
 										<?php
@@ -405,7 +382,7 @@ if($_SESSION['USERNAME'] != null ){
 									</td>
 								</tr>
 								<?php
-								$n=7;
+								$n=5;
 								unset($pengeluaran_nominal_arr);
 								$qpengeluaran = mysqli_query($con,"select pengeluaran,nominal from tbl_pengeluaran where bulan='$bulan'");
 								while($hpengeluaran= mysqli_fetch_array($qpengeluaran)){
@@ -2638,6 +2615,8 @@ if($_SESSION['USERNAME'] != null ){
               				$data_bu = array_sum($nominal_arr) + $biayaAkomodasi;
               				$q_rekapitulasi = mysqli_query($con, "SELECT sum(tunai) as tunai, sum(kasbon_pakai) as kasbon_pakai FROM tbl_rekapitulasi where bulan = '$bulan'");
           					$data_rekapitulasi  = mysqli_fetch_array($q_rekapitulasi,MYSQLI_ASSOC);
+          					$q_setor = mysqli_query($con, "SELECT sum(nominal) as nominal  FROM tbl_pengeluaran where bulan = '$bulan'");
+          					$data_setor  = mysqli_fetch_array($q_setor,MYSQLI_ASSOC);
               				 ?>
               				<table width="80%">
               					<!-- <tr class=" bg-gray-dark" bgcolor="gray"> -->
@@ -2692,7 +2671,7 @@ if($_SESSION['USERNAME'] != null ){
               					<tr>
               						<td>SETOR</td>
               						<td align="center">:</td>
-              						<td align="right">0</td>
+              						<td align="right"><?= str_replace(",", ".", number_format($data_setor['nominal'])) ?></td>
               						<td colspan="4"></td>
               					</tr>              					
               					<tr>
@@ -2736,12 +2715,12 @@ if($_SESSION['USERNAME'] != null ){
               						<td>+</td>
               						<td align="right"><?= str_replace(",", ".", number_format($data_bu)); ?></td>
               						<td>+</td>
-              						<td>0</td>
+              						<td align="right"><?= str_replace(",", ".", number_format($data_setor['nominal'])) ?></td>
               					</tr>
               					<tr>
               						<td></td>
               						<td>=</td>
-              						<td align="right"><?= str_replace(",", ".", number_format($data_bu + $gaji_karyawan)); ?></td>
+              						<td align="right"><?= str_replace(",", ".", number_format($data_bu + $gaji_karyawan + $data_setor['nominal'])); ?></td>
               						<td colspan="4"></td>
               					</tr>
               					<tr>
@@ -2757,13 +2736,13 @@ if($_SESSION['USERNAME'] != null ){
               						<td>=</td>
               						<td align="right"><?= str_replace(",", ".", number_format($data_rekapitulasi['tunai'] - $data_rekapitulasi['kasbon_pakai'])) ?></td>
               						<td>-</td>
-              						<td align="right"><?= str_replace(",", ".", number_format($data_bu + $gaji_karyawan)); ?></td>
+              						<td align="right"><?= str_replace(",", ".", number_format($data_bu + $gaji_karyawan + $data_setor['nominal'])); ?></td>
           							<td colspan="2"></td>
               					</tr>
               					<tr>
               						<td></td>
               						<td>=</td>
-              						<td align="right"><?= str_replace(",", ".", number_format(($data_rekapitulasi['tunai'] - $data_rekapitulasi['kasbon_pakai'])-($data_bu + $gaji_karyawan))) ?></td>
+              						<td align="right"><?= str_replace(",", ".", number_format(($data_rekapitulasi['tunai'] - $data_rekapitulasi['kasbon_pakai'])-($data_bu + $gaji_karyawan + $data_setor['nominal']))) ?></td>
               						<td colspan="4"></td>
               					</tr>
               				</table>

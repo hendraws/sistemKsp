@@ -250,6 +250,10 @@ if($_SESSION['USERNAME'] != null){
 					$master       = "menu-open";
 					$master_cabang  = "active";
 					$url        = "pages/data_master_cabang.php";
+				}else if($menu=="data-backup-database"){
+					$master       = "menu-open";
+					$master_backup_database  = "active";
+					$url        = "pages/data_backup_database.php";
 				}else if($menu=="data-master-user-kasir"){
 					$master       = "menu-open";
 					$master_user_kasir  = "active";
@@ -489,6 +493,14 @@ if($_SESSION['USERNAME'] != null){
           						<i class="far fa-circle nav-icon"></i>
           						<p>
           							Saldo Kemacetan Awal              
+          						</p>
+          					</a>
+          				</li>
+          				<li class="nav-item">
+          					<a href="/data-backup-database" class="nav-link <?php echo $master_backup_database;?>" id="menu_kas">
+          						<i class="far fa-circle nav-icon"></i>
+          						<p>
+          							Backup Database              
           						</p>
           					</a>
           				</li>

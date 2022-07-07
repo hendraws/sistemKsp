@@ -1924,7 +1924,7 @@
                     											Nominal BON
                     										</td>
                     										<td>
-                    											<input type="number" name="prive_nominal" value="<?php echo $prive_nominal;?>" class="form-control" style="width: 40%" required>
+                    											<input type="number" name="prive_nominal" id="prive_nominal" value="<?php echo $prive_nominal;?>" class="form-control" style="width: 40%" required>
                     											<div id="alert_batas_prive"></div>
                     										</td>
                     									</tr>
@@ -1951,17 +1951,23 @@
                     							</form>
                     							<script type="text/javascript">
                     								$("#pegawai_id_cek").change(function(){
-                                       // $('#modal_sedang').modal('show');
-                                       var pegawai_id_cek = $("#pegawai_id_cek").val();
-                                       $.ajax({
-                                       	type : 'post',
-                                       	url: "cek_batas_bon.php",
-                                       	data: "tampil=bon_prive&pegawai_id="+pegawai_id_cek,
-                                       	cache: false,
-                                       	success: function(msg){
-                                       		$("#alert_batas_prive").html(msg);
-                                       	}
-                                       });
+				                                       // $('#modal_sedang').modal('show');
+				                                       var pegawai_id_cek = $("#pegawai_id_cek").val();
+				                                       $.ajax({
+				                                       	type : 'post',
+				                                       	url: "cek_batas_bon.php",
+				                                       	data: "tampil=bon_prive&pegawai_id="+pegawai_id_cek,
+				                                       	cache: false,
+				                                       	success: function(msg){
+				                                       		$("#alert_batas_prive").html(msg);
+				                                       	}
+				                                       });
+				                                       $('#prive_nominal').keyup(function(e){
+					                           				if(parseInt($(this).val()) > parseInt($('#batas_bon').val())){
+					                           					alert('Nominal Tidak Boleh lebih dari kuota Bon');
+					                           					$(this).val(0);
+					                           				}
+					                           			})
                                    });
 
                                </script>
@@ -2045,7 +2051,7 @@
                            						Nominal BON
                            					</td>
                            					<td>
-                           						<input type="number" name="panjer_nominal" value="<?php echo $panjer_nominal;?>" class="form-control" style="width: 40%" required>
+                           						<input type="number" name="panjer_nominal" value="<?php echo $panjer_nominal;?>" id="panjer_nominal" class="form-control" style="width: 40%" required>
                            						<div id="alert_batas_panjer"></div>
                            					</td>
                            				</tr>
@@ -2085,6 +2091,13 @@
                                        	}
                                        });
                                    });
+
+                           			$('#panjer_nominal').keyup(function(e){
+                           				if(parseInt($(this).val()) > parseInt($('#batas_bon').val())){
+                           					alert('Nominal Tidak Boleh lebih dari kuota Bon');
+                           					$(this).val(0);
+                           				}
+                           			})
 
                                </script>
 

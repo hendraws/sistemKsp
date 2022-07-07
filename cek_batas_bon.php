@@ -47,11 +47,12 @@
 	}
 
         if($tampil=="bon_panjer"){
-           echo "Kuota BON panjer : ".str_replace(",", ".", number_format($bon_panjer));
-	  echo "<br>Sisa Pinjaman BON panjer Sebelumnya :  ".str_replace(",", ".", number_format($bon_panjer_ambil-$bon_panjer_kembali));
-          echo "<br><strong>Bon panjer Maksimal yang bisa diambil</strong> : ".str_replace(",", ".", number_format($bon_panjer_sisa));
-	  
+           echo "Kuota BON panjer :".str_replace(",", ".", number_format($bon_panjer));
+		   echo "<br>Sisa Pinjaman BON panjer Sebelumnya :  ".str_replace(",", ".", number_format($bon_panjer_ambil-$bon_panjer_kembali));
+           echo "<br><strong>Bon panjer Maksimal yang bisa diambil</strong> : ".str_replace(",", ".", number_format($bon_panjer_sisa));
+			echo "<input type='hidden' id='batas_bon' value='".$bon_panjer."' readonly disabled>";
         }else{
           echo "Bon prive Maksimal : ".str_replace(",", ".", number_format($bon_prive_sisa));
+			echo "<input type='hidden' id='batas_bon' value='".$bon_panjer."' readonly disabled>";
         }
         ?>
