@@ -6,7 +6,7 @@
 
 	if(isset($_POST['backupnow'])){
 		
-		$server = 'localhost"';
+		$server = 'localhost';
 		$username = 'hendraws';
 		$password = 'hendraws';
 		$dbname = 'freelance_sistem_ksp';
