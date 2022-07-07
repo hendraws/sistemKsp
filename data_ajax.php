@@ -105,7 +105,7 @@
        								<select name="pegawai_id" class="form-control" style="width: 100%" id="keterangan">
        									<option value=""></option>
        									<?php
-       									$qpeg = mysqli_query($con,"select pegawai_id,pegawai_nama from tbl_pegawai");
+       									$qpeg = mysqli_query($con,"select pegawai_id,pegawai_nama from tbl_pegawai where status = 'aktif'");
        									while($hpeg=mysqli_fetch_array($qpeg)){
        										$pegawai_idne = $hpeg['pegawai_id'];
        										if($pegawai_id==$pegawai_idne){
@@ -288,7 +288,7 @@
        								<select name="pegawai_id" class="form-control" style="width: 100%" id="keterangan">
        									<option value=""></option>
        									<?php
-       									$qpeg = mysqli_query($con,"select pegawai_id,pegawai_nama from tbl_pegawai a join tbl_jabatan b on a.jabatan_id=b.jabatan_id where b.jabatan_nama like '%PDL%'");
+       									$qpeg = mysqli_query($con,"select pegawai_id,pegawai_nama from tbl_pegawai a join tbl_jabatan b on a.jabatan_id=b.jabatan_id where b.jabatan_nama like '%PDL%' and status = 'aktif'");
        									while($hpeg=mysqli_fetch_array($qpeg)){
        										$pegawai_idne = $hpeg['pegawai_id'];
        										if($pegawai_id==$pegawai_idne){
@@ -1905,7 +1905,7 @@
                     											<select name="pegawai_id" class="form-control" style="width: 50%" required id="pegawai_id_cek">
                     												<option value="">--pilih pegawai--</option>
                     												<?php 
-                    												$qpegawai = mysqli_query($con,"select pegawai_id,pegawai_nama from tbl_pegawai ");
+                    												$qpegawai = mysqli_query($con,"select pegawai_id,pegawai_nama from tbl_pegawai where status = 'aktif'");
                     												while($data_pegawai    = mysqli_fetch_array($qpegawai,MYSQLI_ASSOC)){
                     													$pegawai_id_data     = $data_pegawai['pegawai_id'];
                     													if($pegawai_id_data==$pegawai_id){
@@ -2032,7 +2032,7 @@
                            						<select name="pegawai_id" class="form-control" style="width: 50%" required id="pegawai_id_cek">
                            							<option value="">--pilih pegawai--</option>
                            							<?php 
-                           							$qpegawai = mysqli_query($con,"select pegawai_id,pegawai_nama from tbl_pegawai ");
+                           							$qpegawai = mysqli_query($con,"select pegawai_id,pegawai_nama from tbl_pegawai where status = 'aktif' ");
                            							while($data_pegawai    = mysqli_fetch_array($qpegawai,MYSQLI_ASSOC)){
                            								$pegawai_id_data     = $data_pegawai['pegawai_id'];
                            								if($pegawai_id_data==$pegawai_id){
@@ -2145,11 +2145,34 @@
                            		<?php
                            	}
 
+                           	if($tampil=="pegawai_berhenti"){
+                           		$pegawai_id           = $_POST['pegawai_id'];
+                           		?>
+
+                           		<table width="100%">
+                           			<tr valign="top">
+                           				<td align="right">
+                           					<form method="post" action="/pegawai">
+                           						<input type="hidden" name="pegawai_id" value="<?php echo $pegawai_id;?>">
+                           						<input type="submit" name="berhenti" class="btn btn-sm btn-danger" value="Yakin" >
+                           					</form>
+                           				</td>
+                           				<td>
+                           					<button type="button" class="btn btn-sm btn-success" data-dismiss="modal">Tidak                   
+                           					</button>
+                           				</td>
+                           			</tr>
+
+                           		</table>
+
+                           		<?php
+                           	}
+
                            	/* ----------------------------------------------------------------------------------------------- */
                            	if($tampil=="pegawai_add"){
                            		$pegawai_id           = $_POST['pegawai_id'];
 
-                           		$q          = mysqli_query($con,"select * from tbl_pegawai a left join tbl_user b on a.pegawai_id=b.user_name where a.pegawai_id='$pegawai_id'");
+                           		$q          = mysqli_query($con,"select * from tbl_pegawai a left join tbl_user b on a.pegawai_id=b.user_name where a.pegawai_id='$pegawai_id' and status = 'aktif'");
                            		$cek        = mysqli_num_rows($q);
                            		if($cek>0){
                            			$data     = mysqli_fetch_array($q,MYSQLI_ASSOC);

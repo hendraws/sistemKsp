@@ -3,15 +3,15 @@ $bulan 		= date("Y-m");
 include   "css.php";
 include 	"../lib/koneksi.php";
 	//total pegawai
-$q		= mysqli_query($con,"select a.*,b.jabatan_nama from tbl_pegawai a left join tbl_jabatan b on a.jabatan_id=b.jabatan_id");
+$q		= mysqli_query($con,"select a.*,b.jabatan_nama from tbl_pegawai a left join tbl_jabatan b on a.jabatan_id=b.jabatan_id where status = 'aktif'");
 $total_pegawai 	= mysqli_num_rows($q);
 	//laki-laki 
 $q1		= mysqli_query($con,"select a.*,b.jabatan_nama from tbl_pegawai a left join tbl_jabatan b on a.jabatan_id=b.jabatan_id 
-	where a.pegawai_jk='L'");
+	where a.pegawai_jk='L' and status = 'aktif'");
 $pegawai_l 	= mysqli_num_rows($q1);
 	//peremuan
 $q2		= mysqli_query($con,"select a.*,b.jabatan_nama from tbl_pegawai a left join tbl_jabatan b on a.jabatan_id=b.jabatan_id 
-	where a.pegawai_jk='P'");
+	where a.pegawai_jk='P' and status = 'aktif'");
 $pegawai_p 	= mysqli_num_rows($q2);
 ?>
 
@@ -107,6 +107,7 @@ $pegawai_p 	= mysqli_num_rows($q2);
 										<td>
 											<button type="button" class="btn btn-xs btn-info" id="edit<?php echo $pegawai_id;?>"><i class="fa fa-edit"></i> </button>
 											<button type="button" class="btn btn-danger btn-xs" id="hapus<?php echo $pegawai_id;?>"><i class="fa fa-trash"></i> </button>                           
+											<button type="button" class="btn btn-danger btn-xs" id="berhenti<?php echo $pegawai_id;?>">Berhenti</button>                           
 										</td>     
 										<td><?php echo $h['pegawai_id'];?></td>
 										<td><?php echo $h['pegawai_nik'];?></td>
@@ -135,6 +136,18 @@ $pegawai_p 	= mysqli_num_rows($q2);
 												type : 'post',
 												url: "data_ajax.php",
 												data: "judul=Data Pegawai yakin dihapus?&tampil=pegawai_del&pegawai_id=<?php echo $pegawai_id;?>",
+												cache: false,
+												success: function(msg){
+													$("#tampil_modal_kecil").html(msg);
+												}
+											});
+										});
+										$("#berhenti<?php echo $pegawai_id;?>").click(function(){
+											$('#modal_kecil').modal('show');
+											$.ajax({
+												type : 'post',
+												url: "data_ajax.php",
+												data: "judul=Data Pegawai Di Keluarkan?&tampil=pegawai_berhenti&pegawai_id=<?php echo $pegawai_id;?>",
 												cache: false,
 												success: function(msg){
 													$("#tampil_modal_kecil").html(msg);

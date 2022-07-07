@@ -115,4 +115,31 @@
      	
      }
 
+     if(isset($_POST['berhenti'])){
+     	$pegawai_id           = $_POST['pegawai_id'];
+
+
+     	?>
+
+     	<?php
+     	
+     	$up=mysqli_query($con,"UPDATE tbl_pegawai SET status='keluar' where pegawai_id='$pegawai_id'");
+     	if($up){
+     		?>
+     		<script type="text/javascript">
+     			toastr.success('Karyawan berhasil Di berhentikan');
+     		</script>
+     		<?php
+     	}else{
+     		?>
+     		<script type="text/javascript">
+     			toastr.danger('Karyawan gagal Di berhentikan');
+     		</script>
+     		<?php
+     	}
+
+     	
+     	
+     }
+
      ?>
