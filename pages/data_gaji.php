@@ -57,10 +57,10 @@ $total 	= mysqli_num_rows($q);
 					<div class="col-md-12">
 						<button id="tambah" class="btn btn-sm btn-info" type="button">Tambah Data</button><br><br>
 
-						<table id="example1" class="table table-bordered table-hover table-striped" style="width:100%">
+						<table  class="table table-bordered table-hover table-striped" style="width:100%">
 							<thead>
 								<tr class="small bg-gray">
-									<th>No</th>
+									<!-- <th>No</th> -->
 									<th>Nama Jabatan</th>
 									<th>Jatah Bon Panjer</th>
 									<th>Jatah Bon Prive</th>
@@ -69,14 +69,14 @@ $total 	= mysqli_num_rows($q);
 									<th></th>                                                  
 								</tr>
 							</thead>
-							<tbody>
+							<tbody class="sortable">
 								<?php 
 								$no=1;
 								while($h		= mysqli_fetch_array($q,MYSQLI_ASSOC)){
 									$jabatan_id     = $h['jabatan_id'];
 									?>
-									<tr class="small">
-										<td><?php echo $no;?></td>
+									<tr class="small" id="<?= $jabatan_id ?> ">
+										<!-- <td><?php echo $no;?></td> -->
 										<td><?php echo $h['jabatan_nama'];?></td>
 										<td><?php echo str_replace(",", ".", number_format($h['bon_panjer']));?></td>
 										<td><?php echo str_replace(",", ".", number_format($h['bon_prive']));?></td>
@@ -113,6 +113,31 @@ $total 	= mysqli_num_rows($q);
                 				$("#tampil_modal_kecil").html(msg);
                 			}
                 		});
+                	});
+                	$('.sortable').sortable({
+                		stop:function()
+                		{
+                			var ids = '';
+                			$('.sortable tr').each(function(){
+                				var id = $(this).attr('id');
+                				if(ids=='')
+                				{
+                					ids = id;
+                				}else{
+                					ids = ids+','+id;
+                				}
+                			})
+                			$.ajax({
+                				url:'pages/gaji.php',
+                				data: 'ids='+ids,
+                				type: 'post',
+                				success: function()
+                				{
+                					alert('Order Successfully');
+                				}
+                			})
+            				// alert(ids);
+                		}
                 	});
                 </script>
                 <?php 

@@ -515,7 +515,7 @@ if($_SESSION['USERNAME'] != null ){
 
 						<?php 
 						$no=1;
-						$q    = mysqli_query($con,"select a.pegawai_id,a.pegawai_nik,a.pegawai_nama,b.jabatan_nama,a.jabatan_id,a.pegawai_jk from tbl_pegawai a join tbl_jabatan b on a.jabatan_id=b.jabatan_id where a.pegawai_id!='admin' and a.jabatan_id!='14' order by b.urutan asc");
+						$q    = mysqli_query($con,"select a.pegawai_id,a.pegawai_nik,a.pegawai_nama,b.jabatan_nama,a.jabatan_id,a.pegawai_jk from tbl_pegawai a join tbl_jabatan b on a.jabatan_id=b.jabatan_id where a.pegawai_id!='admin' and a.jabatan_id!='14' order by b.urutan ");
 						$total_pegawai  = mysqli_num_rows($q);
 
 						while($h    = mysqli_fetch_array($q,MYSQLI_ASSOC)){
@@ -2802,7 +2802,7 @@ if($_SESSION['USERNAME'] != null ){
               					<tbody>
               						<?php 
               						$no = 1;
-              						$qEvaluasi = mysqli_query($con, "SELECT * FROM tbl_pegawai LEFT JOIN tbl_jabatan ON tbl_jabatan.jabatan_id = tbl_pegawai.jabatan_id ORDER BY gaji_pokok DESC");
+              						$qEvaluasi = mysqli_query($con, "SELECT * FROM tbl_pegawai JOIN tbl_jabatan ON tbl_jabatan.jabatan_id = tbl_pegawai.jabatan_id ORDER BY urutan ");
               						while($rEvaluasi    = mysqli_fetch_array($qEvaluasi,MYSQLI_ASSOC)) : 
               						 ?>
               						<tr>

@@ -33,6 +33,7 @@ if($_SESSION['USERNAME'] != null){
 		<!-- DataTables -->
 		<link rel="stylesheet" href="plugins/datatables-bs4/css/dataTables.bootstrap4.min.css">
 		<link rel="stylesheet" href="plugins/datatables-responsive/css/responsive.bootstrap4.min.css">
+		<link rel="stylesheet" href="plugins/jquery-ui/jquery-ui.css">
 		<style type="text/css">
 			/* Absolute Center CSS Spinner */
 			.loading {
@@ -162,6 +163,9 @@ if($_SESSION['USERNAME'] != null){
 		<!-- REQUIRED SCRIPTS -->
 		<!-- jQuery -->
 		<script src="plugins/jquery/jquery.min.js"></script>
+		<script src="plugins/jquery-ui/jquery-ui.js"></script>
+
+		<!-- <script src="https://code.jquery.com/ui/1.13.1/jquery-ui.js"></script> -->
 		<!-- Bootstrap -->
 		<script src="plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
 		<!-- overlayScrollbars -->
