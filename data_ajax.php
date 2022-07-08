@@ -1505,9 +1505,9 @@
                     							<?php 
 
                     							if($LEVEL == 1){
-	                    							$qresort = mysqli_query($con,"select * from tbl_resort");
+                    								$qresort = mysqli_query($con,"select * from tbl_resort");
                     							}else{
-	                    							$qresort = mysqli_query($con,"select * from tbl_resort where unit_id = '$CABANG'");
+                    								$qresort = mysqli_query($con,"select * from tbl_resort where unit_id = '$CABANG'");
                     							}
                     							while($data_resort    = mysqli_fetch_array($qresort,MYSQLI_ASSOC)){
                     								$resort_id_data     = $data_resort['resort_id'];
@@ -1886,7 +1886,7 @@
                     							}
 
                     							?>
-                    							<form method="POST" action="/kasir" onsubmit="return confirm('Yakin data sudah benar?')">
+                    							<form method="POST" action="/kasir"  id="form-kasir-prive">
                     								<input type="hidden" name="prive_id" value="<?php echo $prive_id;?>">
                     								<table class="table">
                     									<tr>
@@ -1942,7 +1942,8 @@
 
                     										</td>
                     										<td>
-                    											<input type="submit" name="tambah_bon_prive" value="Simpan" id="simpan2" class="btn btn-primary btn-sm" >
+                    											<input type="hidden" name="tambah_bon_prive" value="Simpan">
+                    											<input type="submit"  value="Simpan"  id="simpan2" class="btn btn-primary btn-sm" >
                     										</td>
                     									</tr>
 
@@ -1963,125 +1964,142 @@
 				                                       	}
 				                                       });
 				                                       $('#prive_nominal').keyup(function(e){
-					                           				if(parseInt($(this).val()) > parseInt($('#batas_bon').val())){
-					                           					alert('Nominal Tidak Boleh lebih dari kuota Bon');
-					                           					$(this).val(0);
-					                           					$('#simpan2').attr('disabled',true);
-					                           				}else{
-					                           					$('#simpan2').attr('disabled',false);
-					                           				}
-					                           			})
-                                   });
+				                                       	if(parseInt($(this).val()) > parseInt($('#batas_bon').val())){
+				                                       		alert('Nominal Tidak Boleh lebih dari kuota Bon');
+				                                       		$(this).val(0);
+				                                       		$('#simpan2').attr('disabled',true);
+				                                       	}else{
+				                                       		$('#simpan2').attr('disabled',false);
+				                                       	}
+				                                       })
 
-                               </script>
+				                                       $(function(){
+				                                       	$('#simpan2').on('click',function(e){
+				                                       		e.preventDefault();
+				                                       		var nominal = parseInt($('#prive_nominal').val());
+				                                       		var batas =parseInt($('#batas_bon').val());
+				                                       		if(nominal > batas){
+				                                       			alert('Nominal Tidak Boleh lebih dari kuota Bon');
+				                                       			return false;
+				                                       		} else {
+				                                       			if(confirm('Yakin data sudah benar?')){
+				                                       				return $('#form-kasir-prive').submit();
+				                                       			}
+				                                       		} 
+				                                       	});
+				                                       });
+				                                   });
 
-                               <?php
-                           }
-                           /* --------------------------------hapus bon prive---------------------------------------------------------------- */
-                           if($tampil=="hapus_bon_prive"){
-                           	$prive_id           = $_POST['prive_id'];
-                           	?>
-                           	<table width="100%">
-                           		<tr valign="top">
-                           			<td align="right">
-                           				<form method="POST" action="/kasir" >
-                           					<input type="hidden" name="prive_id" value="<?php echo $prive_id;?>">
-                           					<input type="submit" name="hapus_bon_prive" class="btn btn-sm btn-danger" value="Yakin">
-                           				</form>
-                           			</td>
-                           			<td>
-                           				<button type="button" class="btn btn-sm btn-success" data-dismiss="modal">Batal </button>
-                           			</td>
-                           		</table>
-                           		<?php
-                           	}
+				                               </script>
 
-                           	/* bon panjer -------------------------------------------------------------------------------------- */
-                           	if($tampil=="tambah_bon_panjer"){
-                           		$panjer_id           = $_POST['panjer_id'];
+				                               <?php
+				                           }
+				                           /* --------------------------------hapus bon prive---------------------------------------------------------------- */
+				                           if($tampil=="hapus_bon_prive"){
+				                           	$prive_id           = $_POST['prive_id'];
+				                           	?>
+				                           	<table width="100%">
+				                           		<tr valign="top">
+				                           			<td align="right">
+				                           				<form method="POST" action="/kasir" >
+				                           					<input type="hidden" name="prive_id" value="<?php echo $prive_id;?>">
+				                           					<input type="submit" name="hapus_bon_prive" class="btn btn-sm btn-danger" value="Yakin">
+				                           				</form>
+				                           			</td>
+				                           			<td>
+				                           				<button type="button" class="btn btn-sm btn-success" data-dismiss="modal">Batal </button>
+				                           			</td>
+				                           		</table>
+				                           		<?php
+				                           	}
 
-                           		$qpanjer             = mysqli_query($con,"select * from tbl_bon_panjer where panjer_id='$panjer_id'");
-                           		$data                   = mysqli_fetch_array($qpanjer,MYSQLI_ASSOC);
+				                           	/* bon panjer -------------------------------------------------------------------------------------- */
+				                           	if($tampil=="tambah_bon_panjer"){
+				                           		$panjer_id           = $_POST['panjer_id'];
 
-                           		$panjer_id                   = $data['panjer_id'];
-                           		$panjer_ket               	  = $data['panjer_ket'];
-                           		$panjer_nominal            	  = $data['panjer_nominal'];
-                           		$panjer_tgl                	  = $data['panjer_tgl'];
-                           		$pegawai_id                	  = $data['pegawai_id'];
+				                           		$qpanjer             = mysqli_query($con,"select * from tbl_bon_panjer where panjer_id='$panjer_id'");
+				                           		$data                   = mysqli_fetch_array($qpanjer,MYSQLI_ASSOC);
 
-                           		if($prive_tgl==""){
-                           			$panjer_tgl = date("Y-m-d");
-                           		}else{
-                           			$panjer_tgl = $panjer_tgl;
-                           		}
+				                           		$panjer_id                   = $data['panjer_id'];
+				                           		$panjer_ket               	  = $data['panjer_ket'];
+				                           		$panjer_nominal            	  = $data['panjer_nominal'];
+				                           		$panjer_tgl                	  = $data['panjer_tgl'];
+				                           		$pegawai_id                	  = $data['pegawai_id'];
 
-                           		?>
-                           		<form method="POST" action="/kasir" onsubmit="return confirm('Yakin data sudah benar?')">
-                           			<input type="hidden" name="panjer_id" value="<?php echo $panjer_id;?>">
-                           			<table class="table">
-                           				<tr>
-                           					<td width="30%">
-                           						Tanggal Pelaporan
-                           					</td>
-                           					<td>
-                           						<input type="date" name="panjer_tgl" value="<?php echo $panjer_tgl;?>" class="form-control" style="width: 50%" required>
-                           					</td>
-                           				</tr>
-                           				<tr>
-                           					<td>
-                           						Pegawai
-                           					</td>
-                           					<td>
-                           						<select name="pegawai_id" class="form-control" style="width: 50%" required id="pegawai_id_cek">
-                           							<option value="">--pilih pegawai--</option>
-                           							<?php 
-                           							$qpegawai = mysqli_query($con,"select pegawai_id,pegawai_nama from tbl_pegawai where status = 'aktif' ");
-                           							while($data_pegawai    = mysqli_fetch_array($qpegawai,MYSQLI_ASSOC)){
-                           								$pegawai_id_data     = $data_pegawai['pegawai_id'];
-                           								if($pegawai_id_data==$pegawai_id){
-                           									$pilih   = "selected";
-                           								}else{
-                           									$pilih   = "";
-                           								}
-                           								?>
-                           								<option value="<?php echo $data_pegawai['pegawai_id']?>" <?php echo $pilih;?>><?php echo $data_pegawai['pegawai_nama']?></option>
-                           							<?php } ?>
-                           						</select>
-                           					</td>
-                           				</tr>
-                           				<tr>
-                           					<td>
-                           						Nominal BON
-                           					</td>
-                           					<td>
-                           						<input type="number" name="panjer_nominal" value="<?php echo $panjer_nominal;?>" id="panjer_nominal" class="form-control" style="width: 40%" required>
-                           						<div id="alert_batas_panjer"></div>
-                           					</td>
-                           				</tr>
-                           				<tr>
-                           					<td>
-                           						Keterangan
-                           					</td>
-                           					<td>
-                           						<textarea name="panjer_ket" class="form-control" style="width: 80%" required> <?php echo $panjer_ket;?></textarea>
-                           					</td>
-                           				</tr>
+				                           		if($prive_tgl==""){
+				                           			$panjer_tgl = date("Y-m-d");
+				                           		}else{
+				                           			$panjer_tgl = $panjer_tgl;
+				                           		}
 
-                           				<tr>
-                           					<td>
+				                           		?>
+				                           		<form method="POST" action="/kasir" id="form-kasir-penjer">
+				                           			<input type="hidden" name="panjer_id" value="<?php echo $panjer_id;?>">
+				                           			<table class="table">
+				                           				<tr>
+				                           					<td width="30%">
+				                           						Tanggal Pelaporan
+				                           					</td>
+				                           					<td>
+				                           						<input type="date" name="panjer_tgl" value="<?php echo $panjer_tgl;?>" class="form-control" style="width: 50%" required>
+				                           					</td>
+				                           				</tr>
+				                           				<tr>
+				                           					<td>
+				                           						Pegawai
+				                           					</td>
+				                           					<td>
+				                           						<select name="pegawai_id" class="form-control" style="width: 50%" required id="pegawai_id_cek">
+				                           							<option value="">--pilih pegawai--</option>
+				                           							<?php 
+				                           							$qpegawai = mysqli_query($con,"select pegawai_id,pegawai_nama from tbl_pegawai where status = 'aktif' ");
+				                           							while($data_pegawai    = mysqli_fetch_array($qpegawai,MYSQLI_ASSOC)){
+				                           								$pegawai_id_data     = $data_pegawai['pegawai_id'];
+				                           								if($pegawai_id_data==$pegawai_id){
+				                           									$pilih   = "selected";
+				                           								}else{
+				                           									$pilih   = "";
+				                           								}
+				                           								?>
+				                           								<option value="<?php echo $data_pegawai['pegawai_id']?>" <?php echo $pilih;?>><?php echo $data_pegawai['pegawai_nama']?></option>
+				                           							<?php } ?>
+				                           						</select>
+				                           					</td>
+				                           				</tr>
+				                           				<tr>
+				                           					<td>
+				                           						Nominal BON
+				                           					</td>
+				                           					<td>
+				                           						<input type="number" name="panjer_nominal" value="<?php echo $panjer_nominal;?>" id="panjer_nominal" class="form-control" style="width: 40%" required>
+				                           						<div id="alert_batas_panjer"></div>
+				                           					</td>
+				                           				</tr>
+				                           				<tr>
+				                           					<td>
+				                           						Keterangan
+				                           					</td>
+				                           					<td>
+				                           						<textarea name="panjer_ket" class="form-control" style="width: 80%" required> <?php echo $panjer_ket;?></textarea>
+				                           					</td>
+				                           				</tr>
 
-                           					</td>
-                           					<td>
-                           						<input type="submit" name="tambah_bon_panjer" value="Simpan" id="simpan" class="btn btn-primary btn-sm" >
-                           					</td>
-                           				</tr>
+				                           				<tr>
+				                           					<td>
 
-                           			</table>
+				                           					</td>
+				                           					<td>
+				                           						<input type="hidden" name="tambah_bon_panjer" value="Simpan">
+				                           						<input type="submit"  value="Simpan" id="simpan" class="btn btn-primary btn-sm" >
+				                           					</td>
+				                           				</tr>
 
-                           		</form>
+				                           			</table>
 
-                           		<script type="text/javascript">
-                           			$("#pegawai_id_cek").change(function(){
+				                           		</form>
+
+				                           		<script type="text/javascript">
+				                           			$("#pegawai_id_cek").change(function(){
                                        // $('#modal_sedang').modal('show');
                                        var pegawai_id_cek = $("#pegawai_id_cek").val();
                                        $.ajax({
@@ -2095,266 +2113,282 @@
                                        });
                                    });
 
-                           			$('#panjer_nominal').keyup(function(e){
-                           				if(parseInt($(this).val()) > parseInt($('#batas_bon').val())){
-                           					alert('Nominal Tidak Boleh lebih dari kuota Bon');
-                           					$(this).val(0);
-                           					$('#simpan').attr('disabled',true);
-                           				}else{
-                           					$('#simpan').attr('disabled',false);
-                           				}	
-                           			})
+				                           			$('#panjer_nominal').keyup(function(e){
+				                           				if(parseInt($(this).val()) > parseInt($('#batas_bon').val())){
+				                           					alert('Nominal Tidak Boleh lebih dari kuota Bon');
+				                           					$(this).val(0);
+				                           					$('#simpan').attr('disabled',true);
+				                           				}else{
+				                           					$('#simpan').attr('disabled',false);
+				                           				}	
+				                           			})
 
-                               </script>
+				                           			$(function(){
+				                           				$('#simpan').on('click',function(e){
+				                           					e.preventDefault();
+				                           					var nominal = parseInt($('#prive_nominal').val());
+				                           					var batas =parseInt($('#batas_bon').val());
+				                           					if(nominal > batas){
+				                           						alert('Nominal Tidak Boleh lebih dari kuota Bon');
+				                           						return false;
+				                           					} else {
+				                           						if(confirm('Yakin data sudah benar?')){
+				                           							return $('#form-kasir-penjer').submit();
+				                           						}
+				                           					} 
+				                           				});
+				                           			});
 
-                               <?php
-                           }
-                           /* --------------------------------hapus bon panjer---------------------------------------------------------------- */
-                           if($tampil=="hapus_bon_panjer"){
-                           	$panjer_id           = $_POST['panjer_id'];
-                           	?>
-                           	<table width="100%">
-                           		<tr valign="top">
-                           			<td align="right">
-                           				<form method="POST" action="/kasir" >
-                           					<input type="hidden" name="panjer_id" value="<?php echo $panjer_id;?>">
-                           					<input type="submit" name="hapus_bon_panjer" class="btn btn-sm btn-danger" value="Yakin">
-                           				</form>
-                           			</td>
-                           			<td>
-                           				<button type="button" class="btn btn-sm btn-success" data-dismiss="modal">Batal </button>
-                           			</td>
-                           		</table>
-                           		<?php
-                           	}
-                           	/* ------------------------------------------------------------------------------------------------ */
-                           	if($tampil=="pegawai_del"){
-                           		$pegawai_id           = $_POST['pegawai_id'];
-                           		?>
+				                           		</script>
 
-                           		<table width="100%">
-                           			<tr valign="top">
-                           				<td align="right">
-                           					<form method="post" action="/pegawai">
-                           						<input type="hidden" name="pegawai_id" value="<?php echo $pegawai_id;?>">
-                           						<input type="submit" name="delete" class="btn btn-sm btn-danger" value="Yakin" >
-                           					</form>
-                           				</td>
-                           				<td>
-                           					<button type="button" class="btn btn-sm btn-success" data-dismiss="modal">Tidak                   
-                           					</button>
-                           				</td>
-                           			</tr>
+				                           		<?php
+				                           	}
+				                           	/* --------------------------------hapus bon panjer---------------------------------------------------------------- */
+				                           	if($tampil=="hapus_bon_panjer"){
+				                           		$panjer_id           = $_POST['panjer_id'];
+				                           		?>
+				                           		<table width="100%">
+				                           			<tr valign="top">
+				                           				<td align="right">
+				                           					<form method="POST" action="/kasir" >
+				                           						<input type="hidden" name="panjer_id" value="<?php echo $panjer_id;?>">
+				                           						<input type="submit" name="hapus_bon_panjer" class="btn btn-sm btn-danger" value="Yakin">
+				                           					</form>
+				                           				</td>
+				                           				<td>
+				                           					<button type="button" class="btn btn-sm btn-success" data-dismiss="modal">Batal </button>
+				                           				</td>
+				                           			</table>
+				                           			<?php
+				                           		}
+				                           		/* ------------------------------------------------------------------------------------------------ */
+				                           		if($tampil=="pegawai_del"){
+				                           			$pegawai_id           = $_POST['pegawai_id'];
+				                           			?>
 
-                           		</table>
+				                           			<table width="100%">
+				                           				<tr valign="top">
+				                           					<td align="right">
+				                           						<form method="post" action="/pegawai">
+				                           							<input type="hidden" name="pegawai_id" value="<?php echo $pegawai_id;?>">
+				                           							<input type="submit" name="delete" class="btn btn-sm btn-danger" value="Yakin" >
+				                           						</form>
+				                           					</td>
+				                           					<td>
+				                           						<button type="button" class="btn btn-sm btn-success" data-dismiss="modal">Tidak                   
+				                           						</button>
+				                           					</td>
+				                           				</tr>
 
-                           		<?php
-                           	}
+				                           			</table>
 
-                           	if($tampil=="pegawai_berhenti"){
-                           		$pegawai_id           = $_POST['pegawai_id'];
-                           		?>
+				                           			<?php
+				                           		}
 
-                           		<table width="100%">
-                           			<tr valign="top">
-                           				<td align="right">
-                           					<form method="post" action="/pegawai">
-                           						<input type="hidden" name="pegawai_id" value="<?php echo $pegawai_id;?>">
-                           						<input type="submit" name="berhenti" class="btn btn-sm btn-danger" value="Yakin" >
-                           					</form>
-                           				</td>
-                           				<td>
-                           					<button type="button" class="btn btn-sm btn-success" data-dismiss="modal">Tidak                   
-                           					</button>
-                           				</td>
-                           			</tr>
+				                           		if($tampil=="pegawai_berhenti"){
+				                           			$pegawai_id           = $_POST['pegawai_id'];
+				                           			?>
 
-                           		</table>
+				                           			<table width="100%">
+				                           				<tr valign="top">
+				                           					<td align="right">
+				                           						<form method="post" action="/pegawai">
+				                           							<input type="hidden" name="pegawai_id" value="<?php echo $pegawai_id;?>">
+				                           							<input type="submit" name="berhenti" class="btn btn-sm btn-danger" value="Yakin" >
+				                           						</form>
+				                           					</td>
+				                           					<td>
+				                           						<button type="button" class="btn btn-sm btn-success" data-dismiss="modal">Tidak                   
+				                           						</button>
+				                           					</td>
+				                           				</tr>
 
-                           		<?php
-                           	}
+				                           			</table>
 
-                           	/* ----------------------------------------------------------------------------------------------- */
-                           	if($tampil=="pegawai_add"){
-                           		$pegawai_id           = $_POST['pegawai_id'];
+				                           			<?php
+				                           		}
 
-                           		$q          = mysqli_query($con,"select * from tbl_pegawai a left join tbl_user b on a.pegawai_id=b.user_name where a.pegawai_id='$pegawai_id' and status = 'aktif'");
-                           		$cek        = mysqli_num_rows($q);
-                           		if($cek>0){
-                           			$data     = mysqli_fetch_array($q,MYSQLI_ASSOC);
-                           			$pegawai_nama   = $data['pegawai_nama'];
-                           			$pegawai_jk     = $data['pegawai_jk'];
-                           			$pegawai_telp   = $data['pegawai_telp'];
-                           			$pegawai_nik    = $data['pegawai_nik'];
-                           			$jabatan_id     = $data['jabatan_id'];
-                           			$user_name      = $data['user_name'];
+				                           		/* ----------------------------------------------------------------------------------------------- */
+				                           		if($tampil=="pegawai_add"){
+				                           			$pegawai_id           = $_POST['pegawai_id'];
 
-                           		}
+				                           			$q          = mysqli_query($con,"select * from tbl_pegawai a left join tbl_user b on a.pegawai_id=b.user_name where a.pegawai_id='$pegawai_id' and status = 'aktif'");
+				                           			$cek        = mysqli_num_rows($q);
+				                           			if($cek>0){
+				                           				$data     = mysqli_fetch_array($q,MYSQLI_ASSOC);
+				                           				$pegawai_nama   = $data['pegawai_nama'];
+				                           				$pegawai_jk     = $data['pegawai_jk'];
+				                           				$pegawai_telp   = $data['pegawai_telp'];
+				                           				$pegawai_nik    = $data['pegawai_nik'];
+				                           				$jabatan_id     = $data['jabatan_id'];
+				                           				$user_name      = $data['user_name'];
 
-                           		?>
-                           		<form action="/pegawai" method="POST" >
-                           			<input type="hidden" name="pegawai_id" value="<?php echo $pegawai_id;?>">
-                           			<table width="100%" cellpadding="5" cellspacing="5">
-                           				<tr>
-                           					<td>
-                           						NIK
-                           					</td>                          
-                           					<td>
-                           						<input type="text" name="pegawai_nik" class="form-control" value="<?php echo $pegawai_nik;?>">
-                           					</td>
-                           				</tr>
-                           				<tr>
-                           					<td>
-                           						Nama
-                           					</td>                          
-                           					<td>
-                           						<input type="text" name="pegawai_nama" class="form-control" value="<?php echo $pegawai_nama;?>">
-                           					</td>
-                           				</tr>
-                           				<tr>
-                           					<td>
-                           						Jenis Kelamin
-                           					</td>                          
-                           					<td>
-                           						<select class="form-control" name="pegawai_jk">
-                           							<option value="L">L</option>
-                           							<option value="P">P</option>
-                           						</select>
-                           					</td>
-                           				</tr>
-                           				<tr>
-                           					<td>
-                           						Telp
-                           					</td>                          
-                           					<td>
-                           						<input type="number" name="pegawai_telp" class="form-control" value="<?php echo $pegawai_telp;?>">
-                           					</td>
-                           				</tr>
-                           				<tr>
-                           					<td>
-                           						Jabatan
-                           					</td>                          
-                           					<td>
-                           						<select class="form-control" name="jabatan_id">
-                           							<?php
-                           							$qjab           = mysqli_query($con,"select * from tbl_jabatan ");
-                           							while($datajab    = mysqli_fetch_array($qjab,MYSQLI_ASSOC)){
-                           								if($datajab['jabatan_id']==$jabatan_id){
-                           									$pilih = "selected";
-                           								}else{
-                           									$pilih = "";
-                           								}
-                           								?>
-                           								<option value="<?php echo $datajab['jabatan_id'];?>" <?php echo $pilih;?>><?php echo $datajab['jabatan_nama'];?></option>
+				                           			}
 
-                           								<?php
-                           							}
-                           							?>
-                           						</select>
-                           					</td>
-                           				</tr>
-                           				<tr>
-                           					<td>
-                           						Username
-                           					</td>                          
-                           					<td>
-                           						<input type="text" name="user_name" class="form-control" readonly="readonly" value="<?php echo $pegawai_id;?>">
-                           					</td>
-                           				</tr>
-                           				<tr>
-                           					<td>
-                           						Password
-                           					</td>                          
-                           					<td>
-                           						<input type="password" name="user_pass" class="form-control" >
-                           					</td>
-                           				</tr>
-                           				<tr>
-                           					<td>
-                           					</td>
-                           					<td>
-                           						<input type="submit" name="update" value="Simpan" class="btn btn-info btn-sm">
-                           					</td>
-                           				</tr>
-                           			</table>
-                           		</form>
-                           		<?php
-                           	}
-                           	?>
+				                           			?>
+				                           			<form action="/pegawai" method="POST" >
+				                           				<input type="hidden" name="pegawai_id" value="<?php echo $pegawai_id;?>">
+				                           				<table width="100%" cellpadding="5" cellspacing="5">
+				                           					<tr>
+				                           						<td>
+				                           							NIK
+				                           						</td>                          
+				                           						<td>
+				                           							<input type="text" name="pegawai_nik" class="form-control" value="<?php echo $pegawai_nik;?>">
+				                           						</td>
+				                           					</tr>
+				                           					<tr>
+				                           						<td>
+				                           							Nama
+				                           						</td>                          
+				                           						<td>
+				                           							<input type="text" name="pegawai_nama" class="form-control" value="<?php echo $pegawai_nama;?>">
+				                           						</td>
+				                           					</tr>
+				                           					<tr>
+				                           						<td>
+				                           							Jenis Kelamin
+				                           						</td>                          
+				                           						<td>
+				                           							<select class="form-control" name="pegawai_jk">
+				                           								<option value="L">L</option>
+				                           								<option value="P">P</option>
+				                           							</select>
+				                           						</td>
+				                           					</tr>
+				                           					<tr>
+				                           						<td>
+				                           							Telp
+				                           						</td>                          
+				                           						<td>
+				                           							<input type="number" name="pegawai_telp" class="form-control" value="<?php echo $pegawai_telp;?>">
+				                           						</td>
+				                           					</tr>
+				                           					<tr>
+				                           						<td>
+				                           							Jabatan
+				                           						</td>                          
+				                           						<td>
+				                           							<select class="form-control" name="jabatan_id">
+				                           								<?php
+				                           								$qjab           = mysqli_query($con,"select * from tbl_jabatan ");
+				                           								while($datajab    = mysqli_fetch_array($qjab,MYSQLI_ASSOC)){
+				                           									if($datajab['jabatan_id']==$jabatan_id){
+				                           										$pilih = "selected";
+				                           									}else{
+				                           										$pilih = "";
+				                           									}
+				                           									?>
+				                           									<option value="<?php echo $datajab['jabatan_id'];?>" <?php echo $pilih;?>><?php echo $datajab['jabatan_nama'];?></option>
 
-                           	<?php 
-                           	if($tampil == 'master_data_pilihan'){ 
-                           		$id           = $_POST['bu_id'];
-                           		$query          = mysqli_query($con,"select * from tbl_biayaumum where bu_id = '$id'");
-                           		$cek        = mysqli_num_rows($query);
-                           		if($cek>0){
-                           			$data     = mysqli_fetch_array($query,MYSQLI_ASSOC);
-                           			$bu_nama     = $data['bu_nama'];
-                           			$bu_kategori     = $data['bu_kategori'];
-                           		}
-                           		?>
-                           		<form method="POST" action="pages/master_pilihan.php" id="formMasterKategoriUpdate">
-                           			<label>Kategori</label>
-                           			<select class="form-control" style="width: 50%" name="bu_kategori" id="bu_kategori">
-                           				<option value="0" <?= $bu_kategori == 0 ? 'selected' : '' ?> >Biaya Umum Operasional</option>
-                           				<option value="1" <?= $bu_kategori == 1 ? 'selected' : '' ?> >Biaya Umum Lain-lain</option>
-                           			</select>
-                           			<label>Nama</label>
-                           			<input type="text" class="form-control" name="bu_nama" id="bu_nama" value="<?= $bu_nama ?>" style="width: 50%">
-                           			<br>
-                           			<input type="hidden" name="bu_id" value="<?= $id ?>">
-                           			<input type="submit" class="btn btn-sm btn-primary" name="update" value="Simpan">
-                           		</form>
-                           	<?php } ?>
+				                           									<?php
+				                           								}
+				                           								?>
+				                           							</select>
+				                           						</td>
+				                           					</tr>
+				                           					<tr>
+				                           						<td>
+				                           							Username
+				                           						</td>                          
+				                           						<td>
+				                           							<input type="text" name="user_name" class="form-control" readonly="readonly" value="<?php echo $pegawai_id;?>">
+				                           						</td>
+				                           					</tr>
+				                           					<tr>
+				                           						<td>
+				                           							Password
+				                           						</td>                          
+				                           						<td>
+				                           							<input type="password" name="user_pass" class="form-control" >
+				                           						</td>
+				                           					</tr>
+				                           					<tr>
+				                           						<td>
+				                           						</td>
+				                           						<td>
+				                           							<input type="submit" name="update" value="Simpan" class="btn btn-info btn-sm">
+				                           						</td>
+				                           					</tr>
+				                           				</table>
+				                           			</form>
+				                           			<?php
+				                           		}
+				                           		?>
 
-                           	<?php 
-                           	if($tampil == 'master_data_pilihan_del'){ 
-                           		$id           = $_POST['bu_id'];
-                           		$query          = mysqli_query($con,"select * from tbl_biayaumum where bu_id = '$id'");
-                           		$cek        = mysqli_num_rows($query);
-                           		if($cek>0){
-                           			$data     = mysqli_fetch_array($query,MYSQLI_ASSOC);
-                           			$bu_nama     = $data['bu_nama'];
-                           			$bu_kategori     = $data['bu_kategori'];
-                           		}
-                           		?>
-                           		<table width="100%">
-                           			<tr valign="top">
-                           				<td align="right">
-                           					<form method="POST" action="/pages/master_pilihan.php" >
-                           						<input type="hidden" name="bu_id" value="<?php echo $id;?>">
-                           						<input type="submit" name="delete" class="btn btn-sm btn-danger" value="Yakin">
-                           					</form>
-                           				</td>
-                           				<td>
-                           					<button type="button" class="btn btn-sm btn-success" data-dismiss="modal">Batal </button>
-                           				</td>
-                           			</table>
-                           		<?php } ?>
+				                           		<?php 
+				                           		if($tampil == 'master_data_pilihan'){ 
+				                           			$id           = $_POST['bu_id'];
+				                           			$query          = mysqli_query($con,"select * from tbl_biayaumum where bu_id = '$id'");
+				                           			$cek        = mysqli_num_rows($query);
+				                           			if($cek>0){
+				                           				$data     = mysqli_fetch_array($query,MYSQLI_ASSOC);
+				                           				$bu_nama     = $data['bu_nama'];
+				                           				$bu_kategori     = $data['bu_kategori'];
+				                           			}
+				                           			?>
+				                           			<form method="POST" action="pages/master_pilihan.php" id="formMasterKategoriUpdate">
+				                           				<label>Kategori</label>
+				                           				<select class="form-control" style="width: 50%" name="bu_kategori" id="bu_kategori">
+				                           					<option value="0" <?= $bu_kategori == 0 ? 'selected' : '' ?> >Biaya Umum Operasional</option>
+				                           					<option value="1" <?= $bu_kategori == 1 ? 'selected' : '' ?> >Biaya Umum Lain-lain</option>
+				                           				</select>
+				                           				<label>Nama</label>
+				                           				<input type="text" class="form-control" name="bu_nama" id="bu_nama" value="<?= $bu_nama ?>" style="width: 50%">
+				                           				<br>
+				                           				<input type="hidden" name="bu_id" value="<?= $id ?>">
+				                           				<input type="submit" class="btn btn-sm btn-primary" name="update" value="Simpan">
+				                           			</form>
+				                           		<?php } ?>
 
-                           		<!-- MASTER CABANG EDIT & DELETE -->
-                           		<?php 
-                           		if($tampil == 'master_data_cabang'){ 
-                           			$id           = $_POST['unit_id'];
-                           			$query          = mysqli_query($con,"select * from tbl_unit where unit_id = '$id'");
-                           			$cek        = mysqli_num_rows($query);
-                           			if($cek>0){
-                           				$data     = mysqli_fetch_array($query,MYSQLI_ASSOC);
-                           				$unitNama     = $data['unit_nama'];
-                           			}
-                           			?>
-                           			<form method="POST" action="pages/master_cabang.php">
-                           				<label>Cabang</label>
-                           				<input type="text" class="form-control" name="unit_nama" id="unit_nama" value="<?= $unitNama ?>" style="width: 50%">
-                           				<br>
-                           				<input type="hidden" name="unit_id" value="<?= $id ?>">
-                           				<input type="submit" class="btn btn-sm btn-primary" name="update" value="Simpan">
-                           			</form>
-                           		<?php } ?>
+				                           		<?php 
+				                           		if($tampil == 'master_data_pilihan_del'){ 
+				                           			$id           = $_POST['bu_id'];
+				                           			$query          = mysqli_query($con,"select * from tbl_biayaumum where bu_id = '$id'");
+				                           			$cek        = mysqli_num_rows($query);
+				                           			if($cek>0){
+				                           				$data     = mysqli_fetch_array($query,MYSQLI_ASSOC);
+				                           				$bu_nama     = $data['bu_nama'];
+				                           				$bu_kategori     = $data['bu_kategori'];
+				                           			}
+				                           			?>
+				                           			<table width="100%">
+				                           				<tr valign="top">
+				                           					<td align="right">
+				                           						<form method="POST" action="/pages/master_pilihan.php" >
+				                           							<input type="hidden" name="bu_id" value="<?php echo $id;?>">
+				                           							<input type="submit" name="delete" class="btn btn-sm btn-danger" value="Yakin">
+				                           						</form>
+				                           					</td>
+				                           					<td>
+				                           						<button type="button" class="btn btn-sm btn-success" data-dismiss="modal">Batal </button>
+				                           					</td>
+				                           				</table>
+				                           			<?php } ?>
 
-                           		<?php 
-                           		if($tampil == 'master_data_cabang_del'){ 
-                           			$id           = $_POST['unit_id'];
+				                           			<!-- MASTER CABANG EDIT & DELETE -->
+				                           			<?php 
+				                           			if($tampil == 'master_data_cabang'){ 
+				                           				$id           = $_POST['unit_id'];
+				                           				$query          = mysqli_query($con,"select * from tbl_unit where unit_id = '$id'");
+				                           				$cek        = mysqli_num_rows($query);
+				                           				if($cek>0){
+				                           					$data     = mysqli_fetch_array($query,MYSQLI_ASSOC);
+				                           					$unitNama     = $data['unit_nama'];
+				                           				}
+				                           				?>
+				                           				<form method="POST" action="pages/master_cabang.php">
+				                           					<label>Cabang</label>
+				                           					<input type="text" class="form-control" name="unit_nama" id="unit_nama" value="<?= $unitNama ?>" style="width: 50%">
+				                           					<br>
+				                           					<input type="hidden" name="unit_id" value="<?= $id ?>">
+				                           					<input type="submit" class="btn btn-sm btn-primary" name="update" value="Simpan">
+				                           				</form>
+				                           			<?php } ?>
+
+				                           			<?php 
+				                           			if($tampil == 'master_data_cabang_del'){ 
+				                           				$id           = $_POST['unit_id'];
                            			// $query          = mysqli_query($con,"select * from tbl_unit where unit_id = '$id'");
                            			// $cek        = mysqli_num_rows($query);
                            			// if($cek>0){
@@ -2362,62 +2396,62 @@
                            			// 	$bu_nama     = $data['bu_nama'];
                            			// 	$bu_kategori     = $data['bu_kategori'];
                            			// }
-                           			?>
-                           			<table width="100%">
-                           				<tr valign="top">
-                           					<td align="right">
-                           						<form method="POST" action="/pages/master_cabang.php" >
-                           							<input type="hidden" name="unit_id" value="<?php echo $id;?>">
-                           							<input type="submit" name="delete" class="btn btn-sm btn-danger" value="Yakin">
-                           						</form>
-                           					</td>
-                           					<td>
-                           						<button type="button" class="btn btn-sm btn-success" data-dismiss="modal">Batal </button>
-                           					</td>
-                           				</table>
-                           			<?php } ?>
+				                           				?>
+				                           				<table width="100%">
+				                           					<tr valign="top">
+				                           						<td align="right">
+				                           							<form method="POST" action="/pages/master_cabang.php" >
+				                           								<input type="hidden" name="unit_id" value="<?php echo $id;?>">
+				                           								<input type="submit" name="delete" class="btn btn-sm btn-danger" value="Yakin">
+				                           							</form>
+				                           						</td>
+				                           						<td>
+				                           							<button type="button" class="btn btn-sm btn-success" data-dismiss="modal">Batal </button>
+				                           						</td>
+				                           					</table>
+				                           				<?php } ?>
 
-                           			<!-- TUTUPMASTERCABANG -->
+				                           				<!-- TUTUPMASTERCABANG -->
 
-                           			<!-- MASTER USER EDIT & DELETE -->
-                           			<?php 
-                           			if($tampil == 'master_data_user_kasir'){ 
-                           				$id           = $_POST['user_id'];
-                           				$query          = mysqli_query($con,"SELECT * FROM tbl_user WHERE user_id = '$id'");
-                           				$queryCabang = mysqli_query($con,"SELECT * FROM tbl_unit") or die(mysqli_error($con));
-                           				$cek        = mysqli_num_rows($query);
-                           				if($cek>0){
-                           					$data     = mysqli_fetch_array($query,MYSQLI_ASSOC);
-                           				}
-                           				?>
-                           				<form method="POST" action="/pages/master_user_kasir.php">
-                           					<label>Nama</label>
-                           					<input type="text" class="form-control" name="user_nama" required value="<?= $data['user_nama'] ?>" style="width: 50%">
-                           					<label>Username</label>
-                           					<input type="text" class="form-control formfield" name="user_name" required value="<?= $data['user_name'] ?>" style="width: 50%">
-                           					<label>Cabang</label>
-                           					<select class="form-control" style="width: 50%" name="cabang" required>
-                           						<?php while($dataCabang = mysqli_fetch_array($queryCabang)) : ?>
-                           							<option value="<?= $dataCabang['unit_id'] ?>" <?= $data['cabang'] == $dataCabang['unit_id'] ? 'selected' : '' ?>><?= $dataCabang['unit_nama'] ?></option>
-                           						<?php endwhile ?>
-                           					</select>
-                           					<input type="hidden" name="user_id" value="<?php echo $id;?>">
-                           					<br>
-                           					<input type="submit" class="btn btn-sm btn-primary" name="update" value="Simpan">
-                           				</form>
-                           				<script type="text/javascript">
-                           					$(function(){
-                           						$('.formfield').on('keypress', function(e){
-                           							if(e.which == 32)
-                           								return false;
-                           						})
-                           					})
-                           				</script>
-                           			<?php } ?>
+				                           				<!-- MASTER USER EDIT & DELETE -->
+				                           				<?php 
+				                           				if($tampil == 'master_data_user_kasir'){ 
+				                           					$id           = $_POST['user_id'];
+				                           					$query          = mysqli_query($con,"SELECT * FROM tbl_user WHERE user_id = '$id'");
+				                           					$queryCabang = mysqli_query($con,"SELECT * FROM tbl_unit") or die(mysqli_error($con));
+				                           					$cek        = mysqli_num_rows($query);
+				                           					if($cek>0){
+				                           						$data     = mysqli_fetch_array($query,MYSQLI_ASSOC);
+				                           					}
+				                           					?>
+				                           					<form method="POST" action="/pages/master_user_kasir.php">
+				                           						<label>Nama</label>
+				                           						<input type="text" class="form-control" name="user_nama" required value="<?= $data['user_nama'] ?>" style="width: 50%">
+				                           						<label>Username</label>
+				                           						<input type="text" class="form-control formfield" name="user_name" required value="<?= $data['user_name'] ?>" style="width: 50%">
+				                           						<label>Cabang</label>
+				                           						<select class="form-control" style="width: 50%" name="cabang" required>
+				                           							<?php while($dataCabang = mysqli_fetch_array($queryCabang)) : ?>
+				                           								<option value="<?= $dataCabang['unit_id'] ?>" <?= $data['cabang'] == $dataCabang['unit_id'] ? 'selected' : '' ?>><?= $dataCabang['unit_nama'] ?></option>
+				                           							<?php endwhile ?>
+				                           						</select>
+				                           						<input type="hidden" name="user_id" value="<?php echo $id;?>">
+				                           						<br>
+				                           						<input type="submit" class="btn btn-sm btn-primary" name="update" value="Simpan">
+				                           					</form>
+				                           					<script type="text/javascript">
+				                           						$(function(){
+				                           							$('.formfield').on('keypress', function(e){
+				                           								if(e.which == 32)
+				                           									return false;
+				                           							})
+				                           						})
+				                           					</script>
+				                           				<?php } ?>
 
-                           			<?php 
-                           			if($tampil == 'master_data_user_kasir_del'){ 
-                           				$id           = $_POST['user_id'];
+				                           				<?php 
+				                           				if($tampil == 'master_data_user_kasir_del'){ 
+				                           					$id           = $_POST['user_id'];
                            			// $query          = mysqli_query($con,"select * from tbl_unit where unit_id = '$id'");
                            			// $cek        = mysqli_num_rows($query);
                            			// if($cek>0){
@@ -2425,26 +2459,26 @@
                            			// 	$bu_nama     = $data['bu_nama'];
                            			// 	$bu_kategori     = $data['bu_kategori'];
                            			// }
-                           				?>
-                           				<table width="100%">
-                           					<tr valign="top">
-                           						<td align="right">
-                           							<form method="POST" action="/pages/master_user_kasir.php" >
-                           								<input type="hidden" name="user_id" value="<?php echo $id;?>">
-                           								<input type="submit" name="delete" class="btn btn-sm btn-danger" value="Yakin">
-                           							</form>
-                           						</td>
-                           						<td>
-                           							<button type="button" class="btn btn-sm btn-success" data-dismiss="modal">Batal </button>
-                           						</td>
-                           					</table>
-                           				<?php } ?>
+				                           					?>
+				                           					<table width="100%">
+				                           						<tr valign="top">
+				                           							<td align="right">
+				                           								<form method="POST" action="/pages/master_user_kasir.php" >
+				                           									<input type="hidden" name="user_id" value="<?php echo $id;?>">
+				                           									<input type="submit" name="delete" class="btn btn-sm btn-danger" value="Yakin">
+				                           								</form>
+				                           							</td>
+				                           							<td>
+				                           								<button type="button" class="btn btn-sm btn-success" data-dismiss="modal">Batal </button>
+				                           							</td>
+				                           						</table>
+				                           					<?php } ?>
 
-                           				<?php 
-                           			if($tampil == 'permission_kasir'){
+				                           					<?php 
+				                           					if($tampil == 'permission_kasir'){
 
-                           				$id           = $_POST['user_id'];
-                           				$status           = $_POST['status'];
+				                           						$id           = $_POST['user_id'];
+				                           						$status           = $_POST['status'];
                            			// $query          = mysqli_query($con,"select * from tbl_unit where unit_id = '$id'");
                            			// $cek        = mysqli_num_rows($query);
                            			// if($cek>0){
@@ -2452,24 +2486,24 @@
                            			// 	$bu_nama     = $data['bu_nama'];
                            			// 	$bu_kategori     = $data['bu_kategori'];
                            			// }
-                           				?>
-                           				<table width="100%">
-                           					<tr valign="top">
-                           						<td align="right">
-                           							<form method="POST" action="/pages/master_user_kasir.php" >
-                           								<input type="hidden" name="user_id" value="<?php echo $id;?>">
-                           								<input type="hidden" name="status" value="<?php echo $status;?>">
-                           								<input type="submit" name="permission" class="btn btn-sm btn-danger" value="Yakin">
-                           							</form>
-                           						</td>
-                           						<td>
-                           							<button type="button" class="btn btn-sm btn-success" data-dismiss="modal">Batal </button>
-                           						</td>
-                           					</table>
-                           				<?php } ?>
+				                           						?>
+				                           						<table width="100%">
+				                           							<tr valign="top">
+				                           								<td align="right">
+				                           									<form method="POST" action="/pages/master_user_kasir.php" >
+				                           										<input type="hidden" name="user_id" value="<?php echo $id;?>">
+				                           										<input type="hidden" name="status" value="<?php echo $status;?>">
+				                           										<input type="submit" name="permission" class="btn btn-sm btn-danger" value="Yakin">
+				                           									</form>
+				                           								</td>
+				                           								<td>
+				                           									<button type="button" class="btn btn-sm btn-success" data-dismiss="modal">Batal </button>
+				                           								</td>
+				                           							</table>
+				                           						<?php } ?>
 
-                           				<!-- TUTUPMASTERUSER -->
-                           			</div>
-                           		</div>
+				                           						<!-- TUTUPMASTERUSER -->
+				                           					</div>
+				                           				</div>
 
-                           	</div>
+				                           			</div>
