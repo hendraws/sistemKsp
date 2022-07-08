@@ -1942,7 +1942,7 @@
 
                     										</td>
                     										<td>
-                    											<input type="submit" name="tambah_bon_prive" value="Simpan" class="btn btn-primary btn-sm" >
+                    											<input type="submit" name="tambah_bon_prive" value="Simpan" id="simpan" class="btn btn-primary btn-sm" >
                     										</td>
                     									</tr>
 
@@ -1966,6 +1966,9 @@
 					                           				if(parseInt($(this).val()) > parseInt($('#batas_bon').val())){
 					                           					alert('Nominal Tidak Boleh lebih dari kuota Bon');
 					                           					$(this).val(0);
+					                           					$('#simpan').attr('disabled',true);
+					                           				}else{
+					                           					$('#simpan').attr('disabled',false);
 					                           				}
 					                           			})
                                    });
@@ -2069,7 +2072,7 @@
 
                            					</td>
                            					<td>
-                           						<input type="submit" name="tambah_bon_panjer" value="Simpan" class="btn btn-primary btn-sm" >
+                           						<input type="submit" name="tambah_bon_panjer" value="Simpan" id="simpan" class="btn btn-primary btn-sm" >
                            					</td>
                            				</tr>
 
@@ -2096,7 +2099,10 @@
                            				if(parseInt($(this).val()) > parseInt($('#batas_bon').val())){
                            					alert('Nominal Tidak Boleh lebih dari kuota Bon');
                            					$(this).val(0);
-                           				}
+                           					$('#simpan').attr('disabled',true);
+                           				}else{
+                           					$('#simpan').attr('disabled',false);
+                           				}	
                            			})
 
                                </script>

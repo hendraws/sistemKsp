@@ -526,8 +526,7 @@ if($_SESSION['USERNAME'] != null ){
 								$JUMLAH_PIMPINAN_ARR[]=1;
 								$TTD_PIMPINAN = $h['pegawai_nama'];
 							}
-							if($jabatan_id=="7"){
-
+							if($pegawai_id=="20220322061550"){
 								$TTD_KASIR = $h['pegawai_nama'];
 							}
 
