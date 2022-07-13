@@ -6,6 +6,7 @@
       $NAMA       = $_SESSION['NAMA'];
       $LEVEL           = $_SESSION['LEVEL'];
       $bulan           = $_SESSION['BULAN'];
+      $cabang           = $_SESSION['CABANG'];
 include  "../lib/koneksi.php";
 ?>
 <br>
@@ -30,7 +31,7 @@ include  "../lib/koneksi.php";
 
               
 <?php
-$q=mysqli_query($con,"select id_drop,drop_tunda from tbl_drop_tunda where bulan like '$bulan%'");
+$q=mysqli_query($con,"select id_drop,drop_tunda from tbl_drop_tunda where bulan like '$bulan%' and cabang = '$cabang'") or die(mysqli_error($con));
 $cek=mysqli_num_rows($q);
 $data=mysqli_fetch_array($q,MYSQLI_ASSOC);
 $id_drop   = $data['id_drop'];

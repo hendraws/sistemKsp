@@ -2,16 +2,19 @@
 $bulan 		= date("Y-m");
 include   "css.php";
 include 	"../lib/koneksi.php";
+session_start();
+$cabang = $_SESSION['CABANG'];
+
 	//total pegawai
-$q		= mysqli_query($con,"select a.*,b.jabatan_nama from tbl_pegawai a left join tbl_jabatan b on a.jabatan_id=b.jabatan_id where status = 'aktif'");
+$q		= mysqli_query($con,"select a.*,b.jabatan_nama from tbl_pegawai a left join tbl_jabatan b on a.jabatan_id=b.jabatan_id where status = 'aktif' and cabang = '$cabang'");
 $total_pegawai 	= mysqli_num_rows($q);
 	//laki-laki 
 $q1		= mysqli_query($con,"select a.*,b.jabatan_nama from tbl_pegawai a left join tbl_jabatan b on a.jabatan_id=b.jabatan_id 
-	where a.pegawai_jk='L' and status = 'aktif'");
+	where a.pegawai_jk='L' and status = 'aktif' and cabang = '$cabang'");
 $pegawai_l 	= mysqli_num_rows($q1);
 	//peremuan
 $q2		= mysqli_query($con,"select a.*,b.jabatan_nama from tbl_pegawai a left join tbl_jabatan b on a.jabatan_id=b.jabatan_id 
-	where a.pegawai_jk='P' and status = 'aktif'");
+	where a.pegawai_jk='P' and status = 'aktif' and cabang = '$cabang'");
 $pegawai_p 	= mysqli_num_rows($q2);
 ?>
 

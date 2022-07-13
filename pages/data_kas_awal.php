@@ -6,6 +6,7 @@ $USER_ID       = $_SESSION['USER_ID'];
 $NAMA       = $_SESSION['NAMA'];
 $LEVEL           = $_SESSION['LEVEL'];
 $bulan           = $_SESSION['BULAN'];
+$cabang           = $_SESSION['CABANG'];
 include  "../lib/koneksi.php";
 ?>
 <br>
@@ -30,7 +31,7 @@ include  "../lib/koneksi.php";
 
 
 				<?php
-				$q=mysqli_query($con,"select kas_id,kas_nominal from tbl_kas_awal where kas_bulan like '$bulan%'");
+				$q=mysqli_query($con,"select kas_id,kas_nominal from tbl_kas_awal where kas_bulan like '$bulan%' and cabang = '$cabang'");
 				$cek=mysqli_num_rows($q);
 				$data=mysqli_fetch_array($q,MYSQLI_ASSOC);
 				$kas_id   = $data['kas_id'];

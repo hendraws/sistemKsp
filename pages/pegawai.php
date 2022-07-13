@@ -9,6 +9,7 @@
      	$pegawai_telp         = $_POST['pegawai_telp'];
      	$jabatan_id           = $_POST['jabatan_id'];
      	$user_pass           = $_POST['user_pass'];
+     	$cabang           = $_SESSION['CABANG'];
 
      	if($jabatan_id=="1"){
      		$user_level = "0";
@@ -55,8 +56,8 @@
      	}else{
      		$pegawai_id = date("Ymdhis");
      		$up=mysqli_query($con,"insert into tbl_pegawai (pegawai_id,pegawai_nama,pegawai_jk,
-     			pegawai_nik,pegawai_telp,jabatan_id) values('$pegawai_id','$pegawai_nama','$pegawai_jk',
-     			'$pegawai_nik','$pegawai_telp','$jabatan_id')");
+     			pegawai_nik,pegawai_telp,jabatan_id,cabang) values('$pegawai_id','$pegawai_nama','$pegawai_jk',
+     			'$pegawai_nik','$pegawai_telp','$jabatan_id','$cabang')") or die(mysqli_error($con));
      		if($up){
      			?>
      			<script type="text/javascript">
@@ -81,7 +82,7 @@
      		}
      	}else{
      		$passe = md5($user_pass);
-     		mysqli_query($con,"insert into tbl_user(user_name,user_pass,user_nama,user_level) values('$pegawai_id','$passe','$pegawai_nama','$user_level')");
+     		mysqli_query($con,"insert into tbl_user(user_name,user_pass,user_nama,user_level,cabang) values('$pegawai_id','$passe','$pegawai_nama','$user_level','$cabang')");
      	}
 
      	

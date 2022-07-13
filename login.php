@@ -190,7 +190,6 @@ $gambar = $own['gambar'];
                         $data=mysqli_fetch_array($qcek,MYSQLI_ASSOC);
                        
                         if($cek>0){
-                            
                             $_SESSION['USER_ID']           = $data['user_id'];
                             $_SESSION['USERNAME']           = $username;
                             $_SESSION['NAMA']               = $data['user_nama'];

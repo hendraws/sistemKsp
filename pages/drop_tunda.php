@@ -1,12 +1,13 @@
            
 <?php
-
+session_start();
 if(isset($_POST["tambah"])){
 	include  "lib/koneksi.php";
 	$drop_tunda 		= $_POST['drop_tunda'];
 	$bulan          = $bulan;
+	$cabang = $_SESSION['CABANG'];
 //	echo "insert into tbl_kas_awal(kas_nominal,kas_bulan) values('$kas_nominal','$kas_bulan')";
-	$up =mysqli_query($con,"insert into tbl_drop_tunda(drop_tunda,bulan) values('$drop_tunda','$bulan')");
+	$up =mysqli_query($con,"insert into tbl_drop_tunda(drop_tunda,bulan,cabang) values('$drop_tunda','$bulan','$cabang')");
 	if($up){
         ?>
         <script type="text/javascript">

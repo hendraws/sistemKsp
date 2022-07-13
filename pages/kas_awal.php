@@ -1,10 +1,12 @@
 <?php
 if(isset($_POST["tambah"])){
 	include  "lib/koneksi.php";
+	session_start();
+	$cabang = $_SESSION['CABANG'];
 	$kas_nominal 		= $_POST['kas_nominal'];
 	$kas_bulan          = $bulan."-01";
 //	echo "insert into tbl_kas_awal(kas_nominal,kas_bulan) values('$kas_nominal','$kas_bulan')";
-	$up =mysqli_query($con,"insert into tbl_kas_awal(kas_nominal,kas_bulan) values('$kas_nominal','$kas_bulan')");
+	$up =mysqli_query($con,"insert into tbl_kas_awal(kas_nominal,kas_bulan,cabang) values('$kas_nominal','$kas_bulan','$cabang')");
 	if($up){
         ?>
         <script type="text/javascript">

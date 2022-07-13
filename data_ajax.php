@@ -105,7 +105,7 @@
        								<select name="pegawai_id" class="form-control" style="width: 100%" id="keterangan">
        									<option value=""></option>
        									<?php
-       									$qpeg = mysqli_query($con,"select pegawai_id,pegawai_nama from tbl_pegawai where status = 'aktif'");
+       									$qpeg = mysqli_query($con,"select pegawai_id,pegawai_nama,cabang from tbl_pegawai where status = 'aktif' and cabang = '$CABANG'") or die(mysqli_error($con));
        									while($hpeg=mysqli_fetch_array($qpeg)){
        										$pegawai_idne = $hpeg['pegawai_id'];
        										if($pegawai_id==$pegawai_idne){
@@ -670,6 +670,21 @@
        											<option value="A" <?php echo $piliha;?>>A</option>
        											<option value="K" <?php echo $pilihk;?>>K</option>
 
+       										</select>
+       									</td>
+       								</tr>
+       								<tr>
+       									<td>Resort</td>
+       									<td>
+       										<select name="resort_id" class="form-control" style="width: 50%" required>
+       											<option value="">Pilih resort</option>
+       											<?php 
+       											$qresort = mysqli_query($con,"select * from tbl_resort where unit_id='$CABANG' ");
+       											while($data_resort    = mysqli_fetch_array($qresort,MYSQLI_ASSOC)){
+       												$resort_id_data     = $data_resort['resort_id'];
+       												?>
+       												<option value="<?php echo $data_resort['resort_id']?>" <?php echo $pilih;?>><?php echo $data_resort['resort_nama']?></option>
+       											<?php } ?>
        										</select>
        									</td>
        								</tr>
@@ -2222,6 +2237,7 @@
 				                           				$pegawai_nik    = $data['pegawai_nik'];
 				                           				$jabatan_id     = $data['jabatan_id'];
 				                           				$user_name      = $data['user_name'];
+				                           				$cabang      = $CABANG;
 
 				                           			}
 

@@ -1,6 +1,7 @@
            
 <?php
-
+session_start();
+$cabang           = $_SESSION['CABANG'];
 if(isset($_POST["tambah"])){
 	include  "lib/koneksi.php";
 	$macet_nominal 		= $_POST['macet_nominal'];
@@ -9,7 +10,8 @@ if(isset($_POST["tambah"])){
                            
     $bulan_lalu = date('Y-m', strtotime('-1 month', strtotime($tgl1))); 
 //	echo "insert into tbl_kas_awal(kas_nominal,kas_bulan) values('$kas_nominal','$kas_bulan')";
-	$up =mysqli_query($con,"insert into tbl_saldo_kemacetan(macet_nominal,macet_bulan) values('$macet_nominal','$bulan_lalu')");
+	$up =mysqli_query($con,"insert into tbl_saldo_kemacetan(macet_nominal,macet_bulan,cabang) values('$macet_nominal','$bulan_lalu','$cabang')") or die(mysqli_error($con));
+
 	if($up){
         ?>
         <script type="text/javascript">

@@ -6,6 +6,7 @@
       $NAMA       = $_SESSION['NAMA'];
       $LEVEL           = $_SESSION['LEVEL'];
       $bulan           = $_SESSION['BULAN'];
+      $cabang           = $_SESSION['CABANG'];
 include  "../lib/koneksi.php";
 ?>
 <br>
@@ -31,7 +32,7 @@ include  "../lib/koneksi.php";
               
 <?php
 $bulan_lalu = date('Y-m', strtotime('-1 month', strtotime($bulan))); 
-$q=mysqli_query($con,"select saldo_macet_id,macet_nominal from tbl_saldo_kemacetan where macet_bulan= '$bulan_lalu'");
+$q=mysqli_query($con,"select saldo_macet_id,macet_nominal from tbl_saldo_kemacetan where macet_bulan= '$bulan_lalu' and cabang = '$cabang'");
 $cek=mysqli_num_rows($q);
 $data=mysqli_fetch_array($q,MYSQLI_ASSOC);
 $saldo_macet_id   = $data['saldo_macet_id'];

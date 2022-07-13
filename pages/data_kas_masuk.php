@@ -6,9 +6,10 @@ $USER_ID       = $_SESSION['USER_ID'];
 $NAMA       = $_SESSION['NAMA'];
 $LEVEL           = $_SESSION['LEVEL'];
 $bulan           = $_SESSION['BULAN'];
+$cabang           = $_SESSION['CABANG'];
 include   "css.php";
 include  "../lib/koneksi.php";
-$q		= mysqli_query($con,"select * from tbl_kas_masuk  order by id desc") or die(mysqli_error($con));
+$q		= mysqli_query($con,"select * from tbl_kas_masuk where cabang = '$cabang'  order by id desc") or die(mysqli_error($con));
 ?>
 <br>
 <br>

@@ -5,19 +5,22 @@
       $NAMA       = $_SESSION['NAMA'];
       $LEVEL           = $_SESSION['LEVEL'];
       $bulan           = $_SESSION['BULAN'];
+      $cabang           = $_SESSION['CABANG'];
+
 include   "css.php";
 include 	"../lib/koneksi.php";
 	//baru
-	$q		= mysqli_query($con,"select a.anggota_id,anggota_nama,anggota_alamat,b.resort_nama,a.tgl_daftar from tbl_anggota a LEFT JOIN tbl_resort b on a.resort_id=b.resort_id where a.tgl_daftar like '$bulan%'");
+	$q		= mysqli_query($con,"select a.anggota_id,anggota_nama,anggota_alamat,b.resort_nama,a.tgl_daftar from tbl_anggota a JOIN tbl_resort b on a.resort_id=b.resort_id where a.tgl_daftar like '$bulan%' and b.unit_id = '$cabang'") or die(mysqli_error($con));
+	// var_dump($q);  die;
 	$anggota_baru 	= mysqli_num_rows($q);
 	//lama 
-	$q1		= mysqli_query($con,"select a.anggota_id,anggota_nama,anggota_alamat,b.resort_nama,a.tgl_daftar from tbl_anggota a LEFT JOIN tbl_resort b on a.resort_id=b.resort_id where a.tgl_daftar not like '$bulan%'");
+	$q1		= mysqli_query($con,"select a.anggota_id,anggota_nama,anggota_alamat,b.resort_nama,a.tgl_daftar from tbl_anggota a JOIN tbl_resort b on a.resort_id=b.resort_id where a.tgl_daftar not like '$bulan%'  and b.unit_id = '$cabang'");
 	$anggota_lama 	= mysqli_num_rows($q1);
 	//aktif
-	$q2		= mysqli_query($con,"select a.anggota_id,anggota_nama,anggota_alamat,b.resort_nama,a.tgl_daftar from tbl_anggota a LEFT JOIN tbl_resort b on a.resort_id=b.resort_id where a.keterangan ='A'");
+	$q2		= mysqli_query($con,"select a.anggota_id,anggota_nama,anggota_alamat,b.resort_nama,a.tgl_daftar from tbl_anggota a JOIN tbl_resort b on a.resort_id=b.resort_id where a.keterangan ='A'  and b.unit_id = '$cabang'");
 	$anggota_aktif 	= mysqli_num_rows($q2);
 	//keluar 
-	$q3		= mysqli_query($con,"select a.anggota_id,anggota_nama,anggota_alamat,b.resort_nama,a.tgl_daftar from tbl_anggota a LEFT JOIN tbl_resort b on a.resort_id=b.resort_id where a.tgl_keluar like '$bulan%'");
+	$q3		= mysqli_query($con,"select a.anggota_id,anggota_nama,anggota_alamat,b.resort_nama,a.tgl_daftar from tbl_anggota a JOIN tbl_resort b on a.resort_id=b.resort_id where a.tgl_keluar like '$bulan%' b.unit_id = '$cabang' ");
 	$anggota_keluar	= mysqli_num_rows($q3);
 
 

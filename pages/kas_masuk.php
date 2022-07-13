@@ -1,11 +1,13 @@
 <?php
+session_start();
 	// var_dump($_POST);  die;
 if(isset($_POST["tambah_data"])){
 	include  "../lib/koneksi.php";
 	$kas_nominal 		= $_POST['kas_nominal'];
 	$kas_bulan          = $_POST['bulan']."-01";
+	$cabang          = $_SESSION['CABANG'];
 //	echo "insert into tbl_kas_awal(kas_nominal,kas_bulan) values('$kas_nominal','$kas_bulan')";
-	$up = mysqli_query($con,"insert into tbl_kas_masuk(nominal,tanggal) values('$kas_nominal','$kas_bulan')")  or die(mysqli_error($con));
+	$up = mysqli_query($con,"insert into tbl_kas_masuk(nominal,tanggal,cabang) values('$kas_nominal','$kas_bulan','$cabang')")  or die(mysqli_error($con));
 
 	if($up){
 		$result['status'] = 200;

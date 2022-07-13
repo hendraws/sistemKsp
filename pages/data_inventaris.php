@@ -7,11 +7,12 @@ error_reporting(0);
       $NAMA       = $_SESSION['NAMA'];
       $LEVEL           = $_SESSION['LEVEL'];
       $bulan           = $_SESSION['BULAN'];
+      $cabang           = $_SESSION['CABANG'];
 //$bulan 		= date("Y-m");
 include   "css.php";
 include 	"../lib/koneksi.php";
 	//total inven
-	$q		= mysqli_query($con,"select a.*,b.pegawai_nama from tbl_inventaris a left join tbl_pegawai b on a.pegawai_id=b.pegawai_id");
+	$q		= mysqli_query($con,"select a.*,b.pegawai_nama from tbl_inventaris a left join tbl_pegawai b on a.pegawai_id=b.pegawai_id where b.cabang = '$cabang'");
 	$total 	= mysqli_num_rows($q);
 	
 	?>
