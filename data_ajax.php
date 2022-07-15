@@ -1519,11 +1519,11 @@
                     							<option value="">Pilih resort</option>
                     							<?php 
 
-                    							if($LEVEL == 1){
-                    								$qresort = mysqli_query($con,"select * from tbl_resort");
-                    							}else{
+                    							// if($LEVEL == 1){
+                    							// 	$qresort = mysqli_query($con,"select * from tbl_resort");
+                    							// }else{
                     								$qresort = mysqli_query($con,"select * from tbl_resort where unit_id = '$CABANG'");
-                    							}
+                    							// }
                     							while($data_resort    = mysqli_fetch_array($qresort,MYSQLI_ASSOC)){
                     								$resort_id_data     = $data_resort['resort_id'];
                     								if($resort_id_data==$resort_id){
@@ -1920,7 +1920,7 @@
                     											<select name="pegawai_id" class="form-control" style="width: 50%" required id="pegawai_id_cek">
                     												<option value="">--pilih pegawai--</option>
                     												<?php 
-                    												$qpegawai = mysqli_query($con,"select pegawai_id,pegawai_nama from tbl_pegawai where status = 'aktif'");
+                    												$qpegawai = mysqli_query($con,"select pegawai_id,pegawai_nama from tbl_pegawai where status = 'aktif' and cabang = '$CABANG'");
                     												while($data_pegawai    = mysqli_fetch_array($qpegawai,MYSQLI_ASSOC)){
                     													$pegawai_id_data     = $data_pegawai['pegawai_id'];
                     													if($pegawai_id_data==$pegawai_id){
@@ -2067,7 +2067,7 @@
 				                           						<select name="pegawai_id" class="form-control" style="width: 50%" required id="pegawai_id_cek">
 				                           							<option value="">--pilih pegawai--</option>
 				                           							<?php 
-				                           							$qpegawai = mysqli_query($con,"select pegawai_id,pegawai_nama from tbl_pegawai where status = 'aktif' ");
+				                           							$qpegawai = mysqli_query($con,"select pegawai_id,pegawai_nama from tbl_pegawai where status = 'aktif' and cabang = '$CABANG'");
 				                           							while($data_pegawai    = mysqli_fetch_array($qpegawai,MYSQLI_ASSOC)){
 				                           								$pegawai_id_data     = $data_pegawai['pegawai_id'];
 				                           								if($pegawai_id_data==$pegawai_id){

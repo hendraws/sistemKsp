@@ -8,6 +8,7 @@ if($_SESSION['USERNAME'] != null){
 	$PERMISSION           = $_SESSION['PERMISSION'];
 	$bulan           = $_SESSION['BULAN'];
 	$nama_owner           = $_SESSION['NAMA_OWNER'];
+	$cabang           = $_SESSION['CABANG'];
 	$menu        = str_replace("/","", $_SERVER['REQUEST_URI']);
       // $menu        = explode('/', $_SERVER['REQUEST_URI'])[1];
 

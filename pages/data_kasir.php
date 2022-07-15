@@ -12,14 +12,14 @@ $cabang = $_SESSION['CABANG'];
 include   "css.php";
 include   "../lib/koneksi.php";
 ///kas awal
-$q=mysqli_query($con,"SELECT kas_id,kas_nominal from tbl_kas_awal where kas_bulan like '$bulan%'");
+$q=mysqli_query($con,"SELECT kas_id,kas_nominal from tbl_kas_awal where kas_bulan like '$bulan%' and cabang = '$cabang'");
 
 $data=mysqli_fetch_array($q,MYSQLI_ASSOC);
 //$kas_id   = $data['kas_id'];
 $kas_awal = $data['kas_nominal'];
 
 
-$q=mysqli_query($con,"SELECT anggota_awal_id,anggota_awal from tbl_anggota_awal where anggota_bulan like '$bulan%'");
+$q=mysqli_query($con,"SELECT anggota_awal_id,anggota_awal from tbl_anggota_awal where anggota_bulan like '$bulan%' and cabang = '$cabang'");
 $cek=mysqli_num_rows($q);
 $data=mysqli_fetch_array($q,MYSQLI_ASSOC);
 $anggota_awal_id   = $data['anggota_awal_id'];
@@ -195,9 +195,9 @@ if($tab=="2"){
 															
 															<td>
 																<?php if($PERMISSION == 1 || $PERMISSION == 2 || $LEVEL == 1 ) : ?>
-																<button type="button" class="btn btn-xs btn-info" id="edit<?php echo $pembukuan_id;?>"><i class="fa fa-edit"></i> edit</button>
-																<button type="button" class="btn btn-danger btn-xs" id="hapus<?php echo $pembukuan_id;?>"><i class="fa fa-trash"></i> hapus</button>                           
-															<?php endif; ?>
+																	<button type="button" class="btn btn-xs btn-info" id="edit<?php echo $pembukuan_id;?>"><i class="fa fa-edit"></i> edit</button>
+																	<button type="button" class="btn btn-danger btn-xs" id="hapus<?php echo $pembukuan_id;?>"><i class="fa fa-trash"></i> hapus</button>                           
+																<?php endif; ?>
 															</td>                        
 														</tr>
 														<script type="text/javascript">
@@ -332,9 +332,9 @@ if($tab=="2"){
 											
 											<td>
 												<?php if($PERMISSION == 1 || $PERMISSION == 2 || $LEVEL == 1 ) : ?>
-												<button type="button" class="btn btn-xs btn-info" id="edit<?php echo $akomodasi_id;?>"><i class="fa fa-edit"></i> edit</button>
-												<button type="button" class="btn btn-danger btn-xs" id="hapus<?php echo $akomodasi_id;?>"><i class="fa fa-trash"></i> hapus</button>  
-											<?php endif; ?>
+													<button type="button" class="btn btn-xs btn-info" id="edit<?php echo $akomodasi_id;?>"><i class="fa fa-edit"></i> edit</button>
+													<button type="button" class="btn btn-danger btn-xs" id="hapus<?php echo $akomodasi_id;?>"><i class="fa fa-trash"></i> hapus</button>  
+												<?php endif; ?>
 												<button type="button" class="btn btn-xs btn-warning" id="cetak<?php echo $akomodasi_id;?>"><i class="fa fa-print"></i> Kwitansi</button>                         
 											</td>                        
 										</tr>
@@ -455,9 +455,9 @@ if($tab=="2"){
 															
 															<td>
 																<?php if($PERMISSION == 1 || $PERMISSION == 2 || $LEVEL == 1 ) : ?>
-																<button type="button" class="btn btn-xs btn-info" id="edit<?php echo $panjer_id;?>"><i class="fa fa-edit"></i> edit</button>
-																<button type="button" class="btn btn-danger btn-xs" id="hapus<?php echo $panjer_id;?>"><i class="fa fa-trash"></i> hapus</button>     
-															<?php endif; ?>
+																	<button type="button" class="btn btn-xs btn-info" id="edit<?php echo $panjer_id;?>"><i class="fa fa-edit"></i> edit</button>
+																	<button type="button" class="btn btn-danger btn-xs" id="hapus<?php echo $panjer_id;?>"><i class="fa fa-trash"></i> hapus</button>     
+																<?php endif; ?>
 																<button type="button" class="btn btn-xs btn-warning" id="cetak<?php echo $panjer_id;?>"><i class="fa fa-print"></i> Kwitansi</button>                       
 															</td>                        
 														</tr>
@@ -612,9 +612,9 @@ if($tab=="2"){
 															
 															<td>
 																<?php if($PERMISSION == 1 || $PERMISSION == 2 || $LEVEL == 1 ) : ?>
-																<button type="button" class="btn btn-xs btn-info" id="edit<?php echo $prive_id;?>"><i class="fa fa-edit"></i> edit</button>
-																<button type="button" class="btn btn-danger btn-xs" id="hapus<?php echo $prive_id;?>"><i class="fa fa-trash"></i> hapus</button>     
-															<?php endif; ?>
+																	<button type="button" class="btn btn-xs btn-info" id="edit<?php echo $prive_id;?>"><i class="fa fa-edit"></i> edit</button>
+																	<button type="button" class="btn btn-danger btn-xs" id="hapus<?php echo $prive_id;?>"><i class="fa fa-trash"></i> hapus</button>     
+																<?php endif; ?>
 																<button type="button" class="btn btn-xs btn-warning" id="cetak<?php echo $prive_id;?>"><i class="fa fa-print"></i> Kwitansi</button>                       
 															</td>                        
 														</tr>
@@ -770,9 +770,9 @@ if($tab=="2"){
 														
 														<td>
 															<?php if($PERMISSION == 1 || $PERMISSION == 2 || $LEVEL == 1 ) : ?>
-															<button type="button" class="btn btn-xs btn-info" id="edit<?php echo $operasional_id;?>"><i class="fa fa-edit"></i> edit </button>
-															<button type="button" class="btn btn-danger btn-xs" id="hapus<?php echo $operasional_id;?>"><i class="fa fa-trash"></i> hapus</button>          
-														<?php endif; ?>
+																<button type="button" class="btn btn-xs btn-info" id="edit<?php echo $operasional_id;?>"><i class="fa fa-edit"></i> edit </button>
+																<button type="button" class="btn btn-danger btn-xs" id="hapus<?php echo $operasional_id;?>"><i class="fa fa-trash"></i> hapus</button>          
+															<?php endif; ?>
 															<button type="button" class="btn btn-xs btn-warning" id="cetak<?php echo $operasional_id;?>"><i class="fa fa-print"></i> Kwitansi</button>                  
 														</td>                        
 													</tr>
@@ -943,9 +943,9 @@ if($tab=="2"){
 													
 													<td>
 														<?php if($PERMISSION == 1 || $PERMISSION == 2 || $LEVEL == 1 ) : ?>
-														<button type="button" class="btn btn-xs btn-info" id="edit<?php echo $operasional_id;?>"><i class="fa fa-edit"></i> edit</button>
-														<button type="button" class="btn btn-danger btn-xs" id="hapus<?php echo $operasional_id;?>"><i class="fa fa-trash"></i> hapus</button> 
-													<?php endif ?>
+															<button type="button" class="btn btn-xs btn-info" id="edit<?php echo $operasional_id;?>"><i class="fa fa-edit"></i> edit</button>
+															<button type="button" class="btn btn-danger btn-xs" id="hapus<?php echo $operasional_id;?>"><i class="fa fa-trash"></i> hapus</button> 
+														<?php endif ?>
 														<button type="button" class="btn btn-xs btn-warning" id="cetak<?php echo $operasional_id;?>"><i class="fa fa-print"></i> Kwitansi</button>                          
 													</td>                        
 												</tr>
@@ -1056,7 +1056,7 @@ if($tab=="2"){
 				<?php
 				$jum_tgl = count($pembukuan_tgl_loop_arr);
                   //$index=0;
-				mysqli_query($con,"delete from tbl_rekapitulasi where bulan='$bulan'");
+				mysqli_query($con,"delete from tbl_rekapitulasi where bulan='$bulan' and cabang='$cabang'");
 				for($x=0;$x<$jum_tgl;$x++){
 					$pembukuan_tgl_loop = $pembukuan_tgl_loop_arr[$x];
 
@@ -1263,8 +1263,8 @@ if($tab=="2"){
                           if($day=="Wed" or $day=="Sat"){
                           	$minggu=3;
                           }
-                          mysqli_query($con,"insert into tbl_rekapitulasi(resort_id,L,B,K,kini,kasbon_pakai,storting,adm,simp,debet,`drop`,psp,kredit,tunai,bulan,minggu,tgl) 
-                          	values('$resort_id_rekap','$jum_anggota_lama','$jum_anggota_baru','$jum_anggota_keluar','$jum_anggota_kini','$kasbon_pakai','$storting','$adm5persen','$simp4persen','$debet','$drop','$psp','$kredit','$tunai','$bulan','$minggu','$pembukuan_tgl_loop')");
+                          mysqli_query($con,"insert into tbl_rekapitulasi(resort_id,L,B,K,kini,kasbon_pakai,storting,adm,simp,debet,`drop`,psp,kredit,tunai,bulan,minggu,tgl,cabang) 
+                          	values('$resort_id_rekap','$jum_anggota_lama','$jum_anggota_baru','$jum_anggota_keluar','$jum_anggota_kini','$kasbon_pakai','$storting','$adm5persen','$simp4persen','$debet','$drop','$psp','$kredit','$tunai','$bulan','$minggu','$pembukuan_tgl_loop','$cabang')");
                           
                           
                           } ?>
@@ -1462,12 +1462,12 @@ if($tab=="2"){
           		<tbody>
           			<?php 
           			$no=1;
-          			mysqli_query($con,"delete from tbl_expedisi where bulan='$bulan'");
+          			mysqli_query($con,"delete from tbl_expedisi where bulan='$bulan' and cabang='$cabang'");
           			for($x=0;$x<$jum_tgl;$x++){
           				$pembukuan_tgl_loop   = $pembukuan_tgl_loop_arr[$x];
           				$exp1 = $no;
           				
-          				$getKasMasuk = mysqli_query($con, "SELECT SUM(nominal) as 'total_kas_masuk' FROM tbl_kas_masuk where tanggal = '$pembukuan_tgl_loop'");
+          				$getKasMasuk = mysqli_query($con, "SELECT SUM(nominal) as 'total_kas_masuk' FROM tbl_kas_masuk where tanggal = '$pembukuan_tgl_loop' and cabang = '$cabang'");
           				$kasMasuk = mysqli_fetch_array($getKasMasuk, MYSQLI_ASSOC);
 
           				$day = date('D', strtotime($pembukuan_tgl_loop));
@@ -1567,7 +1567,7 @@ if($tab=="2"){
           				
           				<?php 
           				$no++;
-          				mysqli_query($con,"insert into tbl_expedisi(tgl,kas_awal,kasbon_pagi,transport,makan,lain,bon,bop,jumlah,kembali_kasbon,tunai,total,bulan,kas_masuk) values('$pembukuan_tgl_loop','$exp3','$exp4','$exp5','$exp6','$exp7','$exp8','$exp9','$exp10','$exp11','$exp12','$exp13','$bulan','$exp14')");
+          				mysqli_query($con,"insert into tbl_expedisi(tgl,kas_awal,kasbon_pagi,transport,makan,lain,bon,bop,jumlah,kembali_kasbon,tunai,total,bulan,kas_masuk, cabang) values('$pembukuan_tgl_loop','$exp3','$exp4','$exp5','$exp6','$exp7','$exp8','$exp9','$exp10','$exp11','$exp12','$exp13','$bulan','$exp14','$cabang')");
 
                   // echo "insert into tbl_expedisi(tgl,kas_awal,kasbon_pagi,transport,makan,lain,bon,bop,jumlah,kembali_kasbon,tunai,total,bulan) values('$pembukuan_tgl_loop','$exp3','$exp4','$exp5','$exp6','$exp7','$exp8','$exp9','$exp10','$exp11','$exp12','$exp13','$bulan')";
           			} ?>

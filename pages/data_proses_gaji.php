@@ -6,6 +6,7 @@
       $NAMA       = $_SESSION['NAMA'];
       $LEVEL           = $_SESSION['LEVEL'];
       $bulan           = $_SESSION['BULAN'];
+      $cabang           = $_SESSION['CABANG'];
 //$bulan 		= date("Y-m");
 include   "css.php";
 include 	"../lib/koneksi.php";
@@ -55,7 +56,7 @@ include 	"../lib/koneksi.php";
                       <tbody>
                       	<?php 
                       	$no=1;
-                        $q    = mysqli_query($con,"select a.pegawai_id,a.pegawai_nik,a.pegawai_nama,b.jabatan_nama,a.jabatan_id from tbl_pegawai a left join tbl_jabatan b on a.jabatan_id=b.jabatan_id order by a.jabatan_id asc");
+                        $q    = mysqli_query($con,"select a.pegawai_id,a.pegawai_nik,a.pegawai_nama,b.jabatan_nama,a.jabatan_id from tbl_pegawai a left join tbl_jabatan b on a.jabatan_id=b.jabatan_id  where a.cabang =  '$cabang' order by b.urutan asc");
                         $total_pegawai  = mysqli_num_rows($q);
   
                       	while($h		= mysqli_fetch_array($q,MYSQLI_ASSOC)){

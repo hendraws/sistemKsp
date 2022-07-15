@@ -8,6 +8,7 @@ if($_SESSION['USERNAME'] != null ){
 	$NAMA       = $_SESSION['NAMA'];
 	$LEVEL           = $_SESSION['LEVEL'];
 	$bulan           = $_SESSION['BULAN'];
+	$cabang          = $_SESSION['CABANG'];
 
 	include('lib/mpdf60/mpdf.php');
  //include   "pages/css.php";
@@ -157,7 +158,7 @@ if($_SESSION['USERNAME'] != null ){
 					<tr valign="top">
 						<td width="50%" valign="top">
 							<?php
-							$qrek = mysqli_query($con,"select sum(tunai) as tunai, sum(kasbon_pakai) as kasbon_pakai from tbl_rekapitulasi where bulan='$bulan'");
+							$qrek = mysqli_query($con,"select sum(tunai) as tunai, sum(kasbon_pakai) as kasbon_pakai from tbl_rekapitulasi where bulan='$bulan' and cabang = '$cabang'");
 							$hrek=mysqli_fetch_array($qrek);
 
 							$tunai_kas = $hrek['tunai'];
@@ -176,7 +177,7 @@ if($_SESSION['USERNAME'] != null ){
 									<td>Kas Awal</td>
 									<td align="right">
 										<?php
-										$qkas=mysqli_query($con,"select kas_nominal from tbl_kas_awal where kas_bulan like '$bulan%'");
+										$qkas=mysqli_query($con,"select kas_nominal from tbl_kas_awal where kas_bulan like '$bulan%' and cabang = '$cabang'");
 										$dkas=mysqli_fetch_array($qkas);
 										$kas_awal = $dkas['kas_nominal'];
 
@@ -197,7 +198,7 @@ if($_SESSION['USERNAME'] != null ){
 									</td>
 								</tr>
 								<?php
-								$qgajie = mysqli_query($con,"SELECT sum(gaji_panjer) as panjer,sum(gaji_prive) as prive from tbl_gaji a join tbl_pegawai b on a.pegawai_id=b.pegawai_id WHERE gaji_bulan='$bulan'");
+								$qgajie = mysqli_query($con,"SELECT sum(gaji_panjer) as panjer,sum(gaji_prive) as prive from tbl_gaji a join tbl_pegawai b on a.pegawai_id=b.pegawai_id WHERE gaji_bulan='$bulan' and b.cabang = '$cabang'");
 								$hgaji=mysqli_fetch_array($qgajie);
 								?>
 								<tr class="" bgcolor="">
@@ -232,10 +233,10 @@ if($_SESSION['USERNAME'] != null ){
 										<?php 
 
 										$pengembalian_bon = $pengembalian_tunda+$pengembalian_prive;
-										$qprive =mysqli_query($con,"select sum(prive_nominal) as prive_nominal from tbl_bon_prive a  where a.prive_tgl like '$bulan%'");
+										$qprive =mysqli_query($con,"select sum(prive_nominal) as prive_nominal from tbl_bon_prive a  where a.prive_tgl like '$bulan%' and cabang = '$cabang'");
 										$hprive = mysqli_fetch_array($qprive);
 
-										$qpanjer =mysqli_query($con,"select sum(panjer_nominal) as panjer_nominal from tbl_bon_panjer a  where a.panjer_tgl like '$bulan%'");
+										$qpanjer =mysqli_query($con,"select sum(panjer_nominal) as panjer_nominal from tbl_bon_panjer a  where a.panjer_tgl like '$bulan%' and cabang = '$cabang'");
 										$hpanjer = mysqli_fetch_array($qpanjer);
 
 										$bon = $hprive['prive_nominal']+$hpanjer['panjer_nominal'];
@@ -252,7 +253,7 @@ if($_SESSION['USERNAME'] != null ){
 									<td align="right">
 										<?php 
 
-										$qKasMasuk =mysqli_query($con,"select sum(nominal) as kas_masuk from tbl_kas_masuk  where tanggal like '$bulan%'");
+										$qKasMasuk =mysqli_query($con,"select sum(nominal) as kas_masuk from tbl_kas_masuk  where tanggal like '$bulan%' and cabang = '$cabang'");
 										$hKasMasuk = mysqli_fetch_array($qKasMasuk);
 										$dataKasMasuk = $hKasMasuk['kas_masuk'];
                 // echo str_replace(",", ".", number_format($bon));
@@ -266,7 +267,7 @@ if($_SESSION['USERNAME'] != null ){
 								<?php
 								$n=7;
 								unset($pemasukan_nominal_arr);
-								$qpemasukan = mysqli_query($con,"select pemasukan,nominal from tbl_pemasukan where bulan='$bulan'");
+								$qpemasukan = mysqli_query($con,"select pemasukan,nominal from tbl_pemasukan where bulan='$bulan' and cabang = '$cabang'");
 								while($hpemasukan= mysqli_fetch_array($qpemasukan)){
 									$pemasukan  = $hpemasukan['pemasukan'];
 									$pemasukan_nominal = $hpemasukan['nominal'];
@@ -329,7 +330,7 @@ if($_SESSION['USERNAME'] != null ){
 									<td>Gaji Karyawan</td>
 									<td align="right">
 										<?php
-										$qgaji = mysqli_query($con,"SELECT sum(gaji_diterima) as gaji from tbl_gaji a join tbl_pegawai b on a.pegawai_id=b.pegawai_id WHERE gaji_bulan='$bulan'");
+										$qgaji = mysqli_query($con,"SELECT sum(gaji_diterima) as gaji from tbl_gaji a join tbl_pegawai b on a.pegawai_id=b.pegawai_id WHERE gaji_bulan='$bulan' and b.cabang = '$cabang'");
 										$hgaji=mysqli_fetch_array($qgaji);
 
 										$gaji_karyawan = $hgaji['gaji'];
@@ -343,17 +344,17 @@ if($_SESSION['USERNAME'] != null ){
 									<td>Biaya Umum </td>
 									<td align="right">
 										<?php
-										$qgaji1 = mysqli_query($con,"select sum(a.nominal) as operasional from tbl_operasional a left join tbl_biayaumum b on a.bu_id=b.bu_id where a.operasional_tgl like  '$bulan%' and b.bu_kategori='0' order by a.operasional_tgl asc");
+										$qgaji1 = mysqli_query($con,"select sum(a.nominal) as operasional from tbl_operasional a left join tbl_biayaumum b on a.bu_id=b.bu_id where a.operasional_tgl like  '$bulan%' and b.bu_kategori='0' and cabang = '$cabang' order by a.operasional_tgl asc");
 										$hgaji1=mysqli_fetch_array($qgaji1);
 										$operasional = $hgaji1['operasional'];
 
-										$qgaji11 = mysqli_query($con,"  select a.*,b.bu_nama from tbl_operasional a left join tbl_biayaumum b on a.bu_id=b.bu_id where a.operasional_tgl like  '$bulan%' and b.bu_kategori='1' order by a.operasional_tgl asc");
+										$qgaji11 = mysqli_query($con,"  select a.*,b.bu_nama from tbl_operasional a left join tbl_biayaumum b on a.bu_id=b.bu_id where a.operasional_tgl like  '$bulan%' and b.bu_kategori='1' and cabang = '$cabang' order by a.operasional_tgl asc");
 										while($hgaji11=mysqli_fetch_array($qgaji11)){
 											$lain_lain_arr[] =$hgaji11['nominal'];
 										}
 										$lain_lain = array_sum($lain_lain_arr);
 
-										$qgaji2 = mysqli_query($con,"SELECT sum(uang_makan+uang_transport) as akomodasi from tbl_akomodasi where akomodasi_tgl like '$bulan%'");
+										$qgaji2 = mysqli_query($con,"SELECT sum(uang_makan+uang_transport) as akomodasi from tbl_akomodasi where akomodasi_tgl like '$bulan%' and cabang = '$cabang' ");
 										$hgaji2=mysqli_fetch_array($qgaji2);
 
 										$akomodasi = $hgaji2['akomodasi'];
@@ -367,12 +368,12 @@ if($_SESSION['USERNAME'] != null ){
 									<td>BON</td>
 									<td align="right">
 										<?php
-										$qgaji21 = mysqli_query($con,"SELECT SUM(panjer_nominal) as bon_panjer from tbl_bon_panjer where panjer_tgl like '$bulan%'");
+										$qgaji21 = mysqli_query($con,"SELECT SUM(panjer_nominal) as bon_panjer from tbl_bon_panjer where panjer_tgl like '$bulan%'and cabang = '$cabang'");
 										$hgaji21=mysqli_fetch_array($qgaji21);
 
 										$bon_panjere = $hgaji21['bon_panjer'];
 
-										$qgaji22 = mysqli_query($con,"SELECT SUM(prive_nominal) as bon_prive from tbl_bon_prive where prive_tgl like '$bulan%'");
+										$qgaji22 = mysqli_query($con,"SELECT SUM(prive_nominal) as bon_prive from tbl_bon_prive where prive_tgl like '$bulan%' and cabang = '$cabang'");
 										$hgaji22=mysqli_fetch_array($qgaji22);
 
 										$bon_privee = $hgaji22['bon_prive'];
@@ -384,7 +385,7 @@ if($_SESSION['USERNAME'] != null ){
 								<?php
 								$n=5;
 								unset($pengeluaran_nominal_arr);
-								$qpengeluaran = mysqli_query($con,"select pengeluaran,nominal from tbl_pengeluaran where bulan='$bulan'");
+								$qpengeluaran = mysqli_query($con,"select pengeluaran,nominal from tbl_pengeluaran where bulan='$bulan' and cabang = '$cabang'");
 								while($hpengeluaran= mysqli_fetch_array($qpengeluaran)){
 									$pengeluaran  = $hpengeluaran['pengeluaran'];
 									$pengeluaran_nominal = $hpengeluaran['nominal'];
@@ -425,7 +426,7 @@ if($_SESSION['USERNAME'] != null ){
 							<?php 
 
 
-							$q5       = mysqli_query($con,"select total from tbl_expedisi where bulan='$bulan' ORDER BY tgl desc LIMIT 1 ");
+							$q5       = mysqli_query($con,"select total from tbl_expedisi where bulan='$bulan' and cabang = '$cabang' ORDER BY tgl desc LIMIT 1 ");
 							$h5   = mysqli_fetch_array($q5,MYSQLI_ASSOC);
 							$total_kas_expedisi = $h5['total'];
 
@@ -515,7 +516,7 @@ if($_SESSION['USERNAME'] != null ){
 
 						<?php 
 						$no=1;
-						$q    = mysqli_query($con,"select a.pegawai_id,a.pegawai_nik,a.pegawai_nama,b.jabatan_nama,a.jabatan_id,a.pegawai_jk from tbl_pegawai a join tbl_jabatan b on a.jabatan_id=b.jabatan_id where a.pegawai_id!='admin' and a.jabatan_id!='14' order by b.urutan ");
+						$q    = mysqli_query($con,"select a.pegawai_id,a.pegawai_nik,a.pegawai_nama,b.jabatan_nama,a.jabatan_id,a.pegawai_jk from tbl_pegawai a join tbl_jabatan b on a.jabatan_id=b.jabatan_id where a.pegawai_id!='admin' and a.jabatan_id!='14' and a.cabang = '$cabang' order by b.urutan ");
 						$total_pegawai  = mysqli_num_rows($q);
 
 						while($h    = mysqli_fetch_array($q,MYSQLI_ASSOC)){
@@ -639,7 +640,7 @@ if($_SESSION['USERNAME'] != null ){
 							while($h=mysqli_fetch_array($q)){
 								$bu_id = $h['bu_id'];
 
-								$qcari=mysqli_query($con,"select operasional_tgl from tbl_operasional where bu_id='$bu_id' and operasional_tgl like '$bulan%' group by operasional_tgl order by operasional_tgl asc ");
+								$qcari=mysqli_query($con,"select operasional_tgl from tbl_operasional where bu_id='$bu_id' and operasional_tgl like '$bulan%' and cabang = '$cabang' group by operasional_tgl order by operasional_tgl asc ");
 								unset($tgl_trans_arr);
 
 								while($cari = mysqli_fetch_array($qcari)){
@@ -647,7 +648,7 @@ if($_SESSION['USERNAME'] != null ){
 									$tgl_trans_arr[]  = substr($cari['operasional_tgl'],8,2);
 
 								}
-								$qcari1= mysqli_query($con,"select sum(nominal) as nominal from tbl_operasional where bu_id='$bu_id' and operasional_tgl like '$bulan%'");
+								$qcari1= mysqli_query($con,"select sum(nominal) as nominal from tbl_operasional where bu_id='$bu_id' and operasional_tgl like '$bulan%' and cabang = '$cabang' ");
 								$cari1 = mysqli_fetch_array($qcari1); 
 								$nominal = $cari1['nominal'];
 								$nominal_arr[] = $nominal;
@@ -678,7 +679,7 @@ if($_SESSION['USERNAME'] != null ){
 								<td></td>
 								<td align="right" width="200">
 									<?php 
-									$qAkomodasi = mysqli_query($con,"SELECT sum(uang_makan+uang_transport) as akomodasi from tbl_akomodasi where akomodasi_tgl like '$bulan%'");
+									$qAkomodasi = mysqli_query($con,"SELECT sum(uang_makan+uang_transport) as akomodasi from tbl_akomodasi where akomodasi_tgl like '$bulan%' and cabang = '$cabang'");
 									$hAkomodasi=mysqli_fetch_array($qAkomodasi);
 
 									$biayaAkomodasi = $hAkomodasi['akomodasi'];
@@ -713,7 +714,7 @@ if($_SESSION['USERNAME'] != null ){
 								</tr>
 								<?php
 								$no=1;
-								$q    = mysqli_query($con,"select a.*,b.pegawai_nama,c.jabatan_nama from tbl_inventaris a left join tbl_pegawai b on a.pegawai_id=b.pegawai_id left join tbl_jabatan c on b.jabatan_id=c.jabatan_id where b.pegawai_id !='admin' order by b.jabatan_id asc");
+								$q    = mysqli_query($con,"select a.*,b.pegawai_nama,c.jabatan_nama from tbl_inventaris a left join tbl_pegawai b on a.pegawai_id=b.pegawai_id left join tbl_jabatan c on b.jabatan_id=c.jabatan_id where b.pegawai_id !='admin' and b.cabang = '$cabang' order by b.jabatan_id asc");
 								while($h    = mysqli_fetch_array($q,MYSQLI_ASSOC)){
 									$inven_id     = $h['inven_id'];
 									if($no%2==0){
@@ -809,7 +810,7 @@ if($_SESSION['USERNAME'] != null ){
 										unset($tunai_arr);
 
 
-										$q1       = mysqli_query($con,"select resort_id,resort_nama from tbl_resort ");
+										$q1       = mysqli_query($con,"select resort_id,resort_nama from tbl_resort and unit = '$cabang'");
 										while($h1   = mysqli_fetch_array($q1,MYSQLI_ASSOC)){
 											$resort_id = $h1['resort_id'];
 											$resort_nama = $h1['resort_nama'];
@@ -1120,7 +1121,7 @@ if($_SESSION['USERNAME'] != null ){
                           $tgl1 = $bulan;
 
                           $bulan_lalu = date('Y-m', strtotime('-1 month', strtotime($tgl1))); 
-                          $q100=mysqli_query($con,"SELECT * from tbl_saldo_simpanan where saldo_bulan like '$bulan_lalu%' and resort_id='$resort_id'");
+                          $q100=mysqli_query($con,"SELECT * from tbl_saldo_simpanan where saldo_bulan like '$bulan_lalu%' and resort_id='$resort_id' and cabang = '$cabang'");
 
 
                           while($h1=mysqli_fetch_array($q100)){
@@ -1145,7 +1146,7 @@ if($_SESSION['USERNAME'] != null ){
 
                           }
 
-                          $q101=mysqli_query($con,"SELECT * from tbl_saldo_pinjaman where saldo_bulan like '$bulan_lalu%' and resort_id='$resort_id'");
+                          $q101=mysqli_query($con,"SELECT * from tbl_saldo_pinjaman where saldo_bulan like '$bulan_lalu%' and resort_id='$resort_id' and cabang = '$cabang'");
 
 
                           while($h1=mysqli_fetch_array($q101)){
@@ -1790,7 +1791,7 @@ if($_SESSION['USERNAME'] != null ){
               				</tr>
               				<?php
               				$no=1;
-              				$q1       = mysqli_query($con,"select resort_id,resort_nama from tbl_resort order by resort_id asc");
+              				$q1       = mysqli_query($con,"select resort_id,resort_nama from tbl_resort and unit_id = '$cabang' order by resort_id asc");
               				while($h1   = mysqli_fetch_array($q1,MYSQLI_ASSOC)){
               					$resort_id = $h1['resort_id'];
               					$resort_nama = $h1['resort_nama'];
@@ -2074,7 +2075,7 @@ if($_SESSION['USERNAME'] != null ){
               			<br>
               			<?php
       //pegawai
-              			$qpeg=mysqli_query($con,"select jabatan_id,pegawai_jk from tbl_pegawai where pegawai_id!='admin'")
+              			$qpeg=mysqli_query($con,"select jabatan_id,pegawai_jk from tbl_pegawai where pegawai_id!='admin' and cabang = '$cabang'")
               			?>
               			<h3>X. RANGKUMAN PIMPINAN</h3>
               			<table cellpadding="3" style="width:100%">
@@ -2200,7 +2201,7 @@ if($_SESSION['USERNAME'] != null ){
               					</td>
               					<td align="right">
               						<?php 
-              						$qsaldo_macet = mysqli_query($con,"select macet_nominal from tbl_saldo_kemacetan where macet_bulan='$bulan_lalu'");
+              						$qsaldo_macet = mysqli_query($con,"select macet_nominal from tbl_saldo_kemacetan where macet_bulan='$bulan_lalu' and cabang = '$cabang'");
               						$dsaldo_macet = mysqli_fetch_array($qsaldo_macet);
               						$total_saldo_macet_lalu = $dsaldo_macet['macet_nominal'];
               						echo str_replace(",", ".", number_format($total_saldo_macet_lalu));?>
@@ -2230,7 +2231,7 @@ if($_SESSION['USERNAME'] != null ){
 
               				<?php
               				$bulan_iniloh = $bulan."-01";
-              				$qlamau = mysqli_query($con,"select anggota_awal from tbl_anggota_awal where anggota_bulan = '$bulan_iniloh'");
+              				$qlamau = mysqli_query($con,"select anggota_awal from tbl_anggota_awal where anggota_bulan = '$bulan_iniloh' and cabang = '$cabang'");
               				$hlamau = mysqli_fetch_array($qlamau);
               				$lamau = $hlamau['anggota_awal'];
 
@@ -2440,7 +2441,7 @@ if($_SESSION['USERNAME'] != null ){
               					</td>
               					<td>
               						<?php
-              						$qpeng_lain = mysqli_query($con,"select pengeluaran,nominal from tbl_pengeluaran where bulan='$bulan'");
+              						$qpeng_lain = mysqli_query($con,"select pengeluaran,nominal from tbl_pengeluaran where bulan='$bulan' and cabang = '$cabang'");
               						while($hpeng=mysqli_fetch_array($qpeng_lain)){
               							$nominal_peng_arr[]=$hpeng['nominal'];
               							echo $hpeng['pengeluaran']."";
@@ -2544,10 +2545,10 @@ if($_SESSION['USERNAME'] != null ){
               						<?php 
 
               						$pengembalian_bon = $pengembalian_tunda+$pengembalian_prive;
-              						$qprive =mysqli_query($con,"select sum(prive_nominal) as prive_nominal from tbl_bon_prive a  where a.prive_tgl like '$bulan%'");
+              						$qprive =mysqli_query($con,"select sum(prive_nominal) as prive_nominal from tbl_bon_prive a  where a.prive_tgl like '$bulan%' and cabang = '$cabang'");
               						$hprive = mysqli_fetch_array($qprive);
 
-              						$qpanjer =mysqli_query($con,"select sum(panjer_nominal) as panjer_nominal from tbl_bon_panjer a  where a.panjer_tgl like '$bulan%'");
+              						$qpanjer =mysqli_query($con,"select sum(panjer_nominal) as panjer_nominal from tbl_bon_panjer a  where a.panjer_tgl like '$bulan%' and cabang = '$cabang'");
               						$hpanjer = mysqli_fetch_array($qpanjer);
 
               						$bon = $hprive['prive_nominal']+$hpanjer['panjer_nominal'];
@@ -2579,7 +2580,7 @@ if($_SESSION['USERNAME'] != null ){
               				</tr>
               			</table>
               			<?php
-              			$q_unit    = mysqli_query($con,"select unit_nama from tbl_unit");
+              			$q_unit    = mysqli_query($con,"select unit_nama from tbl_unit where unit_id = '$cabang'");
               			$data_unit  = mysqli_fetch_array($q_unit,MYSQLI_ASSOC);
 
               			?>
@@ -2609,12 +2610,12 @@ if($_SESSION['USERNAME'] != null ){
               				<br>
               				<br>
               				<?php 
-              				$q_eval_kas = mysqli_query($con, "SELECT sum(pembukuan_drop) as jumlah_drop, sum(storting) as jumlah_storting, sum(psp) as jumlah_psp FROM tbl_pembukuan_harian where pembukuan_tgl LIKE '$bulan%'") or die(mysqli_error($con));
+              				$q_eval_kas = mysqli_query($con, "SELECT sum(pembukuan_drop) as jumlah_drop, sum(storting) as jumlah_storting, sum(psp) as jumlah_psp FROM tbl_pembukuan_harian join tbl_resort ON tbl_resort.resort_id = tbl_pembukuan_harian.resort_id where pembukuan_tgl LIKE '$bulan%' and unit_id = '$cabang'") or die(mysqli_error($con));
               				$data_eval_kas  = mysqli_fetch_array($q_eval_kas,MYSQLI_ASSOC);
               				$data_bu = array_sum($nominal_arr) + $biayaAkomodasi;
-              				$q_rekapitulasi = mysqli_query($con, "SELECT sum(tunai) as tunai, sum(kasbon_pakai) as kasbon_pakai FROM tbl_rekapitulasi where bulan = '$bulan'");
+              				$q_rekapitulasi = mysqli_query($con, "SELECT sum(tunai) as tunai, sum(kasbon_pakai) as kasbon_pakai FROM tbl_rekapitulasi where bulan = '$bulan' and cabang = '$cabang'");
           					$data_rekapitulasi  = mysqli_fetch_array($q_rekapitulasi,MYSQLI_ASSOC);
-          					$q_setor = mysqli_query($con, "SELECT sum(nominal) as nominal  FROM tbl_pengeluaran where bulan = '$bulan'");
+          					$q_setor = mysqli_query($con, "SELECT sum(nominal) as nominal  FROM tbl_pengeluaran where bulan = '$bulan' and cabang = '$cabang'");
           					$data_setor  = mysqli_fetch_array($q_setor,MYSQLI_ASSOC);
               				 ?>
               				<table width="80%">
@@ -2802,7 +2803,7 @@ if($_SESSION['USERNAME'] != null ){
               					<tbody>
               						<?php 
               						$no = 1;
-              						$qEvaluasi = mysqli_query($con, "SELECT * FROM tbl_pegawai JOIN tbl_jabatan ON tbl_jabatan.jabatan_id = tbl_pegawai.jabatan_id ORDER BY urutan ");
+              						$qEvaluasi = mysqli_query($con, "SELECT * FROM tbl_pegawai JOIN tbl_jabatan ON tbl_jabatan.jabatan_id = tbl_pegawai.jabatan_id and cabang = '$cabang' ORDER BY urutan ");
               						while($rEvaluasi    = mysqli_fetch_array($qEvaluasi,MYSQLI_ASSOC)) : 
               						 ?>
               						<tr>

@@ -6,10 +6,11 @@
       $NAMA       = $_SESSION['NAMA'];
       $LEVEL           = $_SESSION['LEVEL'];
       $bulan           = $_SESSION['BULAN'];
+      $cabang           = $_SESSION['CABANG'];
 include   "css.php";
 include 	"../lib/koneksi.php";
 	//total inven
-	$q		= mysqli_query($con,"select * from tbl_pemasukan where bulan ='$bulan'");
+	$q		= mysqli_query($con,"select * from tbl_pemasukan where bulan ='$bulan' and cabang = '$cabang'");
 	$total 	= mysqli_num_rows($q);
 	
 	?>

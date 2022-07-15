@@ -6,6 +6,7 @@
       $NAMA       = $_SESSION['NAMA'];
       $LEVEL           = $_SESSION['LEVEL'];
       $bulan           = $_SESSION['BULAN'];
+      $cabang           = $_SESSION['CABANG'];
 include   "css.php";
 include   "../lib/koneksi.php";
 
@@ -53,18 +54,18 @@ $bulan_saldo = date('Y-m', strtotime('-1 month', strtotime($bulan)));
         <tbody>
         <?php
         $no=1;
-       $q1       = mysqli_query($con,"select resort_id,resort_nama from tbl_resort  order by resort_id asc");
+       $q1       = mysqli_query($con,"select resort_id,resort_nama from tbl_resort where unit_id = '$cabang' order by resort_id asc");
                         while($h1   = mysqli_fetch_array($q1,MYSQLI_ASSOC)){
                           $resort_id = $h1['resort_id'];
                           $resort_nama = $h1['resort_nama'];
 
 
-                          $qmacet = mysqli_query($con,"select * from tbl_saldo_simpanan where saldo_bulan='$bulan_saldo' and resort_id='$resort_id'");
+                          $qmacet = mysqli_query($con,"select * from tbl_saldo_simpanan where saldo_bulan='$bulan_saldo' and resort_id='$resort_id' and cabang = '$cabang'");
                           $cek=mysqli_num_rows($qmacet);
                           if($cek==0){
-                            mysqli_query($con,"insert into tbl_saldo_simpanan(saldo_simpanan,saldo_bulan,resort_id,minggu) values('0','$bulan_saldo','$resort_id','1')");
-                            mysqli_query($con,"insert into tbl_saldo_simpanan(saldo_simpanan,saldo_bulan,resort_id,minggu) values('0','$bulan_saldo','$resort_id','2')");
-                            mysqli_query($con,"insert into tbl_saldo_simpanan(saldo_simpanan,saldo_bulan,resort_id,minggu) values('0','$bulan_saldo','$resort_id','3')");
+                            mysqli_query($con,"insert into tbl_saldo_simpanan(saldo_simpanan,saldo_bulan,resort_id,minggu, cabang) values('0','$bulan_saldo','$resort_id','1',$cabang)");
+                            mysqli_query($con,"insert into tbl_saldo_simpanan(saldo_simpanan,saldo_bulan,resort_id,minggu, cabang) values('0','$bulan_saldo','$resort_id','2',$cabang)");
+                            mysqli_query($con,"insert into tbl_saldo_simpanan(saldo_simpanan,saldo_bulan,resort_id,minggu, cabang) values('0','$bulan_saldo','$resort_id','3',$cabang)");
                           }else{
                             unset($saldo_id_arr);
                             unset($saldo_simpanan_arr);

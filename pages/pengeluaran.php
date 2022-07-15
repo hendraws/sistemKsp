@@ -1,6 +1,7 @@
      <?php
      include  "lib/koneksi.php";
-
+     session_start();
+     $cabang           = $_SESSION['CABANG'];
 if(isset($_POST['update'])){
     $pengeluaran_id           = $_POST['pengeluaran_id'];
     $pengeluaran         = $_POST['pengeluaran'];
@@ -27,7 +28,7 @@ if(isset($_POST['update'])){
 
     }else{
       //$pegawai_id = date("Ymdhis");
-      $up=mysqli_query($con,"insert into tbl_pengeluaran (pengeluaran,nominal,bulan) values('$pengeluaran','$nominal','$bulan')");
+      $up=mysqli_query($con,"insert into tbl_pengeluaran (pengeluaran,nominal,bulan,cabang) values('$pengeluaran','$nominal','$bulan','$cabang')");
       if($up){
         ?>
         <script type="text/javascript">

@@ -198,7 +198,7 @@ if(isset($_POST['tambah_akomodasi'])){
 		}else{
           //$pegawai_id = date("Ymdhis");
 			$prive_id = "PRIV".round(microtime(true) * 1000);
-			$up=mysqli_query($con,"insert into tbl_bon_prive (prive_id,prive_tgl,prive_nominal,prive_ket,pegawai_id) values('$prive_id','$prive_tgl','$prive_nominal','$prive_ket','$pegawai_id')");
+			$up=mysqli_query($con,"insert into tbl_bon_prive (prive_id,prive_tgl,prive_nominal,prive_ket,pegawai_id, cabang) values('$prive_id','$prive_tgl','$prive_nominal','$prive_ket','$pegawai_id', '$cabang')");
 			if($up){
 				?>
 				<script type="text/javascript">
@@ -271,7 +271,7 @@ if(isset($_POST['tambah_akomodasi'])){
           //$pegawai_id = date("Ymdhis");
 				$panjer_id = "PANJ".round(microtime(true) * 1000);
 				$now = date("Y-m-d H:i:s");
-				$up=mysqli_query($con,"insert into tbl_bon_panjer (panjer_id,panjer_tgl,panjer_nominal,panjer_ket,pegawai_id,tgl_input) values('$panjer_id','$panjer_tgl','$panjer_nominal','$panjer_ket','$pegawai_id','$now')");
+				$up=mysqli_query($con,"insert into tbl_bon_panjer (panjer_id,panjer_tgl,panjer_nominal,panjer_ket,pegawai_id,tgl_input,cabang) values('$panjer_id','$panjer_tgl','$panjer_nominal','$panjer_ket','$pegawai_id','$now','$cabang')");
 				if($up){
 					?>
 					<script type="text/javascript">
