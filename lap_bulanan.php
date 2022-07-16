@@ -14,7 +14,7 @@ if($_SESSION['USERNAME'] != null ){
  //include   "pages/css.php";
 
 	include "lib/koneksi.php";
-	$q    = mysqli_query($con,"select * from tbl_owner");
+	$q    = mysqli_query($con,"select * from tbl_owner where cabang = '$cabang'");
 	$data  = mysqli_fetch_array($q,MYSQLI_ASSOC);
 	$nama_own   = $data['nama'];
 	$alamate     = $data['alamat'];

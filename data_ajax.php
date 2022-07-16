@@ -30,742 +30,758 @@
 
        			<?php
        			if($tampil=="profil_add"){
-       				$q    = mysqli_query($con,"select * from tbl_owner");
+       				$q    = mysqli_query($con,"select * from tbl_owner where cabang = '$CABANG'");
        				$data  = mysqli_fetch_array($q,MYSQLI_ASSOC);
        				$nama_own   = $data['nama'];
        				$alamat     = $data['alamat'];
        				$gambar     = $data['gambar'];
        				?>
-       				<form method="POST" action="/profil" enctype="multipart/form-data">
-       					<label>Nama KSP</label>
-       					<input type="text" name="nama" value="<?php echo $nama_own;?>" class="form-control">
-       					<label>Alamat</label>
-       					<textarea class="form-control" rows="3" name="alamat"><?php echo $alamat;?></textarea>
-       					<label>Logo</label>
-       					<input type="file" name="gambar" class="form-control" value="<?php echo $gambar;?>">
-       					<img src="<?php echo $gambar;?>" width="150">
-       					<br>
-       					<input type="submit" name="update" class="btn btn-sm btn-warning pull-right" value="Simpan">
-       				</form>
-       				<?php
-       			}
-       			/* tmbah inventaris ------------------------------------------------------- */
-       			if($tampil=="inventaris_add"){
-       				$inven_id          = $_POST['inven_id'];
-
-       				$q= mysqli_query($con,"select * from tbl_inventaris where inven_id='$inven_id'");
-       				$h=mysqli_fetch_array($q,MYSQLI_ASSOC);
-       				$inven_nama       = $h['inven_nama'];
-       				$inven_nopol     = $h['inven_nopol'];
-       				$inven_stnk         = $h['inven_stnk'];
-       				$inven_tempo      = $h['inven_tempo'];
-       				$inven_transport    = $h['inven_transport'];
-       				$pegawai_id         = $pegawai_id;
-
-
-
-       				?>
-       				<form method="POST" action="/inventaris">
-       					<input type="hidden" name="inven_id" value="<?php echo $inven_id;?>">
-
-       					<table class="table">
-       						<tr>
-       							<td>Nama Invetaris</td>
-       							<td>
-       								<input type="text" name="inven_nama" class="form-control" value="<?php echo $inven_nama;?>">
-       							</td>
-       						</tr>
-       						<tr>
-       							<td>Nopol</td>
-       							<td>
-       								<input type="text" name="inven_nopol" class="form-control" value="<?php echo $inven_nopol;?>">
-       							</td>
-       						</tr>
-       						<tr>
-       							<td>Nama STNK</td>
-       							<td>
-       								<input type="text" name="inven_stnk" class="form-control" value="<?php echo $inven_stnk;?>">
-       							</td>
-       						</tr>
-       						<tr>
-       							<td>Tanggal Tempo</td>
-       							<td>
-       								<input type="date" name="inven_tempo" class="form-control" style="width: 40%" value="<?php echo $inven_tempo;?>">
-       							</td>
-       						</tr>
-       						<tr>
-       							<td>Transport</td>
-       							<td>
-       								<input type="text" name="inven_transport" class="form-control" value="<?php echo $inven_transport;?>">
-       							</td>
-       						</tr>
-       						<tr>
-       							<td>Pemegang</td>
-       							<td>
-       								<select name="pegawai_id" class="form-control" style="width: 100%" id="keterangan">
-       									<option value=""></option>
-       									<?php
-       									$qpeg = mysqli_query($con,"select pegawai_id,pegawai_nama,cabang from tbl_pegawai where status = 'aktif' and cabang = '$CABANG'") or die(mysqli_error($con));
-       									while($hpeg=mysqli_fetch_array($qpeg)){
-       										$pegawai_idne = $hpeg['pegawai_id'];
-       										if($pegawai_id==$pegawai_idne){
-       											$pilih = "selected";
-       										}else{
-       											$pilih = "";
-       										}
-
-       										?>
-       										<option value="<?php echo $pegawai_idne;?>" <?php echo $pilih;?>><?php echo $hpeg['pegawai_nama'];?></option>
-
-
-       										<?php
-
-       									}
-       									?>
-       								</select>
-       							</td>
-       						</tr>
-
-       						<tr>
-       							<td></td>
-       							<td>
-       								<input type="submit" name="update" class="btn btn-primary" value="Simpan">
-       							</td>
-       						</tr>
-
-       					</table>
-
-       				</form>
-
-
-       				<?php
-
-
-       			}
-
-       			/* tmbah pengeluaran ------------------------------------------------------- */
-       			if($tampil=="pengeluaran_add"){
-       				$pengeluaran_id         = $_POST['pengeluaran_id'];
-
-       				$q= mysqli_query($con,"select * from tbl_pengeluaran where pengeluaran_id='$pengeluaran_id'");
-       				$h=mysqli_fetch_array($q,MYSQLI_ASSOC);
-       				$pengeluaran       = $h['pengeluaran'];
-       				$nominal     = $h['nominal'];
-
-
-
-       				?>
-       				<form method="POST" action="/pengeluaran">
-       					<input type="hidden" name="pengeluaran_id" value="<?php echo $pengeluaran_id;?>">
-
-       					<table class="table">
-       						<tr>
-       							<td>Nama Pengeluaran</td>
-       							<td>
-       								<input type="text" name="pengeluaran" class="form-control" value="<?php echo $pengeluaran;?>">
-       							</td>
-       						</tr>
-       						<tr>
-       							<td>Nominal</td>
-       							<td>
-       								<input type="number" name="nominal" class="form-control" value="<?php echo $nominal;?>">
-       							</td>
-       						</tr>
-
-       						<tr>
-       							<td></td>
-       							<td>
-       								<input type="submit" name="update" class="btn btn-primary" value="Simpan">
-       							</td>
-       						</tr>
-
-       					</table>
-
-       				</form>
-
-
-       				<?php
-
-
-       			}
-
-       			/* tmbah pemasukan ------------------------------------------------------- */
-       			if($tampil=="pemasukan_add"){
-       				$pemasukan_id         = $_POST['pemasukan_id'];
-
-       				$q= mysqli_query($con,"select * from tbl_pemasukan where pemasukan_id='$pemasukan_id'");
-       				$h=mysqli_fetch_array($q,MYSQLI_ASSOC);
-       				$pemasukan       = $h['pemasukan'];
-       				$nominal     = $h['nominal'];
-
-
-
-       				?>
-       				<form method="POST" action="/pemasukan">
-       					<input type="hidden" name="pemasukan_id" value="<?php echo $pemasukan_id;?>">
-
-       					<table class="table">
-       						<tr>
-       							<td>Nama Pemasukan</td>
-       							<td>
-       								<input type="text" name="pemasukan" class="form-control" value="<?php echo $pemasukan;?>">
-       							</td>
-       						</tr>
-       						<tr>
-       							<td>Nominal</td>
-       							<td>
-       								<input type="number" name="nominal" class="form-control" value="<?php echo $nominal;?>">
-       							</td>
-       						</tr>
-
-       						<tr>
-       							<td></td>
-       							<td>
-       								<input type="submit" name="update" class="btn btn-primary" value="Simpan">
-       							</td>
-       						</tr>
-
-       					</table>
-
-       				</form>
-
-
-       				<?php
-
-
-       			}
-       			/* tmbah resor ------------------------------------------------------- */
-       			if($tampil=="resort_add"){
-       				$resort_id          = $_POST['resort_id'];
-
-       				$q= mysqli_query($con,"select * from tbl_resort where resort_id='$resort_id'");
-       				$h=mysqli_fetch_array($q,MYSQLI_ASSOC);
-       				$resort_nama       = $h['resort_nama'];
-       				$pegawai_id     = $h['pegawai_id'];
-       				$unit_id       = $h['unit_id'];
-
-       				?>
-       				<form method="POST" action="/resort">
-       					<input type="hidden" name="resort_id" value="<?php echo $resort_id;?>">
-
-       					<table class="table">
-       						<tr>
-       							<td>Nama Resort</td>
-       							<td>
-       								<input type="text" name="resort_nama" class="form-control" value="<?php echo $resort_nama;?>">
-       							</td>
-       						</tr>
-       						<tr>
-       							<td>Unit</td>
-       							<td>
-       								<select name="unit_id" class="form-control" style="width: 100%" id="unit_id">
-       									<option value=""></option>
-       									<?php
-       									$qpeg = mysqli_query($con,"select unit_id,unit_nama from tbl_unit ");
-       									while($hpeg=mysqli_fetch_array($qpeg)){
-       										$unit_idne = $hpeg['unit_id'];
-       										if($unit_id==$unit_idne){
-       											$pilih = "selected";
-       										}else{
-       											$pilih = "";
-       										}
-
-       										?>
-       										<option value="<?php echo $unit_idne;?>" <?php echo $pilih;?>><?php echo $hpeg['unit_nama'];?></option>
-
-
-       										<?php
-
-       									}
-       									?>
-       								</select>
-       							</td>
-       						</tr>
-
-       						<tr>
-       							<td>PDL</td>
-       							<td>
-       								<select name="pegawai_id" class="form-control" style="width: 100%" id="keterangan">
-       									<option value=""></option>
-       									<?php
-       									$qpeg = mysqli_query($con,"select pegawai_id,pegawai_nama from tbl_pegawai a join tbl_jabatan b on a.jabatan_id=b.jabatan_id where b.jabatan_nama like '%PDL%' and status = 'aktif'");
-       									while($hpeg=mysqli_fetch_array($qpeg)){
-       										$pegawai_idne = $hpeg['pegawai_id'];
-       										if($pegawai_id==$pegawai_idne){
-       											$pilih = "selected";
-       										}else{
-       											$pilih = "";
-       										}
-
-       										?>
-       										<option value="<?php echo $pegawai_idne;?>" <?php echo $pilih;?>><?php echo $hpeg['pegawai_nama'];?></option>
-
-
-       										<?php
-
-       									}
-       									?>
-       								</select>
-       							</td>
-       						</tr>
-
-       						<tr>
-       							<td></td>
-       							<td>
-       								<input type="submit" name="update" class="btn btn-primary" value="Simpan">
-       							</td>
-       						</tr>
-
-       					</table>
-
-       				</form>
-
-
-       				<?php
-
-
-       			}
-
-       			/* tmbah unit ------------------------------------------------------- */
-       			if($tampil=="unit_add"){
-       				$unit_id          = $_POST['unit_id'];
-
-       				$q= mysqli_query($con,"select * from tbl_unit where unit_id='$unit_id'");
-       				$h=mysqli_fetch_array($q,MYSQLI_ASSOC);
-       				$unit_nama       = $h['unit_nama'];
-
-       				?>
-       				<form method="POST" action="/unit">
-       					<input type="hidden" name="unit_id" value="<?php echo $unit_id;?>">
-
-       					<table class="table">
-       						<tr>
-       							<td>Nama Unit</td>
-       							<td>
-       								<input type="text" name="unit_nama" class="form-control" value="<?php echo $unit_nama;?>">
-       							</td>
-       						</tr>
-
-
-
-       						<tr>
-       							<td></td>
-       							<td>
-       								<input type="submit" name="update" class="btn btn-primary" value="Simpan">
-       							</td>
-       						</tr>
-
-       					</table>
-
-       				</form>
-
-
-       				<?php
-
-
-       			}
-
-       			/* tmbah resor ------------------------------------------------------- */
-       			if($tampil=="proses_gaji_add"){
-       				$pegawai_id          = $_POST['pegawai_id'];
-       				$jabatan_id 		   = $_POST['jabatan_id'];
-
-       				$q= mysqli_query($con,"select gaji_jabatan,gaji_masa_kerja,gaji_pendidikan,gaji_kompetensi,gaji_prive,gaji_panjer,gaji_lain,gaji_bulan,gaji_pokok,gaji_tunjangan,gaji_potongan,gaji_diterima,gaji_tabungan from tbl_gaji where pegawai_id='$pegawai_id'");
-       				$cek = mysqli_num_rows($q);
-       				while($h=mysqli_fetch_array($q,MYSQLI_ASSOC)){
-       					$gaji_bulan 	= $h['gaji_bulan'];
-       					if($gaji_bulan==$bulan){
-       						$gaji_pokok       = $h['gaji_pokok'];
-       						$gaji_tunjangan     = $h['gaji_tunjangan'];
-       						$gaji_prive 		= $h['gaji_prive'];
-       						$gaji_panjer 		= $h['gaji_panjer'];
-       						$gaji_lain 			= $h['gaji_lain'];
-       						$gaji_tabungan = $h['gaji_tabungan'];
-       						$gaji_diterima 		= $h['gaji_diterima'];
-       						$gaji_jabatan       = $h['gaji_jabatan'];
-       						$gaji_masa_kerja    = $h['gaji_masa_kerja'];
-       						$gaji_pendidikan    = $h['gaji_pendidikan'];
-       						$gaji_kompetensi    = $h['gaji_kompetensi'];
-
-       						$gaji_prive_arr[] 		= $h['gaji_prive'];
-       						$gaji_panjer_arr[] 		= $h['gaji_panjer'];
-                        //$gaji_lain_arr[] 			= $h['gaji_lain'];
-       					}else{
-       						$gaji_prive_arr[] 		= $h['gaji_prive'];
-       						$gaji_panjer_arr[] 		= $h['gaji_panjer'];
-		                      //  $gaji_lain_arr[] 			= $h['gaji_lain'];
-       					}
-       				}
-
-       				$qgapok = mysqli_query($con,"select gaji_pokok from tbl_jabatan where jabatan_id='$jabatan_id'");
-       				$dgapok = mysqli_fetch_array($qgapok);
-       				if($gaji_pokok==""){
-       					$gaji_pokok = $dgapok['gaji_pokok'];
-       				}else{
-       					$gaji_pokok = $gaji_pokok;
-       				}
-
-       				if($gaji_lain==""){
-       					$gaji_lain =0;
-       				}else{
-       					$gaji_lain=$gaji_lain;
-       				}
-       				if($gaji_tabungan==""){
-       					$gaji_tabungan =0;
-       				}else{
-       					$gaji_tabungan=$gaji_tabungan;
-       				}
-
-       				if($gaji_tunjangan==""){
-       					$gaji_tunjangan =0;
-       				}else{
-       					$gaji_tunjangan=$gaji_tunjangan;
-       				}
-
-       				$cicilan_prive = array_sum($gaji_prive_arr);
-       				$cicilan_panjer = array_sum($gaji_panjer_arr);
-
-
-       				$qbonp = mysqli_query($con,"select sum(prive_nominal) as bon_prive from tbl_bon_prive where pegawai_id='$pegawai_id'");
-       				$bonp=mysqli_fetch_array($qbonp);
-
-       				$bon_prive = $bonp['bon_prive']-$cicilan_prive;
-
-       				$qbonpj = mysqli_query($con,"select sum(panjer_nominal) as bon_panjer from tbl_bon_panjer where pegawai_id='$pegawai_id'");
-       				$bonpj=mysqli_fetch_array($qbonpj);
-
-       				$bon_panjer = $bonpj['bon_panjer']-$cicilan_panjer;
-
-       				if($gaji_diterima==""){
-       					$gaji_diterima = ($gaji_pokok+$gaji_tunjangan)-$bon_prive-$bon_panjer-$gaji_lain-$gaji_tabungan;
-       				}else{
-       					$gaji_diterima=$gaji_diterima;
-       				}
-
-       				if($gaji_prive!=""){
-       					$bon_prive = $gaji_prive;
-       				}else{
-       					$bon_prive = $bon_prive;
-       				}
-
-       				if($gaji_panjer!=""){
-       					$bon_panjer = $gaji_panjer;
-       				}else{
-       					$bon_panjer = $bon_panjer;
-       				}
-
-
-       				?>
-       				<form method="POST" action="/proses_gaji">
-       					<input type="hidden" name="pegawai_id" value="<?php echo $pegawai_id;?>">
-
-       					<table class="table">
-       						<tr>
-       							<td>Gaji Pokok</td>
-       							<td>
-       								<input type="number" name="gaji_pokok" class="form-control" value="<?php echo $gaji_pokok;?>" >
-       							</td>
-       						</tr>
-       						<tr>
-       							<td>Tunjangan Jabatan</td>
-       							<td>
-       								<input type="number" name="gaji_jabatan" class="form-control" value="<?php echo $gaji_jabatan;?>" >
-       							</td>
-       						</tr>
-       						<tr>
-       							<td>Tunjangan Masa Kerja</td>
-       							<td>
-       								<input type="number" name="gaji_masa_kerja" class="form-control" value="<?php echo $gaji_masa_kerja;?>" >
-       							</td>
-       						</tr>
-       						<tr>
-       							<td>Tunjangan Pendidikan</td>
-       							<td>
-       								<input type="number" name="gaji_pendidikan" class="form-control" value="<?php echo $gaji_pendidikan;?>" >
-       							</td>
-       						</tr>
-       						<tr>
-       							<td>Tunjangan Kompetensi</td>
-       							<td>
-       								<input type="number" name="gaji_kompetensi" class="form-control" value="<?php echo $gaji_kompetensi;?>" >
-       							</td>
-       						</tr>
-       						<tr>
-       							<td>Potongan Bon Prive</td>
-       							<td>
-       								<input type="number" name="gaji_prive" class="form-control" value="<?php echo $bon_prive;?>" >
-       							</td>
-       						</tr>
-       						<tr>
-       							<td>Potongan Bon Panjer</td>
-       							<td>
-       								<input type="number" name="gaji_panjer" class="form-control" value="<?php echo $bon_panjer;?>" >
-       							</td>
-       						</tr>
-       						<tr>
-       							<td>Potongan Tabungan</td>
-       							<td>
-       								<input type="number" name="gaji_tabungan" class="form-control" value="<?php echo $gaji_tabungan;?>" >
-       							</td>
-       						</tr>
-       						<tr>
-       							<td>Potongan Lain</td>
-       							<td>
-       								<input type="number" name="gaji_lain" class="form-control" value="<?php echo $gaji_lain;?>" >
-       							</td>
-       						</tr>
-       						<tr>
-       							<td>Gaji Yang diterima</td>
-       							<td>
-       								<input type="number" name="gaji_diterima" class="form-control" value="<?php echo $gaji_diterima;?>" readonly>
-       							</td>
-       						</tr>
-
-
-       						<tr>
-       							<td></td>
-       							<td>
-       								<input type="submit" name="update" class="btn btn-primary" value="Simpan">
-       							</td>
-       						</tr>
-
-       					</table>
-
-       				</form>
-
-
-       				<?php
-
-
-       			}
-       			/* tmbah jabatan ------------------------------------------------------- */
-       			if($tampil=="jabatan_add"){
-       				$jabatan_id          = $_POST['jabatan_id'];
-
-       				$q= mysqli_query($con,"select * from tbl_jabatan where jabatan_id='$jabatan_id'");
-       				$h=mysqli_fetch_array($q,MYSQLI_ASSOC);
-       				$jabatan_nama       = $h['jabatan_nama'];
-       				$bon_prive     = $h['bon_prive'];
-       				$bon_panjer         = $h['bon_panjer'];
-       				$gaji_pokok      = $h['gaji_pokok'];
-
-
-       				?>
-       				<form method="POST" action="/gaji">
-       					<input type="hidden" name="jabatan_id" value="<?php echo $jabatan_id;?>">
-
-       					<table class="table">
-       						<tr>
-       							<td>Nama Jabatan</td>
-       							<td>
-       								<input type="text" name="jabatan_nama" class="form-control" value="<?php echo $jabatan_nama;?>">
-       							</td>
-       						</tr>
-       						<tr>
-       							<td>Jatah Bon Prive</td>
-       							<td>
-       								<input type="text" name="bon_prive" class="form-control" value="<?php echo $bon_prive;?>">
-       							</td>
-       						</tr>
-       						<tr>
-       							<td>Jatah Bon Panjer</td>
-       							<td>
-       								<input type="text" name="bon_panjer" class="form-control" value="<?php echo $bon_panjer;?>">
-       							</td>
-       						</tr>
-       						<tr>
-       							<td>Gaji Pokok</td>
-       							<td>
-       								<input type="text" name="gaji_pokok" class="form-control"  value="<?php echo $gaji_pokok;?>">
-       							</td>
-       						</tr>
-
-
-       						<tr>
-       							<td></td>
-       							<td>
-       								<input type="submit" name="update" class="btn btn-primary" value="Simpan">
-       							</td>
-       						</tr>
-
-       					</table>
-
-       				</form>
-
-
-       				<?php
-
-
-       			}
-       			if($tampil=="slip_gaji"){
-       				$pegawai_id = $_POST['pegawai_id'];
-       				?>
-       				<embed src="cetak_gaji.php?pegawai_id=<?php echo $pegawai_id;?>" width="100%" height="500">    
+       				<?php if (count($data) > 0): ?>
+       					
+       					<form method="POST" action="/profil" enctype="multipart/form-data">
+       						<label>Nama KSP</label>
+       						<input type="text" name="nama" value="<?php echo $nama_own;?>" class="form-control">
+       						<label>Alamat</label>
+       						<textarea class="form-control" rows="3" name="alamat"><?php echo $alamat;?></textarea>
+       						<label>Logo</label>
+       						<input type="file" name="gambar" class="form-control" value="<?php echo $gambar;?>">
+       						<img src="<?php echo $gambar;?>" width="150">
+       						<br>
+       						<input type="submit" name="update" class="btn btn-sm btn-warning pull-right" value="Simpan">
+       					</form>
+
+
+       					<?php else: ?>
+       						<form method="POST" action="/profil" enctype="multipart/form-data">
+       							<label>Nama KSP</label>
+       							<input type="text" name="nama" value="" class="form-control" required>
+       							<label>Alamat</label>
+       							<textarea class="form-control" rows="3" name="alamat" required></textarea>
+       							<label>Logo</label>
+       							<input type="file" name="gambar" class="form-control" value="" required>
+       							<br>
+       							<input type="submit" name="simpan" class="btn btn-sm btn-warning pull-right" value="Simpan">
+       						</form>
+       					<?php endif ?>
        					<?php
        				}
-       				if($tampil=="kwitansi"){
-       					$jenis = $_POST['jenis'];
-       					$id    = $_POST['id'];
+       				/* tmbah inventaris ------------------------------------------------------- */
+       				if($tampil=="inventaris_add"){
+       					$inven_id          = $_POST['inven_id'];
+
+       					$q= mysqli_query($con,"select * from tbl_inventaris where inven_id='$inven_id'");
+       					$h=mysqli_fetch_array($q,MYSQLI_ASSOC);
+       					$inven_nama       = $h['inven_nama'];
+       					$inven_nopol     = $h['inven_nopol'];
+       					$inven_stnk         = $h['inven_stnk'];
+       					$inven_tempo      = $h['inven_tempo'];
+       					$inven_transport    = $h['inven_transport'];
+       					$pegawai_id         = $pegawai_id;
+
+
+
        					?>
-       					<embed src="cetak_kwitansi.php?jenis=<?php echo $jenis;?>&id=<?php echo $id;?>" width="100%" height="500">    
-       						<?php
-       					}
+       					<form method="POST" action="/inventaris">
+       						<input type="hidden" name="inven_id" value="<?php echo $inven_id;?>">
 
-       					/* tmbah anggota ------------------------------------------------------- */
-       					if($tampil=="tambah_anggota"){
-       						$resort_id          = $_POST['resort_id'];
-       						$anggota_id         = $_POST['anggota_id'];
-       						$q= mysqli_query($con,"select * from tbl_anggota where anggota_id='$anggota_id'");
-       						$h=mysqli_fetch_array($q,MYSQLI_ASSOC);
-       						$anggota_nama       = $h['anggota_nama'];
-       						$anggota_alamat     = $h['anggota_alamat'];
-       						$keterangan         = $h['keterangan'];
-       						$tgl_daftar         = substr($h['tgl_daftar'],0,10);
-       						$tgl_keluar         = substr($h['tgl_keluar'],0,10);
-       						if($tgl_keluar=="1900-01-01"){
-       							$tgl_keluar="";
-       						}else{
-       							$tgl_keluar=$tgl_keluar;
-       						}
-
-       						if($resort_id==""){
-       							$resort_id=$h['resort_id'];
-       						}else{
-       							$resort_id = $resort_id;
-       						}
-       						?>
-       						<form method="POST" action="/anggota">
-       							<input type="hidden" name="anggota_id" value="<?php echo $anggota_id;?>">
-       							<input type="hidden" name="resort_id" value="<?php echo $resort_id;?>">
-       							<table class="table">
-       								<tr>
-       									<td>Nama</td>
-       									<td>
-       										<input type="text" name="anggota_nama" class="form-control" value="<?php echo $anggota_nama;?>">
-       									</td>
-       								</tr>
-       								<tr>
-       									<td>Alamat</td>
-       									<td>
-       										<textarea name="anggota_alamat" class="form-control"><?php echo $anggota_alamat;?></textarea>
-       									</td>
-       								</tr>
-       								<tr>
-       									<td>Tanggal Daftar</td>
-       									<td>
-       										<input type="date" name="tgl_daftar" class="form-control" style="width: 40%" value="<?php echo $tgl_daftar;?>">
-       									</td>
-       								</tr>
-       								<tr>
-       									<td>Status Anggota</td>
-       									<td>
-       										<select name="keterangan" class="form-control" style="width: 20%" id="keterangan">
-       											<?php
-       											if($keterangan=="A"){
-       												$piliha="selected";
-       											}if($keterangan=="K"){
-       												$pilihk="selected";
+       						<table class="table">
+       							<tr>
+       								<td>Nama Invetaris</td>
+       								<td>
+       									<input type="text" name="inven_nama" class="form-control" value="<?php echo $inven_nama;?>">
+       								</td>
+       							</tr>
+       							<tr>
+       								<td>Nopol</td>
+       								<td>
+       									<input type="text" name="inven_nopol" class="form-control" value="<?php echo $inven_nopol;?>">
+       								</td>
+       							</tr>
+       							<tr>
+       								<td>Nama STNK</td>
+       								<td>
+       									<input type="text" name="inven_stnk" class="form-control" value="<?php echo $inven_stnk;?>">
+       								</td>
+       							</tr>
+       							<tr>
+       								<td>Tanggal Tempo</td>
+       								<td>
+       									<input type="date" name="inven_tempo" class="form-control" style="width: 40%" value="<?php echo $inven_tempo;?>">
+       								</td>
+       							</tr>
+       							<tr>
+       								<td>Transport</td>
+       								<td>
+       									<input type="text" name="inven_transport" class="form-control" value="<?php echo $inven_transport;?>">
+       								</td>
+       							</tr>
+       							<tr>
+       								<td>Pemegang</td>
+       								<td>
+       									<select name="pegawai_id" class="form-control" style="width: 100%" id="keterangan">
+       										<option value=""></option>
+       										<?php
+       										$qpeg = mysqli_query($con,"select pegawai_id,pegawai_nama,cabang from tbl_pegawai where status = 'aktif' and cabang = '$CABANG'") or die(mysqli_error($con));
+       										while($hpeg=mysqli_fetch_array($qpeg)){
+       											$pegawai_idne = $hpeg['pegawai_id'];
+       											if($pegawai_id==$pegawai_idne){
+       												$pilih = "selected";
+       											}else{
+       												$pilih = "";
        											}
+
        											?>
-       											<option value="A" <?php echo $piliha;?>>A</option>
-       											<option value="K" <?php echo $pilihk;?>>K</option>
-
-       										</select>
-       									</td>
-       								</tr>
-       								<tr>
-       									<td>Resort</td>
-       									<td>
-       										<select name="resort_id" class="form-control" style="width: 50%" required>
-       											<option value="">Pilih resort</option>
-       											<?php 
-       											$qresort = mysqli_query($con,"select * from tbl_resort where unit_id='$CABANG' ");
-       											while($data_resort    = mysqli_fetch_array($qresort,MYSQLI_ASSOC)){
-       												$resort_id_data     = $data_resort['resort_id'];
-       												?>
-       												<option value="<?php echo $data_resort['resort_id']?>" <?php echo $pilih;?>><?php echo $data_resort['resort_nama']?></option>
-       											<?php } ?>
-       										</select>
-       									</td>
-       								</tr>
-       								<tr>
-       									<?php
-       									if($keterangan=="A" or $keterangan==""){
-       										$readonly = "readonly";
-       									}else{
-       										$readonly="";
-       									}
-       									?>
-       									<td>Tanggal Keluar</td>
-       									<td>
-       										<input type="date" name="tgl_keluar" class="form-control" style="width: 40%" value="<?php echo $tgl_keluar;?>" <?php echo $readonly;?> id="tgl_keluar">
-       									</td>
-       								</tr>
-       								<tr>
-       									<td></td>
-       									<td>
-       										<input type="submit" name="tambah_anggota" class="btn btn-primary" value="Simpan">
-       									</td>
-       								</tr>
-
-       							</table>
-
-       						</form>
-       						<script type="text/javascript">
-       							$("#keterangan").change(function(){
-       								var keterangan = $("#keterangan").val();                                            
-       								if(keterangan=="K"){
-       									document.getElementById("tgl_keluar").readOnly = false;
-
-       								}else{
-       									document.getElementById("tgl_keluar").readOnly = true;
-       									document.getElementById("tgl_keluar").value = "";
-       								}               
-
-       							});
-       						</script>
-
-       						<?php
+       											<option value="<?php echo $pegawai_idne;?>" <?php echo $pilih;?>><?php echo $hpeg['pegawai_nama'];?></option>
 
 
+       											<?php
+
+       										}
+       										?>
+       									</select>
+       								</td>
+       							</tr>
+
+       							<tr>
+       								<td></td>
+       								<td>
+       									<input type="submit" name="update" class="btn btn-primary" value="Simpan">
+       								</td>
+       							</tr>
+
+       						</table>
+
+       					</form>
+
+
+       					<?php
+
+
+       				}
+
+       				/* tmbah pengeluaran ------------------------------------------------------- */
+       				if($tampil=="pengeluaran_add"){
+       					$pengeluaran_id         = $_POST['pengeluaran_id'];
+
+       					$q= mysqli_query($con,"select * from tbl_pengeluaran where pengeluaran_id='$pengeluaran_id'");
+       					$h=mysqli_fetch_array($q,MYSQLI_ASSOC);
+       					$pengeluaran       = $h['pengeluaran'];
+       					$nominal     = $h['nominal'];
+
+
+
+       					?>
+       					<form method="POST" action="/pengeluaran">
+       						<input type="hidden" name="pengeluaran_id" value="<?php echo $pengeluaran_id;?>">
+
+       						<table class="table">
+       							<tr>
+       								<td>Nama Pengeluaran</td>
+       								<td>
+       									<input type="text" name="pengeluaran" class="form-control" value="<?php echo $pengeluaran;?>">
+       								</td>
+       							</tr>
+       							<tr>
+       								<td>Nominal</td>
+       								<td>
+       									<input type="number" name="nominal" class="form-control" value="<?php echo $nominal;?>">
+       								</td>
+       							</tr>
+
+       							<tr>
+       								<td></td>
+       								<td>
+       									<input type="submit" name="update" class="btn btn-primary" value="Simpan">
+       								</td>
+       							</tr>
+
+       						</table>
+
+       					</form>
+
+
+       					<?php
+
+
+       				}
+
+       				/* tmbah pemasukan ------------------------------------------------------- */
+       				if($tampil=="pemasukan_add"){
+       					$pemasukan_id         = $_POST['pemasukan_id'];
+
+       					$q= mysqli_query($con,"select * from tbl_pemasukan where pemasukan_id='$pemasukan_id'");
+       					$h=mysqli_fetch_array($q,MYSQLI_ASSOC);
+       					$pemasukan       = $h['pemasukan'];
+       					$nominal     = $h['nominal'];
+
+
+
+       					?>
+       					<form method="POST" action="/pemasukan">
+       						<input type="hidden" name="pemasukan_id" value="<?php echo $pemasukan_id;?>">
+
+       						<table class="table">
+       							<tr>
+       								<td>Nama Pemasukan</td>
+       								<td>
+       									<input type="text" name="pemasukan" class="form-control" value="<?php echo $pemasukan;?>">
+       								</td>
+       							</tr>
+       							<tr>
+       								<td>Nominal</td>
+       								<td>
+       									<input type="number" name="nominal" class="form-control" value="<?php echo $nominal;?>">
+       								</td>
+       							</tr>
+
+       							<tr>
+       								<td></td>
+       								<td>
+       									<input type="submit" name="update" class="btn btn-primary" value="Simpan">
+       								</td>
+       							</tr>
+
+       						</table>
+
+       					</form>
+
+
+       					<?php
+
+
+       				}
+       				/* tmbah resor ------------------------------------------------------- */
+       				if($tampil=="resort_add"){
+       					$resort_id          = $_POST['resort_id'];
+
+       					$q= mysqli_query($con,"select * from tbl_resort where resort_id='$resort_id'");
+       					$h=mysqli_fetch_array($q,MYSQLI_ASSOC);
+       					$resort_nama       = $h['resort_nama'];
+       					$pegawai_id     = $h['pegawai_id'];
+       					$unit_id       = $h['unit_id'];
+
+       					?>
+       					<form method="POST" action="/resort">
+       						<input type="hidden" name="resort_id" value="<?php echo $resort_id;?>">
+
+       						<table class="table">
+       							<tr>
+       								<td>Nama Resort</td>
+       								<td>
+       									<input type="text" name="resort_nama" class="form-control" value="<?php echo $resort_nama;?>">
+       								</td>
+       							</tr>
+       							<tr>
+       								<td>Unit</td>
+       								<td>
+       									<select name="unit_id" class="form-control" style="width: 100%" id="unit_id">
+       										<option value=""></option>
+       										<?php
+       										$qpeg = mysqli_query($con,"select unit_id,unit_nama from tbl_unit ");
+       										while($hpeg=mysqli_fetch_array($qpeg)){
+       											$unit_idne = $hpeg['unit_id'];
+       											if($unit_id==$unit_idne){
+       												$pilih = "selected";
+       											}else{
+       												$pilih = "";
+       											}
+
+       											?>
+       											<option value="<?php echo $unit_idne;?>" <?php echo $pilih;?>><?php echo $hpeg['unit_nama'];?></option>
+
+
+       											<?php
+
+       										}
+       										?>
+       									</select>
+       								</td>
+       							</tr>
+
+       							<tr>
+       								<td>PDL</td>
+       								<td>
+       									<select name="pegawai_id" class="form-control" style="width: 100%" id="keterangan">
+       										<option value=""></option>
+       										<?php
+       										$qpeg = mysqli_query($con,"select pegawai_id,pegawai_nama from tbl_pegawai a join tbl_jabatan b on a.jabatan_id=b.jabatan_id where b.jabatan_nama like '%PDL%' and status = 'aktif'");
+       										while($hpeg=mysqli_fetch_array($qpeg)){
+       											$pegawai_idne = $hpeg['pegawai_id'];
+       											if($pegawai_id==$pegawai_idne){
+       												$pilih = "selected";
+       											}else{
+       												$pilih = "";
+       											}
+
+       											?>
+       											<option value="<?php echo $pegawai_idne;?>" <?php echo $pilih;?>><?php echo $hpeg['pegawai_nama'];?></option>
+
+
+       											<?php
+
+       										}
+       										?>
+       									</select>
+       								</td>
+       							</tr>
+
+       							<tr>
+       								<td></td>
+       								<td>
+       									<input type="submit" name="update" class="btn btn-primary" value="Simpan">
+       								</td>
+       							</tr>
+
+       						</table>
+
+       					</form>
+
+
+       					<?php
+
+
+       				}
+
+       				/* tmbah unit ------------------------------------------------------- */
+       				if($tampil=="unit_add"){
+       					$unit_id          = $_POST['unit_id'];
+
+       					$q= mysqli_query($con,"select * from tbl_unit where unit_id='$unit_id'");
+       					$h=mysqli_fetch_array($q,MYSQLI_ASSOC);
+       					$unit_nama       = $h['unit_nama'];
+
+       					?>
+       					<form method="POST" action="/unit">
+       						<input type="hidden" name="unit_id" value="<?php echo $unit_id;?>">
+
+       						<table class="table">
+       							<tr>
+       								<td>Nama Unit</td>
+       								<td>
+       									<input type="text" name="unit_nama" class="form-control" value="<?php echo $unit_nama;?>">
+       								</td>
+       							</tr>
+
+
+
+       							<tr>
+       								<td></td>
+       								<td>
+       									<input type="submit" name="update" class="btn btn-primary" value="Simpan">
+       								</td>
+       							</tr>
+
+       						</table>
+
+       					</form>
+
+
+       					<?php
+
+
+       				}
+
+       				/* tmbah resor ------------------------------------------------------- */
+       				if($tampil=="proses_gaji_add"){
+       					$pegawai_id          = $_POST['pegawai_id'];
+       					$jabatan_id 		   = $_POST['jabatan_id'];
+
+       					$q= mysqli_query($con,"select gaji_jabatan,gaji_masa_kerja,gaji_pendidikan,gaji_kompetensi,gaji_prive,gaji_panjer,gaji_lain,gaji_bulan,gaji_pokok,gaji_tunjangan,gaji_potongan,gaji_diterima,gaji_tabungan from tbl_gaji where pegawai_id='$pegawai_id'");
+       					$cek = mysqli_num_rows($q);
+       					while($h=mysqli_fetch_array($q,MYSQLI_ASSOC)){
+       						$gaji_bulan 	= $h['gaji_bulan'];
+       						if($gaji_bulan==$bulan){
+       							$gaji_pokok       = $h['gaji_pokok'];
+       							$gaji_tunjangan     = $h['gaji_tunjangan'];
+       							$gaji_prive 		= $h['gaji_prive'];
+       							$gaji_panjer 		= $h['gaji_panjer'];
+       							$gaji_lain 			= $h['gaji_lain'];
+       							$gaji_tabungan = $h['gaji_tabungan'];
+       							$gaji_diterima 		= $h['gaji_diterima'];
+       							$gaji_jabatan       = $h['gaji_jabatan'];
+       							$gaji_masa_kerja    = $h['gaji_masa_kerja'];
+       							$gaji_pendidikan    = $h['gaji_pendidikan'];
+       							$gaji_kompetensi    = $h['gaji_kompetensi'];
+
+       							$gaji_prive_arr[] 		= $h['gaji_prive'];
+       							$gaji_panjer_arr[] 		= $h['gaji_panjer'];
+                        //$gaji_lain_arr[] 			= $h['gaji_lain'];
+       						}else{
+       							$gaji_prive_arr[] 		= $h['gaji_prive'];
+       							$gaji_panjer_arr[] 		= $h['gaji_panjer'];
+		                      //  $gaji_lain_arr[] 			= $h['gaji_lain'];
+       						}
        					}
-       					/* tambah simpanan ----------------------------------------------------------------------- */
-       					if($tampil=="tambah_simpanan"){
-       						$simpanan_tgl            = $_POST['pdl_tgl'];
-       						$resort_id      = $_POST['pdl_resort_id'];
-       						$simpanan_id        = $_POST['simpanan_id'];
+
+       					$qgapok = mysqli_query($con,"select gaji_pokok from tbl_jabatan where jabatan_id='$jabatan_id'");
+       					$dgapok = mysqli_fetch_array($qgapok);
+       					if($gaji_pokok==""){
+       						$gaji_pokok = $dgapok['gaji_pokok'];
+       					}else{
+       						$gaji_pokok = $gaji_pokok;
+       					}
+
+       					if($gaji_lain==""){
+       						$gaji_lain =0;
+       					}else{
+       						$gaji_lain=$gaji_lain;
+       					}
+       					if($gaji_tabungan==""){
+       						$gaji_tabungan =0;
+       					}else{
+       						$gaji_tabungan=$gaji_tabungan;
+       					}
+
+       					if($gaji_tunjangan==""){
+       						$gaji_tunjangan =0;
+       					}else{
+       						$gaji_tunjangan=$gaji_tunjangan;
+       					}
+
+       					$cicilan_prive = array_sum($gaji_prive_arr);
+       					$cicilan_panjer = array_sum($gaji_panjer_arr);
+
+
+       					$qbonp = mysqli_query($con,"select sum(prive_nominal) as bon_prive from tbl_bon_prive where pegawai_id='$pegawai_id'");
+       					$bonp=mysqli_fetch_array($qbonp);
+
+       					$bon_prive = $bonp['bon_prive']-$cicilan_prive;
+
+       					$qbonpj = mysqli_query($con,"select sum(panjer_nominal) as bon_panjer from tbl_bon_panjer where pegawai_id='$pegawai_id'");
+       					$bonpj=mysqli_fetch_array($qbonpj);
+
+       					$bon_panjer = $bonpj['bon_panjer']-$cicilan_panjer;
+
+       					if($gaji_diterima==""){
+       						$gaji_diterima = ($gaji_pokok+$gaji_tunjangan)-$bon_prive-$bon_panjer-$gaji_lain-$gaji_tabungan;
+       					}else{
+       						$gaji_diterima=$gaji_diterima;
+       					}
+
+       					if($gaji_prive!=""){
+       						$bon_prive = $gaji_prive;
+       					}else{
+       						$bon_prive = $bon_prive;
+       					}
+
+       					if($gaji_panjer!=""){
+       						$bon_panjer = $gaji_panjer;
+       					}else{
+       						$bon_panjer = $bon_panjer;
+       					}
+
+
+       					?>
+       					<form method="POST" action="/proses_gaji">
+       						<input type="hidden" name="pegawai_id" value="<?php echo $pegawai_id;?>">
+
+       						<table class="table">
+       							<tr>
+       								<td>Gaji Pokok</td>
+       								<td>
+       									<input type="number" name="gaji_pokok" class="form-control" value="<?php echo $gaji_pokok;?>" >
+       								</td>
+       							</tr>
+       							<tr>
+       								<td>Tunjangan Jabatan</td>
+       								<td>
+       									<input type="number" name="gaji_jabatan" class="form-control" value="<?php echo $gaji_jabatan;?>" >
+       								</td>
+       							</tr>
+       							<tr>
+       								<td>Tunjangan Masa Kerja</td>
+       								<td>
+       									<input type="number" name="gaji_masa_kerja" class="form-control" value="<?php echo $gaji_masa_kerja;?>" >
+       								</td>
+       							</tr>
+       							<tr>
+       								<td>Tunjangan Pendidikan</td>
+       								<td>
+       									<input type="number" name="gaji_pendidikan" class="form-control" value="<?php echo $gaji_pendidikan;?>" >
+       								</td>
+       							</tr>
+       							<tr>
+       								<td>Tunjangan Kompetensi</td>
+       								<td>
+       									<input type="number" name="gaji_kompetensi" class="form-control" value="<?php echo $gaji_kompetensi;?>" >
+       								</td>
+       							</tr>
+       							<tr>
+       								<td>Potongan Bon Prive</td>
+       								<td>
+       									<input type="number" name="gaji_prive" class="form-control" value="<?php echo $bon_prive;?>" >
+       								</td>
+       							</tr>
+       							<tr>
+       								<td>Potongan Bon Panjer</td>
+       								<td>
+       									<input type="number" name="gaji_panjer" class="form-control" value="<?php echo $bon_panjer;?>" >
+       								</td>
+       							</tr>
+       							<tr>
+       								<td>Potongan Tabungan</td>
+       								<td>
+       									<input type="number" name="gaji_tabungan" class="form-control" value="<?php echo $gaji_tabungan;?>" >
+       								</td>
+       							</tr>
+       							<tr>
+       								<td>Potongan Lain</td>
+       								<td>
+       									<input type="number" name="gaji_lain" class="form-control" value="<?php echo $gaji_lain;?>" >
+       								</td>
+       							</tr>
+       							<tr>
+       								<td>Gaji Yang diterima</td>
+       								<td>
+       									<input type="number" name="gaji_diterima" class="form-control" value="<?php echo $gaji_diterima;?>" readonly>
+       								</td>
+       							</tr>
+
+
+       							<tr>
+       								<td></td>
+       								<td>
+       									<input type="submit" name="update" class="btn btn-primary" value="Simpan">
+       								</td>
+       							</tr>
+
+       						</table>
+
+       					</form>
+
+
+       					<?php
+
+
+       				}
+       				/* tmbah jabatan ------------------------------------------------------- */
+       				if($tampil=="jabatan_add"){
+       					$jabatan_id          = $_POST['jabatan_id'];
+
+       					$q= mysqli_query($con,"select * from tbl_jabatan where jabatan_id='$jabatan_id'");
+       					$h=mysqli_fetch_array($q,MYSQLI_ASSOC);
+       					$jabatan_nama       = $h['jabatan_nama'];
+       					$bon_prive     = $h['bon_prive'];
+       					$bon_panjer         = $h['bon_panjer'];
+       					$gaji_pokok      = $h['gaji_pokok'];
+
+
+       					?>
+       					<form method="POST" action="/gaji">
+       						<input type="hidden" name="jabatan_id" value="<?php echo $jabatan_id;?>">
+
+       						<table class="table">
+       							<tr>
+       								<td>Nama Jabatan</td>
+       								<td>
+       									<input type="text" name="jabatan_nama" class="form-control" value="<?php echo $jabatan_nama;?>">
+       								</td>
+       							</tr>
+       							<tr>
+       								<td>Jatah Bon Prive</td>
+       								<td>
+       									<input type="text" name="bon_prive" class="form-control" value="<?php echo $bon_prive;?>">
+       								</td>
+       							</tr>
+       							<tr>
+       								<td>Jatah Bon Panjer</td>
+       								<td>
+       									<input type="text" name="bon_panjer" class="form-control" value="<?php echo $bon_panjer;?>">
+       								</td>
+       							</tr>
+       							<tr>
+       								<td>Gaji Pokok</td>
+       								<td>
+       									<input type="text" name="gaji_pokok" class="form-control"  value="<?php echo $gaji_pokok;?>">
+       								</td>
+       							</tr>
+
+
+       							<tr>
+       								<td></td>
+       								<td>
+       									<input type="submit" name="update" class="btn btn-primary" value="Simpan">
+       								</td>
+       							</tr>
+
+       						</table>
+
+       					</form>
+
+
+       					<?php
+
+
+       				}
+       				if($tampil=="slip_gaji"){
+       					$pegawai_id = $_POST['pegawai_id'];
+       					?>
+       					<embed src="cetak_gaji.php?pegawai_id=<?php echo $pegawai_id;?>" width="100%" height="500">    
+       						<?php
+       					}
+       					if($tampil=="kwitansi"){
+       						$jenis = $_POST['jenis'];
+       						$id    = $_POST['id'];
+       						?>
+       						<embed src="cetak_kwitansi.php?jenis=<?php echo $jenis;?>&id=<?php echo $id;?>" width="100%" height="500">    
+       							<?php
+       						}
+
+       						/* tmbah anggota ------------------------------------------------------- */
+       						if($tampil=="tambah_anggota"){
+       							$resort_id          = $_POST['resort_id'];
+       							$anggota_id         = $_POST['anggota_id'];
+       							$q= mysqli_query($con,"select * from tbl_anggota where anggota_id='$anggota_id'");
+       							$h=mysqli_fetch_array($q,MYSQLI_ASSOC);
+       							$anggota_nama       = $h['anggota_nama'];
+       							$anggota_alamat     = $h['anggota_alamat'];
+       							$keterangan         = $h['keterangan'];
+       							$tgl_daftar         = substr($h['tgl_daftar'],0,10);
+       							$tgl_keluar         = substr($h['tgl_keluar'],0,10);
+       							if($tgl_keluar=="1900-01-01"){
+       								$tgl_keluar="";
+       							}else{
+       								$tgl_keluar=$tgl_keluar;
+       							}
+
+       							if($resort_id==""){
+       								$resort_id=$h['resort_id'];
+       							}else{
+       								$resort_id = $resort_id;
+       							}
+       							?>
+       							<form method="POST" action="/anggota">
+       								<input type="hidden" name="anggota_id" value="<?php echo $anggota_id;?>">
+       								<input type="hidden" name="resort_id" value="<?php echo $resort_id;?>">
+       								<table class="table">
+       									<tr>
+       										<td>Nama</td>
+       										<td>
+       											<input type="text" name="anggota_nama" class="form-control" value="<?php echo $anggota_nama;?>">
+       										</td>
+       									</tr>
+       									<tr>
+       										<td>Alamat</td>
+       										<td>
+       											<textarea name="anggota_alamat" class="form-control"><?php echo $anggota_alamat;?></textarea>
+       										</td>
+       									</tr>
+       									<tr>
+       										<td>Tanggal Daftar</td>
+       										<td>
+       											<input type="date" name="tgl_daftar" class="form-control" style="width: 40%" value="<?php echo $tgl_daftar;?>">
+       										</td>
+       									</tr>
+       									<tr>
+       										<td>Status Anggota</td>
+       										<td>
+       											<select name="keterangan" class="form-control" style="width: 20%" id="keterangan">
+       												<?php
+       												if($keterangan=="A"){
+       													$piliha="selected";
+       												}if($keterangan=="K"){
+       													$pilihk="selected";
+       												}
+       												?>
+       												<option value="A" <?php echo $piliha;?>>A</option>
+       												<option value="K" <?php echo $pilihk;?>>K</option>
+
+       											</select>
+       										</td>
+       									</tr>
+       									<tr>
+       										<td>Resort</td>
+       										<td>
+       											<select name="resort_id" class="form-control" style="width: 50%" required>
+       												<option value="">Pilih resort</option>
+       												<?php 
+       												$qresort = mysqli_query($con,"select * from tbl_resort where unit_id='$CABANG' ");
+       												while($data_resort    = mysqli_fetch_array($qresort,MYSQLI_ASSOC)){
+       													$resort_id_data     = $data_resort['resort_id'];
+       													?>
+       													<option value="<?php echo $data_resort['resort_id']?>" <?php echo $pilih;?>><?php echo $data_resort['resort_nama']?></option>
+       												<?php } ?>
+       											</select>
+       										</td>
+       									</tr>
+       									<tr>
+       										<?php
+       										if($keterangan=="A" or $keterangan==""){
+       											$readonly = "readonly";
+       										}else{
+       											$readonly="";
+       										}
+       										?>
+       										<td>Tanggal Keluar</td>
+       										<td>
+       											<input type="date" name="tgl_keluar" class="form-control" style="width: 40%" value="<?php echo $tgl_keluar;?>" <?php echo $readonly;?> id="tgl_keluar">
+       										</td>
+       									</tr>
+       									<tr>
+       										<td></td>
+       										<td>
+       											<input type="submit" name="tambah_anggota" class="btn btn-primary" value="Simpan">
+       										</td>
+       									</tr>
+
+       								</table>
+
+       							</form>
+       							<script type="text/javascript">
+       								$("#keterangan").change(function(){
+       									var keterangan = $("#keterangan").val();                                            
+       									if(keterangan=="K"){
+       										document.getElementById("tgl_keluar").readOnly = false;
+
+       									}else{
+       										document.getElementById("tgl_keluar").readOnly = true;
+       										document.getElementById("tgl_keluar").value = "";
+       									}               
+
+       								});
+       							</script>
+
+       							<?php
+
+
+       						}
+       						/* tambah simpanan ----------------------------------------------------------------------- */
+       						if($tampil=="tambah_simpanan"){
+       							$simpanan_tgl            = $_POST['pdl_tgl'];
+       							$resort_id      = $_POST['pdl_resort_id'];
+       							$simpanan_id        = $_POST['simpanan_id'];
                       //echo $resort_id."aaaaaaaaaaa".$simpanan_tgl;
 
-       						$q= mysqli_query($con,"select * from tbl_simpanan where simpanan_id='$simpanan_id'");
-       						$h=mysqli_fetch_array($q,MYSQLI_ASSOC);
-       						$anggota_id         = $h['anggota_id'];
-       						$resort_idne          = $h['resort_id'];
-       						$pinjaman           = $h['pinjaman'];
-       						$pinjaman_ke        = $h['pinjaman_ke'];
+       							$q= mysqli_query($con,"select * from tbl_simpanan where simpanan_id='$simpanan_id'");
+       							$h=mysqli_fetch_array($q,MYSQLI_ASSOC);
+       							$anggota_id         = $h['anggota_id'];
+       							$resort_idne          = $h['resort_id'];
+       							$pinjaman           = $h['pinjaman'];
+       							$pinjaman_ke        = $h['pinjaman_ke'];
 
-       						if($pinjaman_ke!=""){
-       							$pinjaman_ke=$pinjaman_ke;
-       						}else{
-       							$pinjaman_ke="B";
-       						}
+       							if($pinjaman_ke!=""){
+       								$pinjaman_ke=$pinjaman_ke;
+       							}else{
+       								$pinjaman_ke="B";
+       							}
 
-       						if($resort_idne!=""){
-       							$resort_id = $resort_idne;
-       						}else {
-       							$resort_id = $resort_id;
-       						}
-       						?>
-       						<form method="POST" action="/pdl">
-       							<input type="hidden" name="tab" value="1">
-       							<input type="hidden" name="simpanan_id" value="<?php echo $simpanan_id;?>">
-       							<input type="hidden" name="simpanan_tgl" value="<?php echo $simpanan_tgl;?>">
-       							<label>Rekap tanggal <?php echo tanggal($simpanan_tgl);?></label>
-       							<table class="table">
-       								<tr>
-       									<td>
-       										Resort
-       									</td>
-       									<td>
+       							if($resort_idne!=""){
+       								$resort_id = $resort_idne;
+       							}else {
+       								$resort_id = $resort_id;
+       							}
+       							?>
+       							<form method="POST" action="/pdl">
+       								<input type="hidden" name="tab" value="1">
+       								<input type="hidden" name="simpanan_id" value="<?php echo $simpanan_id;?>">
+       								<input type="hidden" name="simpanan_tgl" value="<?php echo $simpanan_tgl;?>">
+       								<label>Rekap tanggal <?php echo tanggal($simpanan_tgl);?></label>
+       								<table class="table">
+       									<tr>
+       										<td>
+       											Resort
+       										</td>
+       										<td>
                               <?php //echo $resort_id;
                               ?>
                               <select name="resort_id" class="form-control" style="width: 50%" required>
@@ -1522,7 +1538,7 @@
                     							// if($LEVEL == 1){
                     							// 	$qresort = mysqli_query($con,"select * from tbl_resort");
                     							// }else{
-                    								$qresort = mysqli_query($con,"select * from tbl_resort where unit_id = '$CABANG'");
+                    							$qresort = mysqli_query($con,"select * from tbl_resort where unit_id = '$CABANG'");
                     							// }
                     							while($data_resort    = mysqli_fetch_array($qresort,MYSQLI_ASSOC)){
                     								$resort_id_data     = $data_resort['resort_id'];

@@ -381,7 +381,7 @@ if($_SESSION['USERNAME'] != null){
           			</p>
           		</a>
           		<ul class="nav nav-treeview">     
-          			<?php if($LEVEL=="1"){?>
+          			<?php if($LEVEL=="1" or $LEVEL = "3"){?>
           				<li class="nav-item">
           					<a href="/profil" class="nav-link <?php echo $master_profil;?>" id="menu_profil">
           						<i class="far fa-circle nav-icon"></i>
@@ -438,15 +438,6 @@ if($_SESSION['USERNAME'] != null){
           						</p>
           					</a>
           				</li>
-          				<li class="nav-item">
-          					<a href="/data-master-cabang" class="nav-link <?php echo $master_cabang;?>">
-          						<i class="far fa-circle nav-icon"></i>
-          						<p>
-          							Data Master Cabang                
-          						</p>
-          					</a>
-          				</li>
-          				
           			<?php } 
           			if($LEVEL!="3" and $LEVEL!="4"){
           				?>
@@ -501,24 +492,33 @@ if($_SESSION['USERNAME'] != null){
           						</p>
           					</a>
           				</li>
-          				<li class="nav-item">
-          					<a href="/data-backup-database" class="nav-link <?php echo $master_backup_database;?>" id="menu_kas">
-          						<i class="far fa-circle nav-icon"></i>
-          						<p>
-          							Backup Database              
-          						</p>
-          					</a>
-          				</li>
-          				<?php if($PERMISSION == 1 && $LEVEL != 1) : ?>
-          				<li class="nav-item">
-          					<a href="/data-master-user-kasir" class="nav-link <?php echo $master_user_kasir;?>">
-          						<i class="far fa-circle nav-icon"></i>
-          						<p>
-          							Data Master User Kasir                
-          						</p>
-          					</a>
-          				</li>
-          			<?php endif ?>
+          				
+          				<?php if($PERMISSION == 9 && $LEVEL != 1) : ?>
+          					<li class="nav-item">
+          						<a href="/data-master-user-kasir" class="nav-link <?php echo $master_user_kasir;?>">
+          							<i class="far fa-circle nav-icon"></i>
+          							<p>
+          								Data Master User Kasir                
+          							</p>
+          						</a>
+          					</li>
+          					<li class="nav-item">
+          						<a href="/data-master-cabang" class="nav-link <?php echo $master_cabang;?>">
+          							<i class="far fa-circle nav-icon"></i>
+          							<p>
+          								Data Master Cabang                
+          							</p>
+          						</a>
+          					</li>
+          					<li class="nav-item">
+          						<a href="/data-backup-database" class="nav-link <?php echo $master_backup_database;?>" id="menu_kas">
+          							<i class="far fa-circle nav-icon"></i>
+          							<p>
+          								Backup Database              
+          							</p>
+          						</a>
+          					</li>
+          				<?php endif ?>
           			<?php } ?>
 
           		</ul>
