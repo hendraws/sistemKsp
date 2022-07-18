@@ -370,253 +370,270 @@ if($_SESSION['USERNAME'] != null){
           		</a>
           	</li>
 
+          	<?php if ($PERMISSION != 9): ?>
 
-          	<li class="nav-item has-treeview <?php echo $master;?>">
-          		<a href="#" class="nav-link">
-          			<i class="nav-icon fas fa-copy"></i>
-          			<p>
-          				Data Master
-          				<i class="fas fa-angle-left right"></i>
+          		<li class="nav-item has-treeview <?php echo $master;?>">
+          			<a href="#" class="nav-link">
+          				<i class="nav-icon fas fa-copy"></i>
+          				<p>
+          					Data Master
+          					<i class="fas fa-angle-left right"></i>
 
-          			</p>
-          		</a>
-          		<ul class="nav nav-treeview">     
-          			<?php if($LEVEL=="1" or $LEVEL = "3"){?>
-          				<li class="nav-item">
-          					<a href="/profil" class="nav-link <?php echo $master_profil;?>" id="menu_profil">
-          						<i class="far fa-circle nav-icon"></i>
-          						<p>
-          							Profil KSP                
-          						</p>
-          					</a>
-          				</li>
-          				<li class="nav-item">
-          					<a href="/pegawai" class="nav-link <?php echo $master_pegawai;?>" id="menu_pegawai">
-          						<i class="far fa-circle nav-icon"></i>
-          						<p>
-          							Data Pegawai                
-          						</p>
-          					</a>
-          				</li>
-          				<li class="nav-item">
-          					<a href="/inventaris" class="nav-link <?php echo $master_inventaris;?>">
-          						<i class="far fa-circle nav-icon"></i> 
-          						<p>
-          							Data Inventaris               
-          						</p>
-          					</a>
-          				</li>
-          				<li class="nav-item">
-          					<a href="/gaji" class="nav-link <?php echo $master_gaji;?>">
-          						<i class="far fa-circle nav-icon"></i> 
-          						<p>
-          							Data Gaji Pegawai               
-          						</p>
-          					</a>
-          				</li>
-          				<li class="nav-item">
-          					<a href="/unit" class="nav-link <?php echo $master_unit;?>">
-          						<i class="far fa-circle nav-icon"></i>
-          						<p>
-          							Data Unit                
-          						</p>
-          					</a>
-          				</li>
-          				<li class="nav-item">
-          					<a href="/resort" class="nav-link <?php echo $master_resort;?>">
-          						<i class="far fa-circle nav-icon"></i>
-          						<p>
-          							Data Resort                
-          						</p>
-          					</a>
-          				</li>
-          				<li class="nav-item">
-          					<a href="/data-master-pilihan" class="nav-link <?php echo $master_pilihan;?>">
-          						<i class="far fa-circle nav-icon"></i>
-          						<p>
-          							Data Master Pilihan                
-          						</p>
-          					</a>
-          				</li>
-          			<?php } 
-          			if($LEVEL!="3" and $LEVEL!="4"){
-          				?>
-          				<li class="nav-item">
-          					<a href="/anggota" class="nav-link <?php echo $master_anggota;?>">
-          						<i class="far fa-circle nav-icon"></i>
-          						<p>
-          							Data Anggota                
-          						</p>
-          					</a>
-          				</li>
-          			<?php } 
-          			if($LEVEL=="1" or $LEVEL=="3"){
-          				?>
-          				<li class="nav-item">
-          					<a href="/anggota_awal" class="nav-link <?php echo $master_anggota_awal;?>" id="menu_kas">
-          						<i class="far fa-circle nav-icon"></i>
-          						<p>
-          							Anggota Awal Bulan              
-          						</p>
-          					</a>
-          				</li>
-          				<li class="nav-item">
-          					<a href="/kas" class="nav-link <?php echo $master_kas;?>" id="menu_kas">
-          						<i class="far fa-circle nav-icon"></i>
-          						<p>
-          							Kas Awal              
-          						</p>
-          					</a>
-          				</li>
-          				<li class="nav-item">
-          					<a href="/kas-masuk" class="nav-link <?php echo $master_kas_masuk;?>" id="menu_kas">
-          						<i class="far fa-circle nav-icon"></i>
-          						<p>
-          							Kas Masuk              
-          						</p>
-          					</a>
-          				</li>
-          				<li class="nav-item">
-          					<a href="/drop_tunda" class="nav-link <?php echo $master_drop_tunda;?>" id="menu_drop">
-          						<i class="far fa-circle nav-icon"></i>
-          						<p>
-          							Drop Tunda 
-          						</p>
-          					</a>
-          				</li>
-          				<li class="nav-item">
-          					<a href="/saldo_macet" class="nav-link <?php echo $master_kemacetan;?>" id="menu_kas">
-          						<i class="far fa-circle nav-icon"></i>
-          						<p>
-          							Saldo Kemacetan Awal              
-          						</p>
-          					</a>
-          				</li>
-          				
-          				<?php if($PERMISSION == 9 && $LEVEL != 1) : ?>
+          				</p>
+          			</a>
+          			<ul class="nav nav-treeview">     
+          				<?php if($LEVEL=="1" or $LEVEL = "3"){?>
           					<li class="nav-item">
-          						<a href="/data-master-user-kasir" class="nav-link <?php echo $master_user_kasir;?>">
+          						<a href="/profil" class="nav-link <?php echo $master_profil;?>" id="menu_profil">
           							<i class="far fa-circle nav-icon"></i>
           							<p>
-          								Data Master User Kasir                
+          								Profil KSP                
           							</p>
           						</a>
           					</li>
           					<li class="nav-item">
-          						<a href="/data-master-cabang" class="nav-link <?php echo $master_cabang;?>">
+          						<a href="/pegawai" class="nav-link <?php echo $master_pegawai;?>" id="menu_pegawai">
           							<i class="far fa-circle nav-icon"></i>
           							<p>
-          								Data Master Cabang                
+          								Data Pegawai                
           							</p>
           						</a>
           					</li>
           					<li class="nav-item">
-          						<a href="/data-backup-database" class="nav-link <?php echo $master_backup_database;?>" id="menu_kas">
-          							<i class="far fa-circle nav-icon"></i>
+          						<a href="/inventaris" class="nav-link <?php echo $master_inventaris;?>">
+          							<i class="far fa-circle nav-icon"></i> 
           							<p>
-          								Backup Database              
+          								Data Inventaris               
           							</p>
           						</a>
           					</li>
-          				<?php endif ?>
-          			<?php } ?>
+          					<li class="nav-item">
+          						<a href="/gaji" class="nav-link <?php echo $master_gaji;?>">
+          							<i class="far fa-circle nav-icon"></i> 
+          							<p>
+          								Data Gaji Pegawai               
+          							</p>
+          						</a>
+          					</li>
+          					<li class="nav-item">
+          						<a href="/unit" class="nav-link <?php echo $master_unit;?>">
+          							<i class="far fa-circle nav-icon"></i>
+          							<p>
+          								Data Unit                
+          							</p>
+          						</a>
+          					</li>
+          					<li class="nav-item">
+          						<a href="/resort" class="nav-link <?php echo $master_resort;?>">
+          							<i class="far fa-circle nav-icon"></i>
+          							<p>
+          								Data Resort                
+          							</p>
+          						</a>
+          					</li>
+          					<li class="nav-item">
+          						<a href="/data-master-pilihan" class="nav-link <?php echo $master_pilihan;?>">
+          							<i class="far fa-circle nav-icon"></i>
+          							<p>
+          								Data Master Pilihan                
+          							</p>
+          						</a>
+          					</li>
+          				<?php } 
+          				if($LEVEL!="3" and $LEVEL!="4"){
+          					?>
+          					<li class="nav-item">
+          						<a href="/anggota" class="nav-link <?php echo $master_anggota;?>">
+          							<i class="far fa-circle nav-icon"></i>
+          							<p>
+          								Data Anggota                
+          							</p>
+          						</a>
+          					</li>
+          				<?php } 
+          				if($LEVEL=="1" or $LEVEL=="3"){
+          					?>
+          					<li class="nav-item">
+          						<a href="/anggota_awal" class="nav-link <?php echo $master_anggota_awal;?>" id="menu_kas">
+          							<i class="far fa-circle nav-icon"></i>
+          							<p>
+          								Anggota Awal Bulan              
+          							</p>
+          						</a>
+          					</li>
+          					<li class="nav-item">
+          						<a href="/kas" class="nav-link <?php echo $master_kas;?>" id="menu_kas">
+          							<i class="far fa-circle nav-icon"></i>
+          							<p>
+          								Kas Awal              
+          							</p>
+          						</a>
+          					</li>
+          					<li class="nav-item">
+          						<a href="/kas-masuk" class="nav-link <?php echo $master_kas_masuk;?>" id="menu_kas">
+          							<i class="far fa-circle nav-icon"></i>
+          							<p>
+          								Kas Masuk              
+          							</p>
+          						</a>
+          					</li>
+          					<li class="nav-item">
+          						<a href="/drop_tunda" class="nav-link <?php echo $master_drop_tunda;?>" id="menu_drop">
+          							<i class="far fa-circle nav-icon"></i>
+          							<p>
+          								Drop Tunda 
+          							</p>
+          						</a>
+          					</li>
+          					<li class="nav-item">
+          						<a href="/saldo_macet" class="nav-link <?php echo $master_kemacetan;?>" id="menu_kas">
+          							<i class="far fa-circle nav-icon"></i>
+          							<p>
+          								Saldo Kemacetan Awal              
+          							</p>
+          						</a>
+          					</li>
 
-          		</ul>
-          	</li>
 
-          	<li class="nav-item has-treeview <?php echo $lembar_kerja;?>">
-          		<a href="#" class="nav-link">
-          			<i class="nav-icon fas fa-copy"></i>
-          			<p>
-          				Lembar Kerja
-          				<i class="fas fa-angle-left right"></i>
+          				<?php } ?>
 
-          			</p>
-          		</a>
-          		<ul class="nav nav-treeview">  
-          			<?php if($LEVEL=="1" or $LEVEL=="2"){?>   
-          				<li class="nav-item">
-          					<a href="/pdl" class="nav-link <?php echo $lembar_kerja_pdl;?>">
-          						<i class="far fa-circle nav-icon"></i> 
-          						<p>
-          							PDL                
-          						</p>
-          					</a>
-          				</li>
-          			<?php } 
-          			if($LEVEL=="1" or $LEVEL=="4"){
-          				?>
-          				<li class="nav-item ">
-          					<a href="/jurubuku" class="nav-link <?php echo $lembar_kerja_jurubuku;?>">
-          						<i class="far fa-circle nav-icon"></i> 
-          						<p>
-          							Juru Buku             
-          						</p>
-          					</a>
-          				</li>
-          			<?php } 
-          			if($LEVEL=="1" or $LEVEL=="3"){
+          			</ul>
+          		</li>
 
-          				?>
+          	<?php endif ?>
+          	<?php if($PERMISSION == 9 && $LEVEL != 1) : ?>
+          		<li class="nav-item has-treeview <?php echo $master;?>">
+          			<a href="#" class="nav-link">
+          				<i class="nav-icon fas fa-copy"></i>
+          				<p>
+          					Data Master
+          					<i class="fas fa-angle-left right"></i>
+
+          				</p>
+          			</a>
+          			<ul class="nav nav-treeview">     
           				<li class="nav-item">
-          					<a href="/kasir" class="nav-link <?php echo $lembar_kerja_kasir;?>">
+          					<a href="/data-master-user-kasir" class="nav-link <?php echo $master_user_kasir;?>">
           						<i class="far fa-circle nav-icon"></i>
           						<p>
-          							Kasir               
+          							Data Master User Kasir                
           						</p>
           					</a>
           				</li>
           				<li class="nav-item">
-          					<a href="/proses_gaji" class="nav-link <?php echo $lembar_kerja_gaji;?>">
+          					<a href="/data-master-cabang" class="nav-link <?php echo $master_cabang;?>">
           						<i class="far fa-circle nav-icon"></i>
           						<p>
-          							Pembayaran gaji               
+          							Data Master Cabang                
           						</p>
           					</a>
           				</li>
           				<li class="nav-item">
-          					<a href="/pemasukan" class="nav-link <?php echo $lembar_kerja_pemasukan;?>">
+          					<a href="/data-backup-database" class="nav-link <?php echo $master_backup_database;?>" id="menu_kas">
           						<i class="far fa-circle nav-icon"></i>
           						<p>
-          							Pengembalian 5% Pimpinan               
+          							Backup Database              
           						</p>
           					</a>
           				</li>
-          				<li class="nav-item">
-          					<a href="/pengeluaran" class="nav-link <?php echo $lembar_kerja_pengeluaran;?>">
-          						<i class="far fa-circle nav-icon"></i>
-          						<p>
-          							SETOR PUSAT               
-          						</p>
-          					</a>
-          				</li>
-          				<li class="nav-item">
-          					<a href="/kemacetan" class="nav-link <?php echo $lembar_kerja_kemacetan;?>">
-          						<i class="far fa-circle nav-icon"></i>
-          						<p>
-          							Kemacetan            
-          						</p>
-          					</a>
-          				</li>
-          				<li class="nav-item">
-          					<a href="/saldo_pinjaman" class="nav-link <?php echo $lembar_kerja_saldo_pinjaman;?>">
-          						<i class="far fa-circle nav-icon"></i>
-          						<p>
-          							Saldo Pinjaman Awal            
-          						</p>
-          					</a>
-          				</li>
-          				<li class="nav-item">
-          					<a href="/saldo_simpanan" class="nav-link <?php echo $lembar_kerja_saldo_simpanan;?>">
-          						<i class="far fa-circle nav-icon"></i>
-          						<p>
-          							Saldo Simpanan Awal            
-          						</p>
-          					</a>
-          				</li>
-          			<?php }?>
-          		</ul>
-          	</li>
+          			</ul>
+          		</li>
+          	<?php endif ?>
+          	<?php if($PERMISSION != 9) : ?>
+          		<li class="nav-item has-treeview <?php echo $lembar_kerja;?>">
+          			<a href="#" class="nav-link">
+          				<i class="nav-icon fas fa-copy"></i>
+          				<p>
+          					Lembar Kerja
+          					<i class="fas fa-angle-left right"></i>
+
+          				</p>
+          			</a>
+          			<ul class="nav nav-treeview">  
+          				<?php if($LEVEL=="1" or $LEVEL=="2"){?>   
+          					<li class="nav-item">
+          						<a href="/pdl" class="nav-link <?php echo $lembar_kerja_pdl;?>">
+          							<i class="far fa-circle nav-icon"></i> 
+          							<p>
+          								PDL                
+          							</p>
+          						</a>
+          					</li>
+          				<?php } 
+          				if($LEVEL=="1" or $LEVEL=="4"){
+          					?>
+          					<li class="nav-item ">
+          						<a href="/jurubuku" class="nav-link <?php echo $lembar_kerja_jurubuku;?>">
+          							<i class="far fa-circle nav-icon"></i> 
+          							<p>
+          								Juru Buku             
+          							</p>
+          						</a>
+          					</li>
+          				<?php } 
+          				if($LEVEL=="1" or $LEVEL=="3"){
+
+          					?>
+          					<li class="nav-item">
+          						<a href="/kasir" class="nav-link <?php echo $lembar_kerja_kasir;?>">
+          							<i class="far fa-circle nav-icon"></i>
+          							<p>
+          								Kasir               
+          							</p>
+          						</a>
+          					</li>
+          					<li class="nav-item">
+          						<a href="/proses_gaji" class="nav-link <?php echo $lembar_kerja_gaji;?>">
+          							<i class="far fa-circle nav-icon"></i>
+          							<p>
+          								Pembayaran gaji               
+          							</p>
+          						</a>
+          					</li>
+          					<li class="nav-item">
+          						<a href="/pemasukan" class="nav-link <?php echo $lembar_kerja_pemasukan;?>">
+          							<i class="far fa-circle nav-icon"></i>
+          							<p>
+          								Pengembalian 5% Pimpinan               
+          							</p>
+          						</a>
+          					</li>
+          					<li class="nav-item">
+          						<a href="/pengeluaran" class="nav-link <?php echo $lembar_kerja_pengeluaran;?>">
+          							<i class="far fa-circle nav-icon"></i>
+          							<p>
+          								SETOR PUSAT               
+          							</p>
+          						</a>
+          					</li>
+          					<li class="nav-item">
+          						<a href="/kemacetan" class="nav-link <?php echo $lembar_kerja_kemacetan;?>">
+          							<i class="far fa-circle nav-icon"></i>
+          							<p>
+          								Kemacetan            
+          							</p>
+          						</a>
+          					</li>
+          					<li class="nav-item">
+          						<a href="/saldo_pinjaman" class="nav-link <?php echo $lembar_kerja_saldo_pinjaman;?>">
+          							<i class="far fa-circle nav-icon"></i>
+          							<p>
+          								Saldo Pinjaman Awal            
+          							</p>
+          						</a>
+          					</li>
+          					<li class="nav-item">
+          						<a href="/saldo_simpanan" class="nav-link <?php echo $lembar_kerja_saldo_simpanan;?>">
+          							<i class="far fa-circle nav-icon"></i>
+          							<p>
+          								Saldo Simpanan Awal            
+          							</p>
+          						</a>
+          					</li>
+          				<?php }?>
+          			</ul>
+          		</li>
+          	<?php endif ?>
           	<?php if($LEVEL=="1" or $LEVEL=="3"){?>
           		<li class="nav-item has-treeview <?php echo $laporan;?>">
           			<a href="#" class="nav-link">
