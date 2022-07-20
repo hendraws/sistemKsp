@@ -275,9 +275,9 @@
        								<td>Unit</td>
        								<td>
        									<select name="unit_id" class="form-control" style="width: 100%" id="unit_id">
-       										<option value=""></option>
+       										<!-- <option value=""></option> -->
        										<?php
-       										$qpeg = mysqli_query($con,"select unit_id,unit_nama from tbl_unit ");
+       										$qpeg = mysqli_query($con,"select unit_id,unit_nama from tbl_unit where unit_id = '$CABANG' ");
        										while($hpeg=mysqli_fetch_array($qpeg)){
        											$unit_idne = $hpeg['unit_id'];
        											if($unit_id==$unit_idne){

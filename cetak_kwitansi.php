@@ -8,7 +8,7 @@ error_reporting(0);
       $NAMA       = $_SESSION['NAMA'];
       $LEVEL           = $_SESSION['LEVEL'];
       $bulan           = $_SESSION['BULAN'];
-
+      $cabang           = $_SESSION['CABANG'];
  include('lib/mpdf60/mpdf.php');
 
  $mpdf  = new mPDF('utf-8',array(210,150),11,'calibri',15, 15, 5, 15, 8, 8);
@@ -18,10 +18,9 @@ $id      = str_replace("'", "`", $_GET['id']);
 
 include "lib/koneksi.php";
 $nomor = round(microtime(true) * 1000);
-$qunit		= mysqli_query($con,"select unit_nama from tbl_unit");
+$qunit		= mysqli_query($con,"select unit_nama from tbl_unit where unit_id = '$cabang'") or die(mysqli_error($con));
 $hunit		= mysqli_fetch_array($qunit,MYSQLI_ASSOC);
 $unit_nama  = $hunit['unit_nama'];
-
 $qown    = mysqli_query($con,"select * from tbl_owner");
   $data  = mysqli_fetch_array($qown,MYSQLI_ASSOC);
   $nama_own   = $data['nama'];
@@ -131,7 +130,7 @@ if($jenis=="operasional"){
 			<br>
 			<br>
 			<?php
-			$qkasir = mysqli_query($con,"select pegawai_nama,pegawai_nik from tbl_pegawai where jabatan_id='15'");
+			$qkasir = mysqli_query($con,"select pegawai_nama,pegawai_nik from tbl_pegawai where pegawai_id='20220322061550'");
 			$datakasir = mysqli_fetch_array($qkasir);
 			$kasir 	= $datakasir['pegawai_nama'];
 			$nik 	= $datakasir['pegawai_nik']; 
